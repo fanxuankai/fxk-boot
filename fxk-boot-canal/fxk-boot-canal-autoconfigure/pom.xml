@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-canal</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fxk-boot-canal-autoconfigure</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>fxk-boot-canal-core-autoconfigure</module>
+        <module>fxk-boot-canal-elasticsearch-autoconfigure</module>
+        <module>fxk-boot-canal-kafka-autoconfigure</module>
+        <module>fxk-boot-canal-mq-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-kafka-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-rabbit-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-rocket-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-xxl-autoconfigure</module>
+        <module>fxk-boot-canal-mysql-autoconfigure</module>
+        <module>fxk-boot-canal-rabbitmq-autoconfigure</module>
+        <module>fxk-boot-canal-redis-autoconfigure</module>
+        <module>fxk-boot-canal-rocketmq-autoconfigure</module>
+        <module>fxk-boot-canal-xxlmq-autoconfigure</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

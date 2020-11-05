@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-test-mqbroker</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fxk-boot-test-mqbroker-rabbit</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-test-mqbroker-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-mqbroker-rabbit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

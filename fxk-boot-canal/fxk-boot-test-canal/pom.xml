@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-canal</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fxk-boot-test-canal</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <modules>
+        <module>fxk-boot-test-canal-elasticsearch</module>
+        <module>fxk-boot-test-canal-kafka</module>
+        <module>fxk-boot-test-canal-mq-common</module>
+        <module>fxk-boot-test-canal-mqbroker-kafka</module>
+        <module>fxk-boot-test-canal-mqbroker-rabbit</module>
+        <module>fxk-boot-test-canal-mqbroker-rocket</module>
+        <module>fxk-boot-test-canal-mqbroker-xxl</module>
+        <module>fxk-boot-test-canal-mysql</module>
+        <module>fxk-boot-test-canal-rabbitmq</module>
+        <module>fxk-boot-test-canal-redis</module>
+        <module>fxk-boot-test-canal-rocketmq</module>
+        <module>fxk-boot-test-canal-xxlmq</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

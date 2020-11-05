@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.canal.kafka.config.CanalKafkaAutoConfiguration
+  com.fanxuankai.boot.canal.kafka.config.CanalKafkaAutoConfiguration

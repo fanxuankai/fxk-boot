@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.canal.mysql.config.CanalMySqlAutoConfiguration
+  com.fanxuankai.boot.canal.mysql.config.CanalMySqlAutoConfiguration

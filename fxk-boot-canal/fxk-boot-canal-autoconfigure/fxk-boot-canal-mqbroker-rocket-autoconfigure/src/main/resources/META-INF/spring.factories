@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.canal.mqbroker.rocket.config.CanalMqBrokerRocketAutoConfiguration
+  com.fanxuankai.boot.canal.mqbroker.rocket.config.CanalMqBrokerRocketAutoConfiguration

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.canal.rocketmq.config.CanalRocketMqAutoConfiguration
+  com.fanxuankai.boot.canal.rocketmq.config.CanalRocketMqAutoConfiguration

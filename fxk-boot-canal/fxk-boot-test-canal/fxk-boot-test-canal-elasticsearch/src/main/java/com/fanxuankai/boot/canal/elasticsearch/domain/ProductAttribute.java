@@ -1,10 +1,10 @@
 package com.fanxuankai.boot.canal.elasticsearch.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fanxuankai.canal.elasticsearch.annotation.Index;
-import com.fanxuankai.canal.elasticsearch.annotation.Indexes;
 import com.fanxuankai.boot.canal.elasticsearch.document.ProductInfo;
 import com.fanxuankai.boot.canal.elasticsearch.function.ProductAttributeFunction;
+import com.fanxuankai.canal.elasticsearch.annotation.Index;
+import com.fanxuankai.canal.elasticsearch.annotation.Indexes;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

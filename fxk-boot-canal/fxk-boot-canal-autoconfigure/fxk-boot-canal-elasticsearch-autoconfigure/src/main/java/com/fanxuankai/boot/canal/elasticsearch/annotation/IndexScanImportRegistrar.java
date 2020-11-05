@@ -1,12 +1,12 @@
 package com.fanxuankai.boot.canal.elasticsearch.annotation;
 
 import com.fanxuankai.boot.canal.elasticsearch.AnnotationIndexDefinition;
+import com.fanxuankai.boot.canal.elasticsearch.config.CanalEsAutoConfiguration;
 import com.fanxuankai.canal.elasticsearch.IndexDefinition;
 import com.fanxuankai.canal.elasticsearch.IndexDefinitionManager;
 import com.fanxuankai.canal.elasticsearch.IndexScanner;
 import com.fanxuankai.canal.elasticsearch.annotation.Index;
 import com.fanxuankai.canal.elasticsearch.annotation.Indexes;
-import com.fanxuankai.boot.canal.elasticsearch.config.CanalEsAutoConfiguration;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;

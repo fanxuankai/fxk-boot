@@ -1,12 +1,12 @@
 package com.fanxuankai.boot.canal.mqbroker.config;
 
+import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
 import com.fanxuankai.boot.canal.mqbroker.CanalMqBrokerWorker;
 import com.fanxuankai.boot.mqbroker.consume.EventListener;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
-import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

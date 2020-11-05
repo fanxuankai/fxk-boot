@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.canal.kafka.config;
 
-import com.fanxuankai.canal.kafka.CanalKafkaWorker;
 import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
+import com.fanxuankai.canal.kafka.CanalKafkaWorker;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,9 @@
 package com.fanxuankai.boot.canal.mqbroker;
 
 import com.alibaba.otter.canal.protocol.CanalEntry;
+import com.fanxuankai.boot.canal.mqbroker.consumer.DeleteConsumer;
+import com.fanxuankai.boot.canal.mqbroker.consumer.InsertConsumer;
+import com.fanxuankai.boot.canal.mqbroker.consumer.UpdateConsumer;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
 import com.fanxuankai.canal.core.CanalWorker;
 import com.fanxuankai.canal.core.ConsumerConfigFactory;
@@ -8,9 +11,6 @@ import com.fanxuankai.canal.core.EntryConsumerFactory;
 import com.fanxuankai.canal.core.config.CanalConfiguration;
 import com.fanxuankai.canal.core.config.CanalWorkConfiguration;
 import com.fanxuankai.canal.mq.core.config.CanalMqConfiguration;
-import com.fanxuankai.boot.canal.mqbroker.consumer.DeleteConsumer;
-import com.fanxuankai.boot.canal.mqbroker.consumer.InsertConsumer;
-import com.fanxuankai.boot.canal.mqbroker.consumer.UpdateConsumer;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;

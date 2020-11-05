@@ -1,4 +1,3 @@
-
 package com.fanxuankai.boot.canal.xxlmq.config;
 
 import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;

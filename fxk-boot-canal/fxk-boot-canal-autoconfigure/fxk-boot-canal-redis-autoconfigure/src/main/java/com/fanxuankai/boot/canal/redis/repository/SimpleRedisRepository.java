@@ -1,13 +1,13 @@
 package com.fanxuankai.boot.canal.redis.repository;
 
 import com.alibaba.fastjson.JSON;
-import com.fanxuankai.canal.core.annotation.CanalTableCache;
-import com.fanxuankai.canal.core.util.RedisKey;
 import com.fanxuankai.boot.canal.redis.annotation.CanalRedis;
 import com.fanxuankai.boot.canal.redis.model.CombineKeyModel;
 import com.fanxuankai.boot.canal.redis.model.Entry;
 import com.fanxuankai.boot.canal.redis.model.UniqueKey;
 import com.fanxuankai.boot.canal.redis.model.UniqueKeyPro;
+import com.fanxuankai.canal.core.annotation.CanalTableCache;
+import com.fanxuankai.canal.core.util.RedisKey;
 import com.google.common.collect.Sets;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.redis.core.RedisTemplate;

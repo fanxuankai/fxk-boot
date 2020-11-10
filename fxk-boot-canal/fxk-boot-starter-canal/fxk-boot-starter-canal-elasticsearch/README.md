@@ -39,4 +39,4 @@ spring:
 ```
 
 ## Example
-[canal-elasticsearch-boot-test](https://github.com/fanxuankai/canal/tree/main/canal-boot-test/canal-elasticsearch-boot-test)
+[canal-elasticsearch-test](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-test-canal/fxk-boot-test-canal-elasticsearch)

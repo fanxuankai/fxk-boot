@@ -50,4 +50,4 @@ spring:
 ```
 
 ## Example
-[canal-mysql-boot-test](https://github.com/fanxuankai/canal/tree/main/canal-boot-test/canal-mysql-boot-test)
+[canal-mysql-test](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-test-canal/fxk-boot-test-canal-mysql)

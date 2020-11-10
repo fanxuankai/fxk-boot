@@ -34,13 +34,13 @@ public class RedisRepositorySupport<T, ID> implements FactoryBean<T>, BeanClassL
     @SuppressWarnings("unchecked")
     public T getObject() {
         Class<T> domainType = GenericTypeUtils.getGenericType(redisRepositoryInterface, RedisRepository.class, "T");
-        ProxyFactory result = new ProxyFactory();
-        result.setTarget(new SimpleRedisRepository<>(domainType, redisTemplate));
-        result.setInterfaces(redisRepositoryInterface);
+        ProxyFactory factory = new ProxyFactory();
+        factory.setTarget(new SimpleRedisRepository<>(domainType, redisTemplate));
+        factory.setInterfaces(redisRepositoryInterface);
         if (DefaultMethodInvokingMethodInterceptor.hasDefaultMethods(redisRepositoryInterface)) {
-            result.addAdvice(new DefaultMethodInvokingMethodInterceptor());
+            factory.addAdvice(new DefaultMethodInvokingMethodInterceptor());
         }
-        return (T) result.getProxy(classLoader);
+        return (T) factory.getProxy(classLoader);
     }
 
     @Override

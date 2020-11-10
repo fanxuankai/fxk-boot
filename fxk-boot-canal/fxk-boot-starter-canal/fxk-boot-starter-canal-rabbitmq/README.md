@@ -45,4 +45,4 @@ spring:
 ```
 
 ## Example
-[canal-rabbitmq-boot-test](https://github.com/fanxuankai/canal/tree/main/canal-boot-test/canal-rabbitmq-boot-test)
+[canal-rabbitmq-test](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-test-canal/fxk-boot-test-canal-rabbitmq)

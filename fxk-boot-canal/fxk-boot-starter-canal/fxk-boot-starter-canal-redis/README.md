@@ -42,4 +42,4 @@
 ```
 
 ## Example
-[canal-redis-boot-test](https://github.com/fanxuankai/canal/tree/main/canal-boot-test/canal-redis-boot-test)
+[canal-redis-test](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-test-canal/fxk-boot-test-canal-redis)

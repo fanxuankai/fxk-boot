@@ -19,3 +19,7 @@ canal:
       filter: canal_client_example.t_user
       show-entry-log: true
       show-event-log: true
+mybatis-plus:
+  meta-object:
+    create-date-field-type: java.time.LocalDateTime
+    modified-date-field-name: java.time.LocalDateTime

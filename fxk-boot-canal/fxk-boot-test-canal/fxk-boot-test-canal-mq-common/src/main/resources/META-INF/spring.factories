@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.boot.canal.mq.common.consumer.UserCanalListener
+  com.fanxuankai.boot.canal.mq.common.consumer.UserCanalListener,\
+  com.fanxuankai.boot.canal.mq.common.service.impl.UserServiceImpl,\
+  com.fanxuankai.boot.canal.mq.common.autoconfigure.MybatisPlusAutoconfigure

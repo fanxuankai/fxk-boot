@@ -18,9 +18,6 @@
         <module>fxk-boot-canal-kafka-autoconfigure</module>
         <module>fxk-boot-canal-mq-autoconfigure</module>
         <module>fxk-boot-canal-mqbroker-autoconfigure</module>
-        <module>fxk-boot-canal-mqbroker-kafka-autoconfigure</module>
-        <module>fxk-boot-canal-mqbroker-rabbit-autoconfigure</module>
-        <module>fxk-boot-canal-mqbroker-rocket-autoconfigure</module>
         <module>fxk-boot-canal-mqbroker-xxl-autoconfigure</module>
         <module>fxk-boot-canal-mysql-autoconfigure</module>
         <module>fxk-boot-canal-rabbitmq-autoconfigure</module>

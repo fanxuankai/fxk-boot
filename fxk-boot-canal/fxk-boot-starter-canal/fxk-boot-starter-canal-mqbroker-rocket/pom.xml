@@ -14,7 +14,12 @@
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-canal-mqbroker-rocket-autoconfigure</artifactId>
+            <artifactId>fxk-boot-canal-mqbroker-autoconfigure</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-mqbroker-rocket-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

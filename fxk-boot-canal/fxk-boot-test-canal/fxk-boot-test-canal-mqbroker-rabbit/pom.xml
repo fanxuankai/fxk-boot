@@ -21,6 +21,10 @@
             <artifactId>fxk-boot-test-canal-mq-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-mybatis-plus</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

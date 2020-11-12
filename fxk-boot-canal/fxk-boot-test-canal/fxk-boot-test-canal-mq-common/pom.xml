@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
             <artifactId>fxk-boot-starter-mybatis-plus</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

@@ -7,4 +7,5 @@ canal:
       show-event-log: true
       enable-logic-delete: true
       logic-delete-field: deleted
+      batch-size: 10000
     enabled: true

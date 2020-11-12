@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-@CanalTable(schema = "canal_client_example")
+@CanalTable(schema = "canal_client_example", name = "t_user")
 @TableName("t_user")
 public class User {
     @TableId(type = IdType.AUTO)

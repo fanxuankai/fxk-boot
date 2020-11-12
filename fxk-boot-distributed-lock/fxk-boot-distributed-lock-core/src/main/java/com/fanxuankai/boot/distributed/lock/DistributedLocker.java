@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * 分布式锁 key: prefix_business_resource0&resource1&...&resourceN
+ * 分布式锁
  * 时间单位为 ms
  *
  * @author fanxuankai
@@ -50,6 +50,7 @@ public interface DistributedLocker {
      * @param releaseTime 释放时间
      * @param callable    加锁成功才会执行
      * @return callable 的返回值
+     * @throws Exception callable exception
      */
     <T> T lock(String key, long waitTime, long releaseTime, Callable<T> callable) throws Exception;
 
@@ -60,6 +61,7 @@ public interface DistributedLocker {
      * @param key      key
      * @param callable 加锁成功才会执行
      * @return callable 的返回值
+     * @throws Exception callable exception
      */
     default <T> T lock(String key, Callable<T> callable) throws Exception {
         return lock(key, WAIT_TIME_MILLI, RELEASE_TIME_MILLIS, callable);

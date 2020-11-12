@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 分布式锁 key: prefix_business_resource0&resource1&...&resourceN
+ * 分布式锁
  * 时间单位为 ms
  *
  * @author fanxuankai

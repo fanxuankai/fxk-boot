@@ -18,7 +18,7 @@ public class LockKeyMaker {
      * @param prefix    前缀, 传空时取默认前缀
      * @param business  业务名
      * @param resources 资源, 可选
-     * @return 格式为 prefix_business_resource0&resource1&resource2
+     * @return the key
      */
     public static String makeKey(String prefix, String business, List<Object> resources) {
         if (prefix == null || prefix.length() == 0) {

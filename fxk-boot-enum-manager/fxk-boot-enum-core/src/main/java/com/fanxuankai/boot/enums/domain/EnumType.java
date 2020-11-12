@@ -3,16 +3,12 @@ package com.fanxuankai.boot.enums.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 枚举类型
  *
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 @TableName("sys_enum_type")
 public class EnumType {
     /**
@@ -28,4 +24,28 @@ public class EnumType {
      * 枚举描述
      */
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

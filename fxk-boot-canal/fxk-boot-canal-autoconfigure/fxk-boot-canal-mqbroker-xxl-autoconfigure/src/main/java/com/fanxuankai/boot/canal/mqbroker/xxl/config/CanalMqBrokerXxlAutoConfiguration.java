@@ -33,12 +33,11 @@ public class CanalMqBrokerXxlAutoConfiguration implements ApplicationContextAwar
                     consumerHelper.consume(event.getName(), event.getData());
                 }
             };
-            ListenerMetadata listenerMetadata = new ListenerMetadata()
-                    .setGroup(definition.getGroup())
-                    .setTopic(s)
-//                    .setName(definition.getName())
-                    .setWaitRateSeconds(definition.getWaitRateSeconds())
-                    .setWaitMaxSeconds(definition.getWaitMaxSeconds());
+            ListenerMetadata listenerMetadata = new ListenerMetadata();
+            listenerMetadata.setGroup(definition.getGroup());
+            listenerMetadata.setTopic(s);
+            listenerMetadata.setWaitRateSeconds(definition.getWaitRateSeconds());
+            listenerMetadata.setWaitMaxSeconds(definition.getWaitMaxSeconds());
             EventListenerRegistry.addListener(listenerMetadata, eventListener);
             try {
                 IMqConsumer iMqConsumer = (IMqConsumer) MqConsumerHelper.newClass(listenerMetadata)

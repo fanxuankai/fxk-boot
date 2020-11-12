@@ -1,21 +1,56 @@
 package com.fanxuankai.boot.mqbroker.model;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.util.Objects;
 
 /**
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 public class ListenerMetadata {
     private String group;
     private String topic;
     private String name;
     private Integer waitRateSeconds;
     private Integer waitMaxSeconds;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getWaitRateSeconds() {
+        return waitRateSeconds;
+    }
+
+    public void setWaitRateSeconds(Integer waitRateSeconds) {
+        this.waitRateSeconds = waitRateSeconds;
+    }
+
+    public Integer getWaitMaxSeconds() {
+        return waitMaxSeconds;
+    }
+
+    public void setWaitMaxSeconds(Integer waitMaxSeconds) {
+        this.waitMaxSeconds = waitMaxSeconds;
+    }
 
     @Override
     public boolean equals(Object o) {

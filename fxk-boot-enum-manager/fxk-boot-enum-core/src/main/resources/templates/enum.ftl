@@ -1,15 +1,10 @@
 package ${packageName};
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * ${enumVO.enumType.description}
  *
  * @author ${auth}
  */
-@AllArgsConstructor
-@Getter
 public enum ${enumVO.enumType.name} {
     <#list enumVO.enumList as anEnum>
     /**
@@ -20,4 +15,17 @@ public enum ${enumVO.enumType.name} {
     ;
     private final Integer code;
     private final String value;
+
+    ${enumVO.enumType.name}(Integer code, String value) {
+        this.code = code;
+        this.value = value;
+    }
+
+    public Integer getCode() {
+        return this.code;
+    }
+
+    public String getValue() {
+        return this.value;
+    }
 }

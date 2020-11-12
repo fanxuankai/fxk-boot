@@ -7,9 +7,10 @@ import com.fanxuankai.boot.canal.redis.model.Entry;
 import com.fanxuankai.boot.canal.redis.model.UniqueKey;
 import com.fanxuankai.boot.canal.redis.model.UniqueKeyPro;
 import com.fanxuankai.boot.canal.redis.repository.UserRedisRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,8 +23,9 @@ import java.util.List;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Slf4j
 public class UserRedisRepositoryTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserRedisRepositoryTest.class);
+
     @Resource
     private UserRedisRepository userRedisRepository;
 
@@ -34,14 +36,14 @@ public class UserRedisRepositoryTest {
 
     @Test
     public void test() {
-        log.info(JSON.toJSONString(userRedisRepository.findAll(), true));
-        log.info(JSON.toJSONString(userRedisRepository.findOne(new UniqueKey("phone", "458361630032396291"))));
+        LOGGER.info(JSON.toJSONString(userRedisRepository.findAll(), true));
+        LOGGER.info(JSON.toJSONString(userRedisRepository.findOne(new UniqueKey("phone", "458361630032396291"))));
     }
 
     @Test
     public void findAll() {
         List<User> all = userRedisRepository.findAll();
-        log.info("{}", JSON.toJSONString(all, true));
+        LOGGER.info("{}", JSON.toJSONString(all, true));
     }
 
     @Test
@@ -51,8 +53,8 @@ public class UserRedisRepositoryTest {
         UniqueKey uk = new UniqueKey("phone", "F4Nh");
         UniqueKeyPro ukPro = new UniqueKeyPro("phone", Arrays.asList("QdWU", "cUsgBbeGN"));
 
-        log.info("{}", userRedisRepository.count());
-        log.info("{}", userRedisRepository.exists(uk));
+        LOGGER.info("{}", userRedisRepository.count());
+        LOGGER.info("{}", userRedisRepository.exists(uk));
         log(userRedisRepository.existsById(458353649886691328L));
         log(userRedisRepository.findById(458353649886691328L));
         userRedisRepository.findOne(uk).ifPresent(this::log);
@@ -64,6 +66,6 @@ public class UserRedisRepositoryTest {
     }
 
     private void log(Object o) {
-        log.info("{}", JSON.toJSONString(o, true));
+        LOGGER.info("{}", JSON.toJSONString(o, true));
     }
 }

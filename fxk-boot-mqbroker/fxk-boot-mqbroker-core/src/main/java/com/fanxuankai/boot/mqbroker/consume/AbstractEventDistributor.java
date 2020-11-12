@@ -23,9 +23,10 @@ public abstract class AbstractEventDistributor implements EventDistributor, Cons
 
     @Override
     public void distribute(Event<?> event) {
-        List<EventListener<?>> eventListeners = EventListenerRegistry.getListeners(new ListenerMetadata()
-                .setGroup(event.getGroup())
-                .setTopic(event.getName()));
+        ListenerMetadata listenerMetadata = new ListenerMetadata();
+        listenerMetadata.setGroup(event.getGroup());
+        listenerMetadata.setTopic(event.getName());
+        List<EventListener<?>> eventListeners = EventListenerRegistry.getListeners(listenerMetadata);
         if (CollectionUtils.isEmpty(eventListeners)) {
             return;
         }
@@ -35,16 +36,16 @@ public abstract class AbstractEventDistributor implements EventDistributor, Cons
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void accept(MsgReceive msg) {
-        Event<Object> event = new Event<>()
-                .setGroup(msg.getMsgGroup())
-                .setName(msg.getTopic())
-                .setKey(msg.getCode())
-                .setData(JSON.parseObject(msg.getData(),
-                        EventListenerRegistry.getDataType(new ListenerMetadata()
-                                .setGroup(msg.getMsgGroup())
-                                .setTopic(msg.getTopic())
-                        )))
-                .setRetryCount(msg.getRetryCount());
+        Event<Object> event = new Event<>();
+        event.setGroup(msg.getMsgGroup());
+        event.setName(msg.getTopic());
+        event.setKey(msg.getCode());
+        ListenerMetadata listenerMetadata = new ListenerMetadata();
+        listenerMetadata.setGroup(msg.getMsgGroup());
+        listenerMetadata.setTopic(msg.getTopic());
+        event.setData(JSON.parseObject(msg.getData(),
+                EventListenerRegistry.getDataType(listenerMetadata)));
+        event.setRetryCount(msg.getRetryCount());
         Optional.ofNullable(msg.getRetryCount())
                 .ifPresent(event::setRetryCount);
         distribute(event);

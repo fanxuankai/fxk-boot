@@ -3,17 +3,13 @@ package com.fanxuankai.boot.canal.elasticsearch.config;
 import com.fanxuankai.canal.core.config.CanalConfiguration;
 import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.elasticsearch.config.CanalElasticsearchConfiguration;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author fanxuankai
  */
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = CanalEsProperties.PREFIX)
-@Data
 public class CanalEsProperties extends CanalElasticsearchConfiguration {
     public static final String PREFIX = Constants.PREFIX + Constants.SEPARATOR + "elasticsearch";
     /**
@@ -22,4 +18,20 @@ public class CanalEsProperties extends CanalElasticsearchConfiguration {
     private Boolean enabled = Boolean.TRUE;
     @NestedConfigurationProperty
     private CanalConfiguration configuration = new CanalConfiguration();
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public CanalConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(CanalConfiguration configuration) {
+        this.configuration = configuration;
+    }
 }

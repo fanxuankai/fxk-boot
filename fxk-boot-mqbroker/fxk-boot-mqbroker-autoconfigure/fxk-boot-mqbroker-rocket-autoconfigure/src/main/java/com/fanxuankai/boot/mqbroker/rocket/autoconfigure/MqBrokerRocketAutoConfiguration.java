@@ -6,7 +6,6 @@ import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.consume.MqConsumer;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -15,14 +14,16 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQProperties;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
 /**
  * @author fanxuankai
  */
-@Slf4j
 public class MqBrokerRocketAutoConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MqBrokerRocketAutoConfiguration.class);
 
     @Bean
     public AbstractMqProducer mqProducer(RocketMQTemplate template) {
@@ -57,7 +58,7 @@ public class MqBrokerRocketAutoConfiguration {
                         consumer.unsubscribe(s.getTopic());
                         consumer.subscribe(s.getTopic(), "*");
                     } catch (MQClientException e) {
-                        log.error("订阅失败", e);
+                        LOGGER.error("订阅失败", e);
                     }
                 });
         return consumer;

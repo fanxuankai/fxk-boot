@@ -1,8 +1,5 @@
 package com.fanxuankai.boot.mqbroker.model;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,8 +8,6 @@ import java.util.Date;
  *
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 public class Event<T> implements Serializable {
     /**
      * 分组, 可选
@@ -38,4 +33,52 @@ public class Event<T> implements Serializable {
      * 生效时间
      */
     private Date effectTime;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Integer getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(Integer retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    public Date getEffectTime() {
+        return effectTime;
+    }
+
+    public void setEffectTime(Date effectTime) {
+        this.effectTime = effectTime;
+    }
 }

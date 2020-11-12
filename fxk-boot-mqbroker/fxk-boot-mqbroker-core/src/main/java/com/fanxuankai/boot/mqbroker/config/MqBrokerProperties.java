@@ -1,7 +1,6 @@
 package com.fanxuankai.boot.mqbroker.config;
 
 import com.fanxuankai.boot.mqbroker.consume.EventStrategy;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import java.util.Map;
  */
 @Configuration
 @ConfigurationProperties(prefix = MqBrokerProperties.PREFIX)
-@Data
 public class MqBrokerProperties {
     public static final String PREFIX = "mq-broker";
     public static final String DING_TALK_PREFIX = PREFIX + ".ding-talk";
@@ -60,10 +58,97 @@ public class MqBrokerProperties {
      */
     private Boolean enabledDelayedMessage = Boolean.FALSE;
 
+    public static String getPREFIX() {
+        return PREFIX;
+    }
+
+    public static String getDingTalkPrefix() {
+        return DING_TALK_PREFIX;
+    }
+
+    public int getMsgSize() {
+        return msgSize;
+    }
+
+    public void setMsgSize(int msgSize) {
+        this.msgSize = msgSize;
+    }
+
+    public int getMaxRetry() {
+        return maxRetry;
+    }
+
+    public void setMaxRetry(int maxRetry) {
+        this.maxRetry = maxRetry;
+    }
+
+    public long getIntervalMillis() {
+        return intervalMillis;
+    }
+
+    public void setIntervalMillis(long intervalMillis) {
+        this.intervalMillis = intervalMillis;
+    }
+
+    public long getPublisherCallbackTimeout() {
+        return publisherCallbackTimeout;
+    }
+
+    public void setPublisherCallbackTimeout(long publisherCallbackTimeout) {
+        this.publisherCallbackTimeout = publisherCallbackTimeout;
+    }
+
+    public long getConsumeTimeout() {
+        return consumeTimeout;
+    }
+
+    public void setConsumeTimeout(long consumeTimeout) {
+        this.consumeTimeout = consumeTimeout;
+    }
+
+    public boolean isManualAcknowledge() {
+        return manualAcknowledge;
+    }
+
+    public void setManualAcknowledge(boolean manualAcknowledge) {
+        this.manualAcknowledge = manualAcknowledge;
+    }
+
+    public Map<String, EventStrategy> getEventStrategy() {
+        return eventStrategy;
+    }
+
+    public void setEventStrategy(Map<String, EventStrategy> eventStrategy) {
+        this.eventStrategy = eventStrategy;
+    }
+
+    public DingTalk getDingTalk() {
+        return dingTalk;
+    }
+
+    public void setDingTalk(DingTalk dingTalk) {
+        this.dingTalk = dingTalk;
+    }
+
+    public Boolean getDisabledDingTalkPush() {
+        return disabledDingTalkPush;
+    }
+
+    public void setDisabledDingTalkPush(Boolean disabledDingTalkPush) {
+        this.disabledDingTalkPush = disabledDingTalkPush;
+    }
+
+    public Boolean getEnabledDelayedMessage() {
+        return enabledDelayedMessage;
+    }
+
+    public void setEnabledDelayedMessage(Boolean enabledDelayedMessage) {
+        this.enabledDelayedMessage = enabledDelayedMessage;
+    }
+
     /**
      * 钉钉配置参数
      */
-    @Data
     public static class DingTalk {
         /**
          * 是否激活
@@ -85,5 +170,45 @@ public class MqBrokerProperties {
          * 环境
          */
         private String env;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public String getSecret() {
+            return secret;
+        }
+
+        public void setSecret(String secret) {
+            this.secret = secret;
+        }
+
+        public String getEnv() {
+            return env;
+        }
+
+        public void setEnv(String env) {
+            this.env = env;
+        }
     }
 }

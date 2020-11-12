@@ -16,7 +16,8 @@ import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import com.fanxuankai.commons.util.AddressUtils;
 import com.fanxuankai.commons.util.concurrent.Threads;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -32,10 +33,9 @@ import java.util.function.Supplier;
  * @author fanxuankai
  */
 @Component
-@Slf4j
 public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         implements MsgSendService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsgSendServiceImpl.class);
     @Resource
     private MqBrokerProperties mqBrokerProperties;
     @Resource
@@ -162,7 +162,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
                 mqProducer.produce(msg);
                 success = true;
             } catch (Throwable throwable) {
-                log.error("消息发送失败, code: " + msg.getCode(), throwable);
+                LOGGER.error("消息发送失败, code: " + msg.getCode(), throwable);
                 msg.setCause(throwable.getLocalizedMessage());
                 Threads.sleep(1, TimeUnit.SECONDS);
             }

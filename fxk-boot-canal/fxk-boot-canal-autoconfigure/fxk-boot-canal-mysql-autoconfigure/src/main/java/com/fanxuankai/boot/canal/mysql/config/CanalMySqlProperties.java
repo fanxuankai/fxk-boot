@@ -3,16 +3,12 @@ package com.fanxuankai.boot.canal.mysql.config;
 import com.fanxuankai.canal.core.config.CanalConfiguration;
 import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.db.core.config.CanalDbConfiguration;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author fanxuankai
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @ConfigurationProperties(prefix = CanalMySqlProperties.PREFIX)
 public class CanalMySqlProperties extends CanalDbConfiguration {
     public static final String PREFIX = Constants.PREFIX + Constants.SEPARATOR + "mysql";
@@ -22,4 +18,20 @@ public class CanalMySqlProperties extends CanalDbConfiguration {
     private Boolean enabled = Boolean.TRUE;
     @NestedConfigurationProperty
     private CanalConfiguration configuration = new CanalConfiguration();
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public CanalConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(CanalConfiguration configuration) {
+        this.configuration = configuration;
+    }
 }

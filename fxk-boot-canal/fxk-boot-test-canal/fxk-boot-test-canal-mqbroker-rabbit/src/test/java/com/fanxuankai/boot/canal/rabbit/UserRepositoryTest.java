@@ -24,11 +24,12 @@ public class UserRepositoryTest {
     public void saveAll() {
         userService.saveBatch(MockUtils.mock(0, 100000, User.class)
                 .stream()
-                .peek(user -> user.setId(null)
-                        .setDeleted(false)
-                        .setCreateDate(null)
-                        .setLastModifiedDate(null)
-                )
+                .peek(user -> {
+                    user.setId(null);
+                    user.setDeleted(false);
+                    user.setCreateDate(null);
+                    user.setLastModifiedDate(null);
+                })
                 .collect(Collectors.toList()));
     }
 }

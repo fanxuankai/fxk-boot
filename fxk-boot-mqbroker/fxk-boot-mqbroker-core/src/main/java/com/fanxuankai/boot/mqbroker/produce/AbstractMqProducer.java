@@ -18,11 +18,11 @@ public abstract class AbstractMqProducer implements MqProducer<MsgSend>, Consume
 
     @Override
     public void produce(MsgSend msg) {
-        Event<String> event = new Event<String>()
-                .setGroup(msg.getMsgGroup())
-                .setName(msg.getTopic())
-                .setKey(msg.getCode())
-                .setData(msg.getData());
+        Event<String> event = new Event<>();
+        event.setGroup(msg.getMsgGroup());
+        event.setName(msg.getTopic());
+        event.setKey(msg.getCode());
+        event.setData(msg.getData());
         event.setEffectTime(msg.getEffectTime());
         Optional.ofNullable(msg.getRetryCount())
                 .ifPresent(event::setRetryCount);

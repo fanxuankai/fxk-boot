@@ -1,14 +1,30 @@
 package com.fanxuankai.boot.canal.redis.model;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 /**
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 public class Entry {
-    private final String name;
-    private final Object value;
+    private String name;
+    private Object value;
+
+    public Entry(String name, Object value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 }

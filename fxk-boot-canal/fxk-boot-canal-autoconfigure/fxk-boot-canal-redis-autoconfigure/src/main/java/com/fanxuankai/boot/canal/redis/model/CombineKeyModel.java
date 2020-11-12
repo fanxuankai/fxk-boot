@@ -1,15 +1,22 @@
 package com.fanxuankai.boot.canal.redis.model;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.util.List;
 
 /**
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 public class CombineKeyModel {
-    private final List<Entry> entries;
+    private List<Entry> entries;
+
+    public CombineKeyModel(List<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 }

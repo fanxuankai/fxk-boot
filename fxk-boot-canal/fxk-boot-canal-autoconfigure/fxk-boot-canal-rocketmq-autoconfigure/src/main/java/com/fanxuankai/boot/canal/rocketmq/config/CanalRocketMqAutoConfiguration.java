@@ -3,7 +3,6 @@ package com.fanxuankai.boot.canal.rocketmq.config;
 import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
 import com.fanxuankai.canal.rocketmq.CanalRocketMqWorker;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -12,14 +11,16 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQProperties;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 /**
  * @author fanxuankai
  */
-@Slf4j
 public class CanalRocketMqAutoConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CanalRocketMqAutoConfiguration.class);
 
     @Bean
     @ConditionalOnProperty(prefix = CanalMqProperties.PREFIX, name = "enabled", havingValue = "true")
@@ -45,7 +46,7 @@ public class CanalRocketMqAutoConfiguration {
             try {
                 consumer.subscribe(s, "*");
             } catch (MQClientException e) {
-                log.error("订阅失败", e);
+                LOGGER.error("订阅失败", e);
             }
         });
         return consumer;

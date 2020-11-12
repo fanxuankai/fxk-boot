@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.canal.autoconfigure;
 
 import com.fanxuankai.canal.core.CanalWorker;
+import com.fanxuankai.canal.core.config.CanalWorkConfiguration;
 import com.fanxuankai.commons.util.concurrent.ThreadPoolService;
 import com.fanxuankai.spring.util.ApplicationContexts;
 import com.fanxuankai.spring.util.annotation.EnableApplicationContextAware;
@@ -35,9 +36,11 @@ public class CanalAutoConfiguration implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         ApplicationContexts.getApplicationContext().getBeansOfType(CanalWorker.class).values().stream()
-                .peek(canalWorker -> canalWorker.getCanalWorkConfiguration()
-                        .setRedisTemplate(redisTemplate)
-                        .setThreadPoolExecutor(threadPoolExecutor))
+                .peek(canalWorker -> {
+                    CanalWorkConfiguration canalWorkConfiguration = canalWorker.getCanalWorkConfiguration();
+                    canalWorkConfiguration.setRedisTemplate(redisTemplate);
+                    canalWorkConfiguration.setThreadPoolExecutor(threadPoolExecutor);
+                })
                 .forEach(CanalWorker::start);
     }
 }

@@ -2,10 +2,11 @@ package com.fanxuankai.boot.canal.redis;
 
 import com.fanxuankai.boot.canal.redis.repository.RedisRepository;
 import com.fanxuankai.boot.canal.redis.repository.SimpleRedisRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
 import java.util.Collections;
@@ -16,9 +17,9 @@ import java.util.stream.Collectors;
 /**
  * @author fanxuankai
  */
-@Slf4j
 @SuppressWarnings("rawtypes")
 public class RedisRepositoryScanner {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisRepositoryScanner.class);
 
     public static Set<Class<? extends RedisRepository>> scan(List<String> basePackages) {
         Reflections r =
@@ -35,11 +36,11 @@ public class RedisRepositoryScanner {
                     .filter(aClass -> !SimpleRedisRepository.class.isAssignableFrom(aClass))
                     .collect(Collectors.toSet());
         } catch (Exception e) {
-            log.warn(e.getLocalizedMessage());
+            LOGGER.warn(e.getLocalizedMessage());
         }
         sw.stop();
         String simpleName = RedisRepository.class.getSimpleName();
-        log.info("Finished {} scanning in {}ms. Found {} {} interfaces.", simpleName, sw.getTotalTimeMillis(),
+        LOGGER.info("Finished {} scanning in {}ms. Found {} {} interfaces.", simpleName, sw.getTotalTimeMillis(),
                 redisRepositories.size(), simpleName);
         return redisRepositories;
     }

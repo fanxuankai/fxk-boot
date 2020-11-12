@@ -11,7 +11,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,9 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 @Service
-@Slf4j
 public class EnumGenerator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnumGenerator.class);
+
     @Resource
     private EnumTypeService enumTypeService;
     @Resource
@@ -67,10 +69,13 @@ public class EnumGenerator {
                     enumDomainList.forEach(anEnum ->
                             anEnum.setName(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE,
                                     anEnum.getName())));
-                    return new EnumVO()
-                            .setEnumType(new EnumType().setName(StringUtils.capitalize(enumType.getName()))
-                                    .setDescription(enumType.getDescription()))
-                            .setEnumList(enumDomainList);
+                    EnumType anEnumType = new EnumType();
+                    anEnumType.setName(StringUtils.capitalize(enumType.getName()));
+                    anEnumType.setDescription(enumType.getDescription());
+                    EnumVO enumVO = new EnumVO();
+                    enumVO.setEnumType(anEnumType);
+                    enumVO.setEnumList(enumDomainList);
+                    return enumVO;
                 }).collect(Collectors.toList());
         Configuration cfg = new Configuration(Configuration.getVersion());
         cfg.setClassLoaderForTemplateLoading(getClass().getClassLoader(), "templates");
@@ -80,10 +85,10 @@ public class EnumGenerator {
         try {
             Template template = cfg.getTemplate("enum.ftl");
             for (EnumVO enumVO : enumList) {
-                EnumModel model = new EnumModel()
-                        .setPackageName(generateModel.getPackageName())
-                        .setAuth(generateModel.getAuth())
-                        .setEnumVO(enumVO);
+                EnumModel model = new EnumModel();
+                model.setPackageName(generateModel.getPackageName());
+                model.setAuth(generateModel.getAuth());
+                model.setEnumVO(enumVO);
                 String shortName = enumVO.getEnumType().getName();
                 String fileName = ClassUtils.convertClassNameToResourcePath(generateModel.getPackageName())
                         + "/" + shortName;
@@ -91,11 +96,11 @@ public class EnumGenerator {
                         generateModel.getPath() + "/" + fileName + ".java"))));
                 template.process(model, writer);
                 name = generateModel.getPackageName() + "." + shortName;
-                log.info("生成枚举 {} 成功", name);
+                LOGGER.info("生成枚举 {} 成功", name);
                 writer.close();
             }
         } catch (IOException | TemplateException e) {
-            log.error(String.format("生成枚举 %s 失败", name), e);
+            LOGGER.error(String.format("生成枚举 %s 失败", name), e);
         }
     }
 

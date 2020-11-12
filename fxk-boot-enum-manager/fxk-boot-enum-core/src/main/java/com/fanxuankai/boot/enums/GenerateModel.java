@@ -1,15 +1,10 @@
 package com.fanxuankai.boot.enums;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 /**
  * 代码生成 model
  *
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 public class GenerateModel {
     /**
      * 作者
@@ -23,4 +18,28 @@ public class GenerateModel {
      * 文件路径
      */
     private String path;
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

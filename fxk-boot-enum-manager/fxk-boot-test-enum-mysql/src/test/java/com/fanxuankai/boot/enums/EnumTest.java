@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -49,14 +50,41 @@ public class EnumTest {
     @Test
     public void addAll() {
         List<EnumDTO.Enum> list = new ArrayList<>(3);
-        list.add(new EnumDTO.Enum().setName("white").setValue("白色"));
-        list.add(new EnumDTO.Enum().setName("red").setValue("红色"));
-        list.add(new EnumDTO.Enum().setName("black").setValue("黑色"));
-        enumService.add(new EnumDTO().setEnumType(new EnumDTO.EnumType().setName("colour").setDescription("颜色")).setEnumList(list));
+        EnumDTO.Enum white = new EnumDTO.Enum();
+        white.setName("white");
+        white.setValue("白色");
+        list.add(white);
+        EnumDTO.Enum red = new EnumDTO.Enum();
+        red.setName("red");
+        red.setValue("红色");
+        list.add(red);
+        EnumDTO.Enum black = new EnumDTO.Enum();
+        black.setName("black");
+        black.setValue("黑色");
+        list.add(black);
+        EnumDTO.EnumType enumType = new EnumDTO.EnumType();
+        enumType.setName("colour");
+        enumType.setDescription("颜色");
+        EnumDTO enumDTO = new EnumDTO();
+        enumDTO.setEnumType(enumType);
+        enumDTO.setEnumList(list);
+        enumService.add(enumDTO);
         list = new ArrayList<>(2);
-        list.add(new EnumDTO.Enum().setName("no").setValue("未删除"));
-        list.add(new EnumDTO.Enum().setName("yes").setValue("已删除"));
-        enumService.add(new EnumDTO().setEnumType(new EnumDTO.EnumType().setName("deleted").setDescription("是否删除")).setEnumList(list));
+        EnumDTO.Enum no = new EnumDTO.Enum();
+        no.setName("no");
+        no.setValue("未删除");
+        list.add(no);
+        EnumDTO.Enum yes = new EnumDTO.Enum();
+        yes.setName("yes");
+        yes.setValue("已删除");
+        list.add(yes);
+        EnumDTO.EnumType yesOrNo = new EnumDTO.EnumType();
+        yesOrNo.setName("deleted");
+        yesOrNo.setDescription("是否删除");
+        EnumDTO yesOrNoDto = new EnumDTO();
+        yesOrNoDto.setEnumType(yesOrNo);
+        yesOrNoDto.setEnumList(list);
+        enumService.add(yesOrNoDto);
     }
 
     private String getEnumJSONString() {
@@ -82,10 +110,10 @@ public class EnumTest {
 
     @Test
     public void generate() {
-        enumGenerator.generate(new GenerateModel()
-                .setAuth("fanxuankai")
-                .setPath("/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/boot/enum-manager-spring" +
-                        "-boot/enum-mysql-spring-boot-test/src/test/java")
-                .setPackageName("com.fanxuankai.boot.enums"));
+        GenerateModel generateModel = new GenerateModel();
+        generateModel.setAuth("fanxuankai");
+        generateModel.setPath(new File("").getAbsoluteFile().getAbsolutePath() + "/src/test/java");
+        generateModel.setPackageName("com.fanxuankai.boot.enums");
+        enumGenerator.generate(generateModel);
     }
 }

@@ -27,10 +27,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>sharding-jdbc-self-id-generator</artifactId>
             <optional>true</optional>

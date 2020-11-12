@@ -9,7 +9,8 @@ import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
 import com.fanxuankai.commons.util.ThrowableUtils;
 import com.fanxuankai.spring.util.ApplicationContexts;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.StringUtils;
 
@@ -20,8 +21,8 @@ import java.util.function.Function;
 /**
  * @author fanxuankai
  */
-@Slf4j
 public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T, Event<String>> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMqConsumer.class);
     private MsgReceiveService msgReceiveService;
     private MqBrokerDingTalkClientHelper mqBrokerDingTalkClientHelper;
 
@@ -52,7 +53,7 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
         Event<String> event = apply(t);
         MsgReceiveService msgReceiveService = getMsgReceiveService();
         if (exists(event)) {
-            log.info(String.format("防重消费, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
+            LOGGER.info(String.format("防重消费, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
                     event.getKey()));
             getMqBrokerDingTalkClientHelper().push("防重消费", event.getGroup(), event.getName(), event.getKey());
             return;

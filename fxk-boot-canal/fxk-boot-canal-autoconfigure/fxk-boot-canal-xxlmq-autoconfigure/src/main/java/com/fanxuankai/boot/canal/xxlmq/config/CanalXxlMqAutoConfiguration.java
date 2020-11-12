@@ -34,12 +34,12 @@ public class CanalXxlMqAutoConfiguration implements ApplicationContextAware {
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         consumerHelper.accept((definition, s) -> {
             try {
-                IMqConsumer mqConsumer = (IMqConsumer) MqConsumerHelper.newClass(new ListenerMetadata()
-                        .setGroup(definition.getGroup())
-                        .setTopic(s)
-                        .setWaitRateSeconds(definition.getWaitRateSeconds())
-                        .setWaitMaxSeconds(definition.getWaitMaxSeconds())
-                )
+                ListenerMetadata listenerMetadata = new ListenerMetadata();
+                listenerMetadata.setGroup(definition.getGroup());
+                listenerMetadata.setTopic(s);
+                listenerMetadata.setWaitRateSeconds(definition.getWaitRateSeconds());
+                listenerMetadata.setWaitMaxSeconds(definition.getWaitMaxSeconds());
+                IMqConsumer mqConsumer = (IMqConsumer) MqConsumerHelper.newClass(listenerMetadata)
                         .getConstructor(ConsumerHelper.class)
                         .newInstance(consumerHelper);
                 MqConsumerRegistry.registerMqConsumer(mqConsumer);

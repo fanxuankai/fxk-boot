@@ -43,13 +43,12 @@ public class CanalMqBrokerAutoConfiguration implements ApplicationContextAware {
                     consumerHelper.consume(event.getName(), event.getData());
                 }
             };
-            EventListenerRegistry.addListener(new ListenerMetadata()
-                            .setGroup(definition.getGroup())
-                            .setTopic(s)
-//                            .setName(definition.getName())
-                            .setWaitRateSeconds(definition.getWaitRateSeconds())
-                            .setWaitMaxSeconds(definition.getWaitMaxSeconds())
-                    , eventListener);
+            ListenerMetadata listenerMetadata = new ListenerMetadata();
+            listenerMetadata.setGroup(definition.getGroup());
+            listenerMetadata.setTopic(s);
+            listenerMetadata.setWaitRateSeconds(definition.getWaitRateSeconds());
+            listenerMetadata.setWaitMaxSeconds(definition.getWaitMaxSeconds());
+            EventListenerRegistry.addListener(listenerMetadata, eventListener);
         });
     }
 }

@@ -30,17 +30,17 @@ public class ProductAttributeFunction implements OneToOneDocumentFunction<Produc
 
     @Override
     public ProductInfo applyForDelete(ProductAttribute delete) {
-        return new ProductInfo()
-                .setId(delete.getProductId())
-                .setAttributeList(Optional.of(
-                        productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
-                                .eq(ProductAttribute::getProductId, delete.getProductId()))
-                                .stream()
-                                .map(ProductAttribute::getAttributeId)
-                                .collect(Collectors.toList())
-                )
-                        .filter(o -> !o.isEmpty())
-                        .map(ids -> attributeService.listByIds(ids))
-                        .orElse(Collections.emptyList()));
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setId(delete.getProductId());
+        productInfo.setAttributeList(Optional.of(
+                productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
+                        .eq(ProductAttribute::getProductId, delete.getProductId()))
+                        .stream()
+                        .map(ProductAttribute::getAttributeId)
+                        .collect(Collectors.toList()))
+                .filter(o -> !o.isEmpty())
+                .map(ids -> attributeService.listByIds(ids))
+                .orElse(Collections.emptyList()));
+        return productInfo;
     }
 }

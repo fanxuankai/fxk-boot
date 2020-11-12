@@ -1,8 +1,6 @@
 package com.fanxuankai.boot.canal.elasticsearch.document;
 
 import com.fanxuankai.boot.canal.elasticsearch.domain.Attribute;
-import lombok.Data;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -11,8 +9,6 @@ import java.util.List;
 /**
  * @author fanxuankai
  */
-@Data
-@Accessors(chain = true)
 @Document(indexName = "canal_client_example.product_info", type = "doc")
 public class ProductInfo {
     @Id
@@ -20,4 +16,36 @@ public class ProductInfo {
     private String code;
     private String name;
     private List<Attribute> attributeList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Attribute> getAttributeList() {
+        return attributeList;
+    }
+
+    public void setAttributeList(List<Attribute> attributeList) {
+        this.attributeList = attributeList;
+    }
 }

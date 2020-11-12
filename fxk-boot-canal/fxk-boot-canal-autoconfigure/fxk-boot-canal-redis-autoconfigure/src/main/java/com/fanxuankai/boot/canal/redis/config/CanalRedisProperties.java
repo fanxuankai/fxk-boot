@@ -3,16 +3,12 @@ package com.fanxuankai.boot.canal.redis.config;
 import com.fanxuankai.canal.core.config.CanalConfiguration;
 import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.redis.config.CanalRedisConfiguration;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author fanxuankai
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @ConfigurationProperties(prefix = CanalRedisProperties.PREFIX)
 public class CanalRedisProperties extends CanalRedisConfiguration {
     public static final String PREFIX = Constants.PREFIX + Constants.SEPARATOR + "redis";
@@ -22,4 +18,24 @@ public class CanalRedisProperties extends CanalRedisConfiguration {
     private Boolean enabled = Boolean.TRUE;
     @NestedConfigurationProperty
     private CanalConfiguration configuration = new CanalConfiguration();
+
+    public static String getPREFIX() {
+        return PREFIX;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public CanalConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(CanalConfiguration configuration) {
+        this.configuration = configuration;
+    }
 }

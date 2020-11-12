@@ -40,9 +40,10 @@ public interface EnumTypeService extends IService<EnumType> {
      * @param enumType 枚举类型
      */
     default void add(EnumDTO.EnumType enumType) {
-        save(new EnumType()
-                .setName(enumType.getName())
-                .setDescription(enumType.getDescription()));
+        EnumType entity = new EnumType();
+        entity.setName(enumType.getName());
+        entity.setDescription(enumType.getDescription());
+        save(entity);
     }
 
     /**
@@ -54,10 +55,12 @@ public interface EnumTypeService extends IService<EnumType> {
         if (CollectionUtils.isEmpty(enumTypes)) {
             return;
         }
-        saveBatch(enumTypes.stream().map(enumType ->
-                new EnumType()
-                        .setName(enumType.getName())
-                        .setDescription(enumType.getDescription())).collect(Collectors.toList()));
+        saveBatch(enumTypes.stream().map(enumType -> {
+            EnumType entity = new EnumType();
+            entity.setName(enumType.getName());
+            entity.setDescription(enumType.getDescription());
+            return entity;
+        }).collect(Collectors.toList()));
     }
 
     /**

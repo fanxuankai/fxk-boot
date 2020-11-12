@@ -5,8 +5,9 @@ import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
 import com.taobao.api.ApiException;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,8 +25,8 @@ import java.util.Objects;
  * @author fanxuankai
  */
 @Service
-@Slf4j
 public class MqBrokerDingTalkClientHelper {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MqBrokerDingTalkClientHelper.class);
 
     @Resource
     private MqBrokerProperties mqBrokerProperties;
@@ -48,7 +49,7 @@ public class MqBrokerDingTalkClientHelper {
         try {
             newDingTalkClient().execute(request);
         } catch (ApiException e) {
-            log.error("钉钉推送异常", e);
+            LOGGER.error("钉钉推送异常", e);
         }
     }
 
@@ -72,7 +73,7 @@ public class MqBrokerDingTalkClientHelper {
         try {
             newDingTalkClient().execute(request);
         } catch (ApiException e) {
-            log.error("钉钉推送异常", e);
+            LOGGER.error("钉钉推送异常", e);
         }
     }
 
@@ -92,7 +93,7 @@ public class MqBrokerDingTalkClientHelper {
                 serviceUrl += "&timestamp=" + timestamp;
                 serviceUrl += "&sign=" + sign;
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {
-                log.error("钉钉客户端初始化异常", e);
+                LOGGER.error("钉钉客户端初始化异常", e);
             }
         }
         return new DefaultDingTalkClient(serviceUrl);

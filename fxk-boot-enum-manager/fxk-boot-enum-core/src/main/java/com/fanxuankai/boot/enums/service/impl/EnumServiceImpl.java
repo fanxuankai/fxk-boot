@@ -66,12 +66,10 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
                 .map(o -> {
                     EnumType enumType = enumTypeMap.get(o.getKey());
                     o.getValue().sort(Comparator.comparing(Enum::getId));
-                    return new EnumVO()
-                            .setEnumType(new EnumType()
-                                    .setId(enumType.getId())
-                                    .setName(enumType.getName())
-                                    .setDescription(enumType.getDescription()))
-                            .setEnumList(o.getValue());
+                    EnumVO enumVO = new EnumVO();
+                    enumVO.setEnumType(enumType);
+                    enumVO.setEnumList(o.getValue());
+                    return enumVO;
                 })
                 .collect(Collectors.toList());
     }
@@ -128,12 +126,12 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
             return;
         }
         Enum lastEnum = enumList.get(enumList.size() - 1);
-        save(new Enum()
-                .setTypeId(enumVO.getEnumType().getId())
-                .setCode(lastEnum.getCode() + 1)
-                .setName(anEnum.getName())
-                .setValue(anEnum.getValue())
-        );
+        Enum entity = new Enum();
+        entity.setTypeId(enumVO.getEnumType().getId());
+        entity.setCode(lastEnum.getCode() + 1);
+        entity.setName(anEnum.getName());
+        entity.setValue(anEnum.getValue());
+        save(entity);
     }
 
     @Override

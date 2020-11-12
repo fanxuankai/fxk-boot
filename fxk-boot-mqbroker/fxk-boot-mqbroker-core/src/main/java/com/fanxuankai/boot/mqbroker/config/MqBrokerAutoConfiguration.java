@@ -78,13 +78,13 @@ public class MqBrokerAutoConfiguration implements ApplicationContextAware {
                     String group = Optional.of(listener.group())
                             .filter(StringUtils::hasText)
                             .orElse(null);
-                    EventListenerRegistry.addListener(new ListenerMetadata()
-                                    .setGroup(group)
-                                    .setTopic(listener.event())
-                                    .setName(listener.name())
-                                    .setWaitRateSeconds(listener.waitRateSeconds())
-                                    .setWaitMaxSeconds(listener.waitMaxSeconds())
-                            , eventListener);
+                    ListenerMetadata listenerMetadata = new ListenerMetadata();
+                    listenerMetadata.setGroup(group);
+                    listenerMetadata.setTopic(listener.event());
+                    listenerMetadata.setName(listener.name());
+                    listenerMetadata.setWaitRateSeconds(listener.waitRateSeconds());
+                    listenerMetadata.setWaitMaxSeconds(listener.waitMaxSeconds());
+                    EventListenerRegistry.addListener(listenerMetadata, eventListener);
                 });
         applicationContext.getBeansOfType(EventListenerRegistryHook.class)
                 .values()

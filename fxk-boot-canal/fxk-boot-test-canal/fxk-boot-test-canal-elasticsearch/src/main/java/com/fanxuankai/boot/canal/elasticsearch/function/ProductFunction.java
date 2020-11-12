@@ -27,20 +27,20 @@ public class ProductFunction implements MasterDocumentFunction<Product, ProductI
 
     @Override
     public ProductInfo applyForInsert(Product insert) {
-        return new ProductInfo()
-                .setId(insert.getId())
-                .setCode(insert.getCode())
-                .setName(insert.getName())
-                .setAttributeList(Optional.of(
-                        productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
-                                .eq(ProductAttribute::getProductId, insert.getId()))
-                                .stream()
-                                .map(ProductAttribute::getAttributeId)
-                                .collect(Collectors.toList())
-                )
-                        .filter(o -> !o.isEmpty())
-                        .map(ids -> attributeService.listByIds(ids))
-                        .orElse(Collections.emptyList()));
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setId(insert.getId());
+        productInfo.setCode(insert.getCode());
+        productInfo.setName(insert.getName());
+        productInfo.setAttributeList(Optional.of(
+                productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
+                        .eq(ProductAttribute::getProductId, insert.getId()))
+                        .stream()
+                        .map(ProductAttribute::getAttributeId)
+                        .collect(Collectors.toList()))
+                .filter(o -> !o.isEmpty())
+                .map(ids -> attributeService.listByIds(ids))
+                .orElse(Collections.emptyList()));
+        return productInfo;
     }
 
     @Override

@@ -68,13 +68,16 @@ public class AttributeFunction implements ManyToOneDocumentFunction<Attribute, P
                                 .collect(Collectors.toMap(Attribute::getId, o -> o)))
                         .orElse(Collections.emptyMap());
         return products.stream()
-                .map(product -> new ProductInfo()
-                        .setId(product.getId())
-                        .setAttributeList(Optional.ofNullable(attributeIdsByProductId.get(product.getId()))
-                                .map(ids -> ids.stream().map(attributeMap::get)
-                                        .filter(Objects::nonNull)
-                                        .collect(Collectors.toList()))
-                                .orElse(Collections.emptyList())))
+                .map(product -> {
+                    ProductInfo productInfo = new ProductInfo();
+                    productInfo.setId(product.getId());
+                    productInfo.setAttributeList(Optional.ofNullable(attributeIdsByProductId.get(product.getId()))
+                            .map(ids -> ids.stream().map(attributeMap::get)
+                                    .filter(Objects::nonNull)
+                                    .collect(Collectors.toList()))
+                            .orElse(Collections.emptyList()));
+                    return productInfo;
+                })
                 .collect(Collectors.toList());
     }
 }

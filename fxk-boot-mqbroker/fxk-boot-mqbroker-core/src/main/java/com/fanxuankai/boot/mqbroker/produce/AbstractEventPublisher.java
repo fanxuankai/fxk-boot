@@ -10,7 +10,8 @@ import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import com.fanxuankai.commons.util.ThrowableUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.StringUtils;
 
@@ -25,8 +26,9 @@ import java.util.stream.Collectors;
 /**
  * @author fanxuankai
  */
-@Slf4j
 public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEventPublisher.class);
 
     @Resource
     protected MsgSendService msgSendService;
@@ -45,7 +47,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
 
     protected void persistence(Event<T> event, boolean async) {
         if (exists(event)) {
-            log.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
+            LOGGER.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
                     event.getKey()));
             mqBrokerDingTalkClientHelper.push("防重生产", event.getGroup(), event.getName(), event.getKey());
             return;
@@ -66,7 +68,8 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         events = events.stream()
                 .filter(event -> {
                     if (exists(event)) {
-                        log.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
+                        LOGGER.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(),
+                                event.getName(),
                                 event.getKey()));
                         mqBrokerDingTalkClientHelper.push("防重生产", event.getGroup(), event.getName(), event.getKey());
                         return false;

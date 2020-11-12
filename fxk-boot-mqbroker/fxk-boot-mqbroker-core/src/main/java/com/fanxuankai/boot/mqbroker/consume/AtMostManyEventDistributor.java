@@ -1,7 +1,8 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
 import com.fanxuankai.boot.mqbroker.model.Event;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
  * @author fanxuankai
  */
 @Component
-@Slf4j
 public class AtMostManyEventDistributor extends AbstractEventDistributor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AtMostManyEventDistributor.class);
 
     @Override
     @SuppressWarnings("rawtypes unchecked")
@@ -20,7 +21,7 @@ public class AtMostManyEventDistributor extends AbstractEventDistributor {
             try {
                 eventListener.onEvent(event);
             } catch (Exception e) {
-                log.error("事件处理异常, key: " + event.getKey(), e);
+                LOGGER.error("事件处理异常, key: " + event.getKey(), e);
             }
         }
     }

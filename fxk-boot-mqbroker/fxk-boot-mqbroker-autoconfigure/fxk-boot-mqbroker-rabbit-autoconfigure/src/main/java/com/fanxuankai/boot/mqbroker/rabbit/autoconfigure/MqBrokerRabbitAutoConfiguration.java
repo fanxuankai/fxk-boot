@@ -8,7 +8,8 @@ import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.ConfirmType;
@@ -32,8 +33,8 @@ import java.util.*;
 /**
  * @author fanxuankai
  */
-@Slf4j
 public class MqBrokerRabbitAutoConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MqBrokerRabbitAutoConfiguration.class);
 
     @Bean
     public MessageConverter messageConverter() {
@@ -56,7 +57,7 @@ public class MqBrokerRabbitAutoConfiguration {
                 .toArray(Queue[]::new));
         // 是否重回队列
         container.setDefaultRequeueRejected(false);
-        container.setErrorHandler(throwable -> log.error("消费异常", throwable));
+        container.setErrorHandler(throwable -> LOGGER.error("消费异常", throwable));
         if (mqBrokerProperties.isManualAcknowledge()) {
             // 手动确认
             container.setAcknowledgeMode(AcknowledgeMode.MANUAL);

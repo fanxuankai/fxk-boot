@@ -15,9 +15,13 @@ import java.util.stream.IntStream;
 public class UserManager {
     public static List<Event<User>> mockData() {
         return IntStream.range(0, 5000)
-                .mapToObj(value -> new Event<User>().setName("user")
-                        .setKey(UUID.randomUUID().toString())
-                        .setData(JMockData.mock(User.class)))
+                .mapToObj(value -> {
+                    Event<User> event = new Event<>();
+                    event.setName("user");
+                    event.setKey(UUID.randomUUID().toString());
+                    event.setData(JMockData.mock(User.class));
+                    return event;
+                })
                 .collect(Collectors.toList());
     }
 }

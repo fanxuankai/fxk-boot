@@ -37,10 +37,11 @@ public class CanalMqBrokerWorker extends CanalWorker {
         entryConsumerFactory.put(CanalEntry.EventType.INSERT, new InsertConsumer(canalMqConfiguration, eventPublisher));
         entryConsumerFactory.put(CanalEntry.EventType.UPDATE, new UpdateConsumer(canalMqConfiguration, eventPublisher));
         entryConsumerFactory.put(CanalEntry.EventType.DELETE, new DeleteConsumer(canalMqConfiguration, eventPublisher));
-        return new CanalMqBrokerWorker(new CanalWorkConfiguration()
-                .setCanalConfiguration(canalConfiguration)
-                .setConsumerConfigFactory(consumerConfigFactory)
-                .setEntryConsumerFactory(entryConsumerFactory));
+        CanalWorkConfiguration canalWorkConfiguration = new CanalWorkConfiguration();
+        canalWorkConfiguration.setCanalConfiguration(canalConfiguration);
+        canalWorkConfiguration.setConsumerConfigFactory(consumerConfigFactory);
+        canalWorkConfiguration.setEntryConsumerFactory(entryConsumerFactory);
+        return new CanalMqBrokerWorker(canalWorkConfiguration);
     }
 
 }

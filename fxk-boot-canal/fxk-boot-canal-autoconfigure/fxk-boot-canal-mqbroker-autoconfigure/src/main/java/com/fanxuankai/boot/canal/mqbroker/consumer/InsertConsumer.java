@@ -30,12 +30,15 @@ public class InsertConsumer extends AbstractConsumer {
         ConsumerConfig consumerConfig = getConsumerConfig(entryWrapper);
         return entryWrapper.getAllRowDataList()
                 .stream()
-                .map(rowData -> new Event<String>()
-                        .setGroup(group)
-                        .setName(topic)
-                        .setKey(CommonUtils.md5(rowData.getAfterColumnsList()))
-                        .setData(CommonUtils.jsonWithActualType(consumerConfig, rowData.getAfterColumnsList(),
-                                schemaName, tableName, false)))
+                .map(rowData -> {
+                    Event<String> event = new Event<>();
+                    event.setGroup(group);
+                    event.setName(topic);
+                    event.setKey(CommonUtils.md5(rowData.getAfterColumnsList()));
+                    event.setData(CommonUtils.jsonWithActualType(consumerConfig, rowData.getAfterColumnsList(),
+                            schemaName, tableName, false));
+                    return event;
+                })
                 .collect(Collectors.toList());
     }
 }

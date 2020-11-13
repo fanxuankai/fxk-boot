@@ -58,10 +58,6 @@ public class MqBrokerProperties {
      */
     private Boolean enabledDelayedMessage = Boolean.FALSE;
 
-    public static String getPREFIX() {
-        return PREFIX;
-    }
-
     public static String getDingTalkPrefix() {
         return DING_TALK_PREFIX;
     }

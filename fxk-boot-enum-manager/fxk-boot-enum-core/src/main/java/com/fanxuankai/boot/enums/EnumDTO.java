@@ -56,6 +56,14 @@ public class EnumDTO {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        @Override
+        public String toString() {
+            return "EnumType{" +
+                    "name='" + name + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
     }
 
     /**
@@ -98,5 +106,22 @@ public class EnumDTO {
         public void setValue(String value) {
             this.value = value;
         }
+
+        @Override
+        public String toString() {
+            return "Enum{" +
+                    "code=" + code +
+                    ", name='" + name + '\'' +
+                    ", value='" + value + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "EnumDTO{" +
+                "enumType=" + enumType +
+                ", enumList=" + enumList +
+                '}';
     }
 }

@@ -29,4 +29,12 @@ public class EnumVO {
     public void setEnumList(List<Enum> enumList) {
         this.enumList = enumList;
     }
+
+    @Override
+    public String toString() {
+        return "EnumVO{" +
+                "enumType=" + enumType +
+                ", enumList=" + enumList +
+                '}';
+    }
 }

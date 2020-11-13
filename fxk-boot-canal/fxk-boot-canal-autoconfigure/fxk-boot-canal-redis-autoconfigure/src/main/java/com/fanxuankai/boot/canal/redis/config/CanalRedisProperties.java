@@ -19,10 +19,6 @@ public class CanalRedisProperties extends CanalRedisConfiguration {
     @NestedConfigurationProperty
     private CanalConfiguration configuration = new CanalConfiguration();
 
-    public static String getPREFIX() {
-        return PREFIX;
-    }
-
     public Boolean getEnabled() {
         return enabled;
     }

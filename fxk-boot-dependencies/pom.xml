@@ -18,7 +18,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <skipTests>true</skipTests>
-        <spring-boot-dependencies.version>2.2.7.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.3.5.RELEASE</spring-boot-dependencies.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
     </properties>
 
@@ -244,7 +244,7 @@
             <dependency>
                 <groupId>com.fanxuankai.spring</groupId>
                 <artifactId>fxk-spring-dependencies</artifactId>
-                <version>5.2.6-SNAPSHOT</version>
+                <version>5.2.10-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

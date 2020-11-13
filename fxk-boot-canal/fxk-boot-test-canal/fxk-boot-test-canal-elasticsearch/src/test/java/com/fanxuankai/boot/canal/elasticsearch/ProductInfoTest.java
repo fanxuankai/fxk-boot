@@ -108,7 +108,7 @@ public class ProductInfoTest {
 //        long updated = client.updateByQuery(request, RequestOptions.DEFAULT).getUpdated();
 //        System.out.println(updated);
 
-        RestHighLevelClient client = elasticsearchRestTemplate.getClient();
+        RestHighLevelClient client = null; // elasticsearchRestTemplate.getClient();
         //参数为索引名，可以不指定，可以一个，可以多个
         UpdateByQueryRequest request = new UpdateByQueryRequest("canal_client_example.product_info");
         // 更新时版本冲突

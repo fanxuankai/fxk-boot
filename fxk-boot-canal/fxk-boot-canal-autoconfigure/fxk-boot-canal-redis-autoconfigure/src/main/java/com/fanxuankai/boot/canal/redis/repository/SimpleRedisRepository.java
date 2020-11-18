@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
-    private final CanalRedis canalRedis;
+    private final Optional<CanalRedis> canalRedisOptional;
     private final Class<T> domainType;
     private final RedisTemplate<Object, Object> redisTemplate;
     private final String schema;
@@ -38,17 +38,16 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     public SimpleRedisRepository(Class<T> domainType, RedisTemplate<Object, Object> redisTemplate) {
         this.domainType = domainType;
         this.redisTemplate = redisTemplate;
-        this.canalRedis = AnnotationUtils.findAnnotation(domainType, CanalRedis.class);
+        this.canalRedisOptional = Optional.ofNullable(AnnotationUtils.findAnnotation(domainType, CanalRedis.class));
         this.schema = CanalTableCache.getSchema(domainType);
         this.tableName = CanalTableCache.getTableName(domainType);
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(convert(redisTemplate.opsForHash().get(key(), id.toString())));
+        return Optional.ofNullable(id)
+                .map(Object::toString)
+                .flatMap(hashKey -> convert(redisTemplate.opsForHash().get(key(), hashKey)));
     }
 
     @Override
@@ -63,17 +62,18 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
     @Override
     public List<T> findAllById(Iterable<ID> ids) {
-        if (ids == null) {
-            return Collections.emptyList();
-        }
-        Set<Object> idSet = Sets.newHashSet();
-        for (Object id : ids) {
-            if (id == null) {
-                continue;
-            }
-            idSet.add(id.toString());
-        }
-        return multiGet(key(), idSet);
+        return multiGet(key(), Optional.ofNullable(ids)
+                .map(idsIt -> {
+                    Set<Object> idSet = Sets.newHashSet();
+                    for (Object id : idsIt) {
+                        if (id == null) {
+                            continue;
+                        }
+                        idSet.add(id.toString());
+                    }
+                    return idSet;
+                })
+                .orElse(Collections.emptySet()));
     }
 
     @Override
@@ -83,17 +83,13 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
     @Override
     public T getOne(ID id) {
-        Optional<T> optional = findById(id);
-        if (!optional.isPresent()) {
-            throw new NullPointerException();
-        }
-        return optional.get();
+        return findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
     public Optional<T> findOne(UniqueKey uniqueKey) {
-        return Optional.ofNullable(convert(redisTemplate.opsForHash().get(keyWithSuffix(uniqueKey.getName()),
-                uniqueKey.getValue().toString())));
+        return convert(redisTemplate.opsForHash().get(keyWithSuffix(uniqueKey.getName()),
+                uniqueKey.getValue().toString()));
     }
 
     @Override
@@ -107,18 +103,14 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
         List<String> names = entries.stream().map(Entry::getName).collect(Collectors.toList());
         String suffix = RedisKey.suffix(names);
         String key = keyWithSuffix(suffix);
-        String hashKey = RedisKey.hashKey(names, entries.stream().collect(Collectors.toMap(Entry::getName,
-                o -> o.getValue().toString())));
-        return Optional.ofNullable(convert(redisTemplate.opsForHash().get(key, hashKey)));
+        String hashKey = RedisKey.hashKey(names, entries.stream()
+                .collect(Collectors.toMap(Entry::getName, o -> o.getValue().toString())));
+        return convert(redisTemplate.opsForHash().get(key, hashKey));
     }
 
     @Override
     public T getOne(CombineKeyModel combineKeyModel) {
-        Optional<T> optional = findOne(combineKeyModel);
-        if (!optional.isPresent()) {
-            throw new NullPointerException();
-        }
-        return optional.get();
+        return findOne(combineKeyModel).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -130,21 +122,15 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
     @Override
     public List<T> findAll(UniqueKeyPro uniqueKeyPro) {
-        String key = keyWithSuffix(uniqueKeyPro.getName());
-        Set<Object> hashKeys = new HashSet<>();
-        for (Object value : uniqueKeyPro.getValues()) {
-            hashKeys.add(value.toString());
-        }
-        return multiGet(key, hashKeys);
+        return multiGet(keyWithSuffix(uniqueKeyPro.getName()), uniqueKeyPro.getValues()
+                .stream()
+                .map(Objects::toString)
+                .collect(Collectors.toSet()));
     }
 
     @Override
     public T getOne(UniqueKey uniqueKey) {
-        Optional<T> optional = findOne(uniqueKey);
-        if (!optional.isPresent()) {
-            throw new NullPointerException();
-        }
-        return optional.get();
+        return findOne(uniqueKey).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -153,10 +139,9 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     }
 
     private List<T> getAll(String key) {
-        if (key == null) {
-            return Collections.emptyList();
-        }
-        return convertList(redisTemplate.opsForHash().values(key));
+        return Optional.ofNullable(key)
+                .map(s -> convertList(redisTemplate.opsForHash().values(s)))
+                .orElse(Collections.emptyList());
     }
 
     private List<T> multiGet(String key, Collection<Object> hashKeys) {
@@ -176,25 +161,17 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
                 .collect(Collectors.toList());
     }
 
-    private T convert(Object o) {
-        if (o == null) {
-            return null;
-        }
-        return JSON.parseObject(JSON.toJSONString(o), domainType);
+    private Optional<T> convert(Object object) {
+        return Optional.ofNullable(object).map(o -> JSON.parseObject(JSON.toJSONString(o), domainType));
     }
 
     private String key() {
-        if (canalRedis != null) {
-            return canalRedis.key();
-        }
-        return RedisKey.of(schema, tableName);
+        return canalRedisOptional.map(CanalRedis::key).orElse(RedisKey.of(schema, tableName));
     }
 
     private String keyWithSuffix(String suffix) {
-        if (canalRedis != null) {
-            return RedisKey.withSuffix(canalRedis.key(), suffix);
-        }
-        return RedisKey.of(schema, tableName, suffix);
+        return canalRedisOptional.map(o -> RedisKey.withSuffix(o.key(), suffix))
+                .orElse(RedisKey.of(schema, tableName, suffix));
     }
 
 }

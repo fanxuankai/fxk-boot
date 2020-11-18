@@ -45,6 +45,9 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
     @Override
     public Optional<T> findById(ID id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(convert(redisTemplate.opsForHash().get(key(), id.toString())));
     }
 
@@ -65,6 +68,9 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
         }
         Set<Object> idSet = Sets.newHashSet();
         for (Object id : ids) {
+            if (id == null) {
+                continue;
+            }
             idSet.add(id.toString());
         }
         return multiGet(key(), idSet);
@@ -147,10 +153,16 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     }
 
     private List<T> getAll(String key) {
+        if (key == null) {
+            return Collections.emptyList();
+        }
         return convertList(redisTemplate.opsForHash().values(key));
     }
 
     private List<T> multiGet(String key, Collection<Object> hashKeys) {
+        if (key == null || CollectionUtils.isEmpty(hashKeys)) {
+            return Collections.emptyList();
+        }
         return convertList(redisTemplate.opsForHash().multiGet(key, hashKeys));
     }
 

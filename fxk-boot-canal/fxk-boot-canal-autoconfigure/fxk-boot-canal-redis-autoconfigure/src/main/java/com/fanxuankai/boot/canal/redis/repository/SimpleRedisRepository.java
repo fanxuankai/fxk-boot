@@ -11,6 +11,7 @@ import com.fanxuankai.canal.core.util.RedisKey;
 import com.google.common.collect.Sets;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<CanalRedis> canalRedisOptional;
     private final Class<T> domainType;
     private final RedisTemplate<Object, Object> redisTemplate;
@@ -82,23 +84,23 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     }
 
     @Override
-    public T getOne(ID id) {
+    public T getOne(@NonNull ID id) {
         return findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
-    public Optional<T> findOne(UniqueKey uniqueKey) {
+    public Optional<T> findOne(@NonNull UniqueKey uniqueKey) {
         return convert(redisTemplate.opsForHash().get(keyWithSuffix(uniqueKey.getName()),
                 uniqueKey.getValue().toString()));
     }
 
     @Override
-    public boolean exists(UniqueKey uniqueKey) {
+    public boolean exists(@NonNull UniqueKey uniqueKey) {
         return findOne(uniqueKey).isPresent();
     }
 
     @Override
-    public Optional<T> findOne(CombineKeyModel combineKeyModel) {
+    public Optional<T> findOne(@NonNull CombineKeyModel combineKeyModel) {
         List<Entry> entries = combineKeyModel.getEntries();
         List<String> names = entries.stream().map(Entry::getName).collect(Collectors.toList());
         String suffix = RedisKey.suffix(names);
@@ -109,19 +111,22 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     }
 
     @Override
-    public T getOne(CombineKeyModel combineKeyModel) {
+    public T getOne(@NonNull CombineKeyModel combineKeyModel) {
         return findOne(combineKeyModel).orElseThrow(NullPointerException::new);
     }
 
     @Override
     public List<T> findAll(List<String> combineKey) {
+        if (CollectionUtils.isEmpty(combineKey)) {
+            return Collections.emptyList();
+        }
         String suffix = RedisKey.suffix(combineKey);
         String key = keyWithSuffix(suffix);
         return getAll(key);
     }
 
     @Override
-    public List<T> findAll(UniqueKeyPro uniqueKeyPro) {
+    public List<T> findAll(@NonNull UniqueKeyPro uniqueKeyPro) {
         return multiGet(keyWithSuffix(uniqueKeyPro.getName()), uniqueKeyPro.getValues()
                 .stream()
                 .map(Objects::toString)
@@ -129,13 +134,15 @@ public class SimpleRedisRepository<T, ID> implements RedisRepository<T, ID> {
     }
 
     @Override
-    public T getOne(UniqueKey uniqueKey) {
+    public T getOne(@NonNull UniqueKey uniqueKey) {
         return findOne(uniqueKey).orElseThrow(NullPointerException::new);
     }
 
     @Override
     public List<T> findAll(String uniqueKey) {
-        return getAll(keyWithSuffix(uniqueKey));
+        return Optional.ofNullable(uniqueKey)
+                .map(suffix -> getAll(keyWithSuffix(suffix)))
+                .orElse(Collections.emptyList());
     }
 
     private List<T> getAll(String key) {

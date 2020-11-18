@@ -1,6 +1,8 @@
 package com.fanxuankai.boot.canal.redis.repository;
 
 import com.fanxuankai.boot.canal.redis.model.CombineKeyModel;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,7 @@ public interface RedisCombineKeyRepository<T> {
      * @param combineKeyModel 组合键值对
      * @return 查询该组合键下哈希表的某个 hashKey 无数据返回 empty
      */
-    Optional<T> findOne(CombineKeyModel combineKeyModel);
+    Optional<T> findOne(@NonNull CombineKeyModel combineKeyModel);
 
     /**
      * 查询
@@ -26,7 +28,7 @@ public interface RedisCombineKeyRepository<T> {
      * @param combineKeyModel CombineKeyModel
      * @return 无记录抛出 NullPointerException
      */
-    T getOne(CombineKeyModel combineKeyModel);
+    T getOne(@NonNull CombineKeyModel combineKeyModel);
 
     /**
      * 查询所有
@@ -34,6 +36,6 @@ public interface RedisCombineKeyRepository<T> {
      * @param combineKey 组合键
      * @return 返回该组合键下整个哈希表
      */
-    List<T> findAll(List<String> combineKey);
+    List<T> findAll(@Nullable List<String> combineKey);
 
 }

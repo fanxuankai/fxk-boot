@@ -1,5 +1,8 @@
 package com.fanxuankai.boot.canal.redis.repository;
 
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +18,7 @@ public interface RedisRepository<T, ID> extends RedisUniqueKeyRepository<T>, Red
      * @param id 主键
      * @return 有可能为empty
      */
-    Optional<T> findById(ID id);
+    Optional<T> findById(@Nullable ID id);
 
     /**
      * 指定id判断是否存在
@@ -23,7 +26,7 @@ public interface RedisRepository<T, ID> extends RedisUniqueKeyRepository<T>, Red
      * @param id 主键
      * @return true or false
      */
-    boolean existsById(ID id);
+    boolean existsById(@Nullable ID id);
 
     /**
      * 查询所有
@@ -38,7 +41,7 @@ public interface RedisRepository<T, ID> extends RedisUniqueKeyRepository<T>, Red
      * @param ids 主键
      * @return 有可能为empty
      */
-    List<T> findAllById(Iterable<ID> ids);
+    List<T> findAllById(@Nullable Iterable<ID> ids);
 
     /**
      * 判断数量
@@ -53,5 +56,5 @@ public interface RedisRepository<T, ID> extends RedisUniqueKeyRepository<T>, Red
      * @param id 主键
      * @return 无记录抛出 NullPointerException
      */
-    T getOne(ID id);
+    T getOne(@NonNull ID id);
 }

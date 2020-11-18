@@ -2,6 +2,8 @@ package com.fanxuankai.boot.canal.redis.repository;
 
 import com.fanxuankai.boot.canal.redis.model.UniqueKey;
 import com.fanxuankai.boot.canal.redis.model.UniqueKeyPro;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +21,7 @@ public interface RedisUniqueKeyRepository<T> {
      * @param uniqueKey UniqueKey
      * @return 有可能为 empty
      */
-    Optional<T> findOne(UniqueKey uniqueKey);
+    Optional<T> findOne(@NonNull UniqueKey uniqueKey);
 
     /**
      * 判断是否存在
@@ -27,7 +29,7 @@ public interface RedisUniqueKeyRepository<T> {
      * @param uniqueKey UniqueKey
      * @return true or false
      */
-    boolean exists(UniqueKey uniqueKey);
+    boolean exists(@NonNull UniqueKey uniqueKey);
 
     /**
      * 查询所有
@@ -35,7 +37,7 @@ public interface RedisUniqueKeyRepository<T> {
      * @param uniqueKeyPro UniqueKeyPro
      * @return 有可能为 empty
      */
-    List<T> findAll(UniqueKeyPro uniqueKeyPro);
+    List<T> findAll(@NonNull UniqueKeyPro uniqueKeyPro);
 
     /**
      * 查询
@@ -43,7 +45,7 @@ public interface RedisUniqueKeyRepository<T> {
      * @param uniqueKey UniqueKey
      * @return 无记录抛出 NullPointerException
      */
-    T getOne(UniqueKey uniqueKey);
+    T getOne(@NonNull UniqueKey uniqueKey);
 
     /**
      * 查询所有
@@ -51,5 +53,5 @@ public interface RedisUniqueKeyRepository<T> {
      * @param uniqueKey uniqueKey name
      * @return 有可能为 empty
      */
-    List<T> findAll(String uniqueKey);
+    List<T> findAll(@Nullable String uniqueKey);
 }

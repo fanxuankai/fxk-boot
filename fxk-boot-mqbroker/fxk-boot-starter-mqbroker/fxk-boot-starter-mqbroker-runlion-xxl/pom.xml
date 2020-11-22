@@ -17,6 +17,10 @@
             <artifactId>fxk-boot-mqbroker-runlion-xxl-autoconfigure</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.runlion</groupId>
+            <artifactId>xxl-mq-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

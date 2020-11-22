@@ -29,11 +29,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-xxl-mq-autoconfigure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

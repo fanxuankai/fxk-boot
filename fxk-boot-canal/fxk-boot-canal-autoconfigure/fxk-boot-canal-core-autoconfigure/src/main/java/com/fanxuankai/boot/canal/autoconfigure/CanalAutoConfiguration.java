@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -35,12 +36,17 @@ public class CanalAutoConfiguration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        ApplicationContexts.getApplicationContext().getBeansOfType(CanalWorker.class).values().stream()
+        Collection<CanalWorker> canalWorkers =
+                ApplicationContexts.getApplicationContext().getBeansOfType(CanalWorker.class).values();
+        canalWorkers.stream()
                 .peek(canalWorker -> {
                     CanalWorkConfiguration canalWorkConfiguration = canalWorker.getCanalWorkConfiguration();
                     canalWorkConfiguration.setRedisTemplate(redisTemplate);
                     canalWorkConfiguration.setThreadPoolExecutor(threadPoolExecutor);
                 })
                 .forEach(CanalWorker::start);
+        if (!canalWorkers.isEmpty()) {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> canalWorkers.forEach(CanalWorker::stop)));
+        }
     }
 }

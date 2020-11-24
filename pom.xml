@@ -24,6 +24,7 @@
         <module>fxk-boot-redis</module>
         <module>fxk-boot-xxl-mq</module>
         <module>fxk-boot-canal</module>
+        <module>fxk-boot-springfox</module>
     </modules>
 
 </project>

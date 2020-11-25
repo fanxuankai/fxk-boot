@@ -3,10 +3,8 @@ package com.fanxuankai.boot.lock.redis;
 import com.fanxuankai.boot.distributed.lock.DistributedLocker;
 import com.fanxuankai.boot.lock.redis.domian.User;
 import com.fanxuankai.boot.lock.redis.service.UserService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -18,7 +16,6 @@ import java.util.concurrent.TimeUnit;
  * @author fanxuankai
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class RedisLockTest {
 
     @Resource

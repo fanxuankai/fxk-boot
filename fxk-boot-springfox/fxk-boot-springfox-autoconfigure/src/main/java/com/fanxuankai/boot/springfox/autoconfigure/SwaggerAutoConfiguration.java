@@ -147,10 +147,7 @@ public class SwaggerAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(new HandlerInterceptorAdapter() {
-        }).excludePathPatterns("/swagger**/**")
-                .excludePathPatterns("/webjars/**")
-                .excludePathPatterns("/v3/**")
-                .excludePathPatterns("/doc.html");
+        }).excludePathPatterns("/swagger**/**", "/webjars/**", "/v3/**", "/doc.html");
     }
 
 }

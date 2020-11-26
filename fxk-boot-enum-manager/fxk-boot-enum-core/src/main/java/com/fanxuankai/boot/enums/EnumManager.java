@@ -25,18 +25,19 @@ public class EnumManager {
      * @return 可能为 Optional.empty()
      */
     public static <E extends Enum<?>> Optional<E> find(Class<E> enumClass, @Nullable Integer code) {
-        try {
-            Field codeField = enumClass.getDeclaredField(CODE_FIELD);
-            codeField.setAccessible(true);
-            for (E enumConstant : enumClass.getEnumConstants()) {
-                if (Objects.equals(codeField.get(enumConstant), code)) {
-                    return Optional.of(enumConstant);
-                }
-            }
-        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+        return findByField(enumClass, CODE_FIELD, code);
+    }
 
-        }
-        return Optional.empty();
+    /**
+     * 查枚举
+     *
+     * @param enumClass 枚举类型
+     * @param value     枚举值
+     * @param <E>       枚举泛型
+     * @return 可能为 Optional.empty()
+     */
+    public static <E extends Enum<?>> Optional<E> findByValue(Class<E> enumClass, @Nullable String value) {
+        return findByField(enumClass, VALUE_FIELD, value);
     }
 
     /**
@@ -90,6 +91,27 @@ public class EnumManager {
     }
 
     /**
+     * 查枚举 code
+     *
+     * @param enumClass 枚举类型
+     * @param value     枚举值
+     * @param <E>       枚举泛型
+     * @return 可能为 null
+     */
+    public static <E extends Enum<?>> Integer getCode(Class<E> enumClass, @Nullable String value) {
+        return findByValue(enumClass, value)
+                .map(o -> {
+                    try {
+                        Field field = o.getClass().getDeclaredField(CODE_FIELD);
+                        field.setAccessible(true);
+                        return Integer.parseInt(field.get(o).toString());
+                    } catch (IllegalAccessException | NoSuchFieldException e) {
+                        return null;
+                    }
+                }).orElse(null);
+    }
+
+    /**
      * 查枚举
      *
      * @param enumClass 枚举类型
@@ -118,6 +140,21 @@ public class EnumManager {
 
         }
         return false;
+    }
+
+    private static <E extends Enum<?>> Optional<E> findByField(Class<E> enumClass, String field, @Nullable Object obj) {
+        try {
+            Field codeField = enumClass.getDeclaredField(field);
+            codeField.setAccessible(true);
+            for (E enumConstant : enumClass.getEnumConstants()) {
+                if (Objects.equals(codeField.get(enumConstant), obj)) {
+                    return Optional.of(enumConstant);
+                }
+            }
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+
+        }
+        return Optional.empty();
     }
 
 }

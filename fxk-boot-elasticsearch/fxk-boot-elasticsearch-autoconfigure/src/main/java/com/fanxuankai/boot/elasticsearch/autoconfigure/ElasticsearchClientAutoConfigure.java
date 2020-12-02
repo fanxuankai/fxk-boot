@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
@@ -18,7 +19,10 @@ public class ElasticsearchClientAutoConfigure {
     public RestHighLevelClient restHighLevelClient(ElasticsearchClientProperties properties) {
         ClientConfiguration.MaybeSecureClientConfigurationBuilder builder =
                 ClientConfiguration.builder()
-                        .connectedTo(properties.getHostAndPorts().toArray(new String[0]));
+                        .connectedTo(Optional.ofNullable(properties.getHostAndPorts())
+                                .filter(o -> !CollectionUtils.isEmpty(o))
+                                .map(o -> o.toArray(new String[0]))
+                                .orElse(new String[]{"localhost:9200"}));
         if (StringUtils.hasText(properties.getUser()) && StringUtils.hasText(properties.getPassword())) {
             builder.withBasicAuth(properties.getUser(), properties.getPassword());
         }

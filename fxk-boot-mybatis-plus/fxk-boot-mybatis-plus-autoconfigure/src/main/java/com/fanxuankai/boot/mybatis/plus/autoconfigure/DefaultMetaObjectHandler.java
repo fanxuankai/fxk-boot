@@ -44,8 +44,8 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         MybatisPlusProperties.MetaObject propertiesMetaObject = mybatisPlusProperties.getMetaObject();
-        String fieldType = propertiesMetaObject.getCreateDateFieldType();
-        String fieldName = propertiesMetaObject.getCreateDateFieldName();
+        String fieldType = propertiesMetaObject.getModifiedDateFieldType();
+        String fieldName = propertiesMetaObject.getModifiedDateFieldName();
         if (Objects.equals(Date.class.getName(), fieldType)) {
             strictUpdateFill(metaObject, fieldName, Date.class, new Date());
         } else if (Objects.equals(LocalDateTime.class.getName(), fieldType)) {

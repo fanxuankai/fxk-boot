@@ -18,6 +18,7 @@ import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
 import com.fanxuankai.commons.util.AddressUtils;
 import com.fanxuankai.commons.util.concurrent.Threads;
+import com.fanxuankai.spring.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -153,6 +154,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     private void consume(MsgReceive msg, boolean retry) {
         int i = msg.getRetry();
         boolean success = false;
+        msg = BeanUtils.copyProperties(msg, MsgReceive.class);
         do {
             try {
                 eventDistributorFactory.get(msg).accept(msg);
@@ -161,14 +163,10 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
                 LOGGER.error("消息消费失败, code: " + msg.getCode(), throwable);
                 msg.setCause(throwable.getLocalizedMessage());
                 Threads.sleep(1, TimeUnit.SECONDS);
+                msg.setRetry(++i);
             }
-        } while (!success && retry && ++i < mqBrokerProperties.getMaxRetry());
-        msg.setRetry(i);
-        if (success) {
-            if (i > msg.getRetry()) {
-                updateRetry(msg);
-            }
-        } else {
+        } while (!success && retry && i < mqBrokerProperties.getMaxRetry());
+        if (!success) {
             failure(msg);
         }
     }

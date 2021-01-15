@@ -5,6 +5,7 @@ import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
+import com.fanxuankai.commons.util.AddressUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -49,6 +50,7 @@ public abstract class AbstractEventDistributor implements EventDistributor, Cons
         Optional.ofNullable(msg.getRetryCount())
                 .ifPresent(event::setRetryCount);
         distribute(event);
+        msg.setHostAddress(AddressUtils.getHostAddress());
         msgReceiveService.success(msg);
     }
 

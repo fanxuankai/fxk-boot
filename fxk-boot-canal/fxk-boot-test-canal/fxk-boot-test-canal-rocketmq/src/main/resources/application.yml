@@ -6,3 +6,13 @@ canal:
       show-entry-log: true
       show-event-log: true
     enabled: true
+rocketmq:
+  name-server: 192.168.173.172:9876
+  producer:
+    group: canal-group
+    send-message-timeout: 300000
+    compress-message-body-threshold: 4096
+    max-message-size: 4194304
+    retry-times-when-send-async-failed: 0
+    retry-next-server: true
+    retry-times-when-send-failed: 2

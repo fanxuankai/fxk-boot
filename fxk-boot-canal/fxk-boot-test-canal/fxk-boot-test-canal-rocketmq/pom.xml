@@ -16,6 +16,11 @@
             <groupId>com.fanxuankai.boot</groupId>
             <artifactId>fxk-boot-starter-canal-rocketmq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-test-canal-mq-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

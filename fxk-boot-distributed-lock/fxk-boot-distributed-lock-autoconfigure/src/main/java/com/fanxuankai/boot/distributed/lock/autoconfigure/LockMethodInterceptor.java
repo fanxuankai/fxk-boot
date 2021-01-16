@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -29,16 +30,22 @@ public class LockMethodInterceptor implements MethodInterceptor {
     }
 
     @Override
-    public Object invoke(MethodInvocation methodInvocation) throws Exception {
+    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         Lock lock = methodInvocation.getMethod().getAnnotation(Lock.class);
-        return distributedLocker.lock(getKey(lock, methodInvocation), lock.waitTimeMillis(),
+        AtomicBoolean proceedError = new AtomicBoolean();
+        Object result = distributedLocker.lock(getKey(lock, methodInvocation), lock.waitTimeMillis(),
                 lock.releaseTimeMillis(), () -> {
                     try {
                         return methodInvocation.proceed();
                     } catch (Throwable throwable) {
-                        throw new RuntimeException(throwable);
+                        proceedError.set(true);
+                        return throwable;
                     }
                 });
+        if (proceedError.get() && result instanceof Throwable) {
+            throw (Throwable) result;
+        }
+        return result;
     }
 
     private String getKey(Lock lock, MethodInvocation methodInvocation) {

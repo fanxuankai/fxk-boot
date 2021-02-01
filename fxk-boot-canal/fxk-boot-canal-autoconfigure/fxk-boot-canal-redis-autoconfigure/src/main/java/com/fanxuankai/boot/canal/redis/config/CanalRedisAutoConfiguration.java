@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.canal.redis.config;
 
 import com.fanxuankai.canal.redis.CanalRedisWorker;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,6 @@ import javax.annotation.Resource;
 /**
  * @author fanxuankai
  */
-@ConditionalOnProperty(prefix = CanalRedisProperties.PREFIX, name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(CanalRedisProperties.class)
 public class CanalRedisAutoConfiguration {
 
@@ -19,6 +19,8 @@ public class CanalRedisAutoConfiguration {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Bean
+    @ConditionalOnProperty(prefix = CanalRedisProperties.PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnMissingBean
     public CanalRedisWorker canalRedisWorker(CanalRedisProperties canalRedisProperties) {
         return CanalRedisWorker.newCanalWorker(canalRedisProperties.getConfiguration(), canalRedisProperties,
                 redisTemplate);

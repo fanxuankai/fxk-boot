@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.mybatis.plus.autoconfigure;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -38,6 +39,17 @@ public class MybatisPlusAutoconfigure {
     @ConditionalOnMissingBean
     public MetaObjectHandler metaObjectHandler() {
         return new DefaultMetaObjectHandler();
+    }
+
+    /**
+     * 批量插入插件配置
+     *
+     * @return ISqlInjector
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ISqlInjector defaultSqlInjector() {
+        return new InsertBatchInjector();
     }
 
 }

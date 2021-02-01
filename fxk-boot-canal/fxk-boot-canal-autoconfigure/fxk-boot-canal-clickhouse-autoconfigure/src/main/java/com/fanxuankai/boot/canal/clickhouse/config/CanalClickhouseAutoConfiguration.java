@@ -10,10 +10,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author fanxuankai
  */
 @EnableConfigurationProperties(CanalClickhouseProperties.class)
-@ConditionalOnProperty(prefix = CanalClickhouseProperties.PREFIX, name = "enabled", havingValue = "true")
 public class CanalClickhouseAutoConfiguration {
 
     @Bean
+    @ConditionalOnProperty(prefix = CanalClickhouseProperties.PREFIX, name = "enabled", havingValue = "true")
     public CanalClickhouseWorker canalClickhouseWorker(CanalClickhouseProperties canalClickhouseProperties,
                                                        JdbcTemplate jdbcTemplate) {
         return CanalClickhouseWorker.newCanalWorker(canalClickhouseProperties.getConfiguration(),

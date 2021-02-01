@@ -12,10 +12,12 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = CanalClickhouseProperties.PREFIX)
 public class CanalClickhouseProperties extends CanalDbConfiguration {
     public static final String PREFIX = Constants.PREFIX + Constants.SEPARATOR + "clickhouse";
+
     /**
      * 是否开启 canal 服务
      */
     private Boolean enabled = Boolean.TRUE;
+
     @NestedConfigurationProperty
     private CanalConfiguration configuration = new CanalConfiguration();
 

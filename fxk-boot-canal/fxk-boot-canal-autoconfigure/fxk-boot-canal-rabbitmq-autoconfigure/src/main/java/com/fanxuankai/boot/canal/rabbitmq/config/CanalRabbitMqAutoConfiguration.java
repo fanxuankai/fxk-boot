@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
@@ -20,6 +21,7 @@ public class CanalRabbitMqAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = CanalMqProperties.PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnMissingBean
     public CanalRabbitMqWorker canalRabbitMqWorker(CanalMqProperties canalMqProperties,
                                                    RabbitTemplate rabbitTemplate,
                                                    AmqpAdmin amqpAdmin) {

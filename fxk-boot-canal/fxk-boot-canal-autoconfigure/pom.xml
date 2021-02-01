@@ -24,6 +24,7 @@
         <module>fxk-boot-canal-redis-autoconfigure</module>
         <module>fxk-boot-canal-rocketmq-autoconfigure</module>
         <module>fxk-boot-canal-xxlmq-autoconfigure</module>
+        <module>fxk-boot-canal-clickhouse-autoconfigure</module>
     </modules>
 
     <dependencies>

@@ -23,6 +23,7 @@
         <module>fxk-boot-starter-canal-redis</module>
         <module>fxk-boot-starter-canal-rocketmq</module>
         <module>fxk-boot-starter-canal-xxlmq</module>
+        <module>fxk-boot-starter-canal-clickhouse</module>
     </modules>
 
     <dependencies>

@@ -6,4 +6,6 @@ canal:
       show-entry-log: true
       show-event-log: true
       batch-size: 10000
+      cluster:
+        nodes: localhost:3181,localhost:3182,localhost:3183
     enabled: true

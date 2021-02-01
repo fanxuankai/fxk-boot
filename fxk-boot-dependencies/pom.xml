@@ -368,6 +368,11 @@
             </dependency>
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-canal-clickhouse-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-canal-rabbitmq-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -421,6 +426,11 @@
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-starter-canal-mysql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-canal-clickhouse</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

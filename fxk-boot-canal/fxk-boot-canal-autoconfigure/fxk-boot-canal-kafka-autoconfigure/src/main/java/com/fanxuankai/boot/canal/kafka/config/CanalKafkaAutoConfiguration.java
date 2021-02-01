@@ -3,6 +3,7 @@ package com.fanxuankai.boot.canal.kafka.config;
 import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
 import com.fanxuankai.canal.kafka.CanalKafkaWorker;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -21,6 +22,7 @@ public class CanalKafkaAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = CanalMqProperties.PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnMissingBean
     public CanalKafkaWorker canalKafkaWorker(CanalMqProperties canalMqProperties,
                                              KafkaTemplate<String, String> kafkaTemplate) {
         return CanalKafkaWorker.newCanalWorker(canalMqProperties.getConfiguration(), canalMqProperties, kafkaTemplate);

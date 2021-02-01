@@ -29,6 +29,7 @@
         <module>fxk-boot-test-canal-redis</module>
         <module>fxk-boot-test-canal-rocketmq</module>
         <module>fxk-boot-test-canal-xxlmq</module>
+        <module>fxk-boot-test-canal-clickhouse</module>
     </modules>
 
     <dependencies>

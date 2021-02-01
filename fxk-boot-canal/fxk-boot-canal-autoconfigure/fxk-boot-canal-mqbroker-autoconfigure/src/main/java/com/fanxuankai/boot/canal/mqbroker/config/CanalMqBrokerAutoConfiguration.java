@@ -9,6 +9,7 @@ import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -27,6 +28,7 @@ public class CanalMqBrokerAutoConfiguration implements ApplicationContextAware {
 
     @Bean
     @ConditionalOnProperty(prefix = CanalMqProperties.PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnMissingBean
     public CanalMqBrokerWorker canalMqBrokerWorker(CanalMqProperties canalMqProperties,
                                                    EventPublisher<String> eventPublisher) {
         return CanalMqBrokerWorker.newCanalWorker(canalMqProperties.getConfiguration(), canalMqProperties,

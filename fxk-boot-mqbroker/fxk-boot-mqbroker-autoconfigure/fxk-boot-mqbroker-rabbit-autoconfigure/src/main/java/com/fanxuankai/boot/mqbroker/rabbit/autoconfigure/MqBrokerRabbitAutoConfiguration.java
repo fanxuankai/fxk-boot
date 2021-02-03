@@ -98,10 +98,11 @@ public class MqBrokerRabbitAutoConfiguration {
                 msgSendService.failure(topic, code, Optional.ofNullable(cause).orElse("nack"));
             }
         });
-        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
-            Event<String> event = (Event<String>) converter.fromMessage(message);
-            String cause = "replyCode: " + replyCode + ", replyText: " + replyText + ", exchange: " + exchange;
-            msgSendService.failure(routingKey, event.getKey(), cause);
+        rabbitTemplate.setReturnsCallback(returned -> {
+            Event<String> event = (Event<String>) converter.fromMessage(returned.getMessage());
+            String cause = "replyCode: " + returned.getReplyCode() + ", replyText: " + returned.getReplyText() + ", " +
+                    "exchange: " + returned.getExchange();
+            msgSendService.failure(returned.getRoutingKey(), event.getKey(), cause);
         });
         Exchange exchange = new DirectExchange("mqBrokerRabbit.exchange");
         amqpAdmin.declareExchange(exchange);

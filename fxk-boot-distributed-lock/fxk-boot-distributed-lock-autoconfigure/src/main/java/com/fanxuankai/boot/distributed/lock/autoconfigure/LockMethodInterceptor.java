@@ -55,7 +55,7 @@ public class LockMethodInterceptor implements MethodInterceptor {
 
     private String getBusiness(Lock lock, MethodInvocation methodInvocation) {
         String business = lock.business();
-        if (StringUtils.isEmpty(business)) {
+        if (!StringUtils.hasText(business)) {
             Method method = methodInvocation.getMethod();
             business = method.getDeclaringClass().getName() + "." + method.getName();
         }
@@ -64,7 +64,7 @@ public class LockMethodInterceptor implements MethodInterceptor {
 
     private List<Object> getResources(Lock lock, MethodInvocation methodInvocation) {
         String[] expressions = lock.resources();
-        if (StringUtils.isEmpty(expressions)) {
+        if (expressions.length == 0) {
             return Collections.emptyList();
         }
         Method method = methodInvocation.getMethod();

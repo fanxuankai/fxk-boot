@@ -71,7 +71,7 @@ public class LockMethodInterceptor implements MethodInterceptor {
         Object[] arguments = methodInvocation.getArguments();
         Parameter[] parameters = method.getParameters();
         EvaluationContext context = new StandardEvaluationContext();
-        if (arguments != null && arguments.length > 0) {
+        if (arguments.length > 0) {
             for (int i = 0; i < parameters.length; i++) {
                 context.setVariable(parameters[i].getName(), arguments[i]);
             }

@@ -14,11 +14,16 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 @EnableConfigurationProperties(CanalEsProperties.class)
 public class CanalEsAutoConfiguration {
 
+    private final IndexDefinitionManager indexDefinitionManager;
+
+    public CanalEsAutoConfiguration(IndexDefinitionManager indexDefinitionManager) {
+        this.indexDefinitionManager = indexDefinitionManager;
+    }
+
     @Bean
     @ConditionalOnProperty(prefix = CanalEsProperties.PREFIX, name = "enabled", havingValue = "true")
     @ConditionalOnMissingBean
-    public CanalElasticsearchWorker canalElasticsearchWorker(IndexDefinitionManager indexDefinitionManager,
-                                                             CanalEsProperties canalEsProperties,
+    public CanalElasticsearchWorker canalElasticsearchWorker(CanalEsProperties canalEsProperties,
                                                              ElasticsearchRestTemplate elasticsearchRestTemplate) {
         return CanalElasticsearchWorker.newCanalWorker(canalEsProperties.getConfiguration(), canalEsProperties,
                 indexDefinitionManager, elasticsearchRestTemplate);

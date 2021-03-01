@@ -5,14 +5,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import com.fanxuankai.boot.mybatis.plus.core.annotation.strategy.QueryHandlerRegistry;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fanxuankai
  */
-public class QueryHelp {
+public class QueryHelper {
+
+    public static QueryHandlerRegistry REGISTRY = QueryHandlerRegistry.newInstance();
 
     /**
      * 查询条件类转 QueryWrapper
@@ -77,58 +83,7 @@ public class QueryHelp {
             }
             ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(attributeName));
             String column = columnCache.getColumn();
-            setupWrapper(wrapper, q, column, val);
-        }
-    }
-
-    private static <T> void setupWrapper(AbstractWrapper<T, String, ?> wrapper, Query q, String column, Object val) {
-        switch (q.type()) {
-            case EQ:
-                wrapper.eq(column, val);
-                break;
-            case GE:
-                wrapper.ge(column, val);
-                break;
-            case LE:
-                wrapper.le(column, val);
-                break;
-            case LIKE:
-                wrapper.like(column, val);
-                break;
-            case LIKE_LEFT:
-                wrapper.likeLeft(column, val);
-                break;
-            case LIKE_RIGHT:
-                wrapper.likeRight(column, val);
-                break;
-            case GT:
-                wrapper.gt(column, val);
-                break;
-            case LT:
-                wrapper.lt(column, val);
-                break;
-            case IN:
-                if (val instanceof Collection) {
-                    wrapper.in(column, (Collection<?>) val);
-                }
-                break;
-            case NE:
-                wrapper.ne(column, val);
-                break;
-            case BETWEEN:
-                if (val instanceof Collection) {
-                    List<?> between = new ArrayList<>((Collection<?>) val);
-                    wrapper.between(column, between.get(0), between.get(1));
-                }
-                break;
-            case NOT_NULL:
-                wrapper.isNotNull(column);
-                break;
-            case IS_NULL:
-                wrapper.isNull(column);
-                break;
-            default:
-                break;
+            REGISTRY.get(q.type()).handle(wrapper, column, val);
         }
     }
 

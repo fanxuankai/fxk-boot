@@ -57,6 +57,11 @@ public @interface Query {
         LIKE,
 
         /**
+         * not like(%*%)
+         */
+        NOT_LIKE,
+
+        /**
          * like(%*)
          */
         LIKE_LEFT,
@@ -82,6 +87,11 @@ public @interface Query {
         IN,
 
         /**
+         * not in
+         */
+        NOT_IN,
+
+        /**
          * <>
          */
         NE,
@@ -92,6 +102,11 @@ public @interface Query {
         BETWEEN,
 
         /**
+         * not between
+         */
+        NOT_BETWEEN,
+
+        /**
          * not null
          */
         NOT_NULL,
@@ -99,7 +114,17 @@ public @interface Query {
         /**
          * is null
          */
-        IS_NULL
+        IS_NULL,
+
+        /**
+         * order by asc
+         */
+        ORDER_BY_ASC,
+
+        /**
+         * order by desc
+         */
+        ORDER_BY_DESC,
     }
 
 }

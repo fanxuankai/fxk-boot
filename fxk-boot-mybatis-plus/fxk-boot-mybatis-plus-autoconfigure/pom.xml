@@ -36,8 +36,9 @@
             <artifactId>javax.annotation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-mybatis-plus-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

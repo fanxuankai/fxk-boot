@@ -1,5 +1,6 @@
-package com.fanxuankai.boot.mybatis.plus.autoconfigure;
+package com.fanxuankai.boot.mybatis.plus.core.util;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.function.Function;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class PageHelper {
 
-    private static final Page<?> EMPTY_PAGE = new Page<>();
+    private static final IPage<?> EMPTY_PAGE = new Page<>();
 
     /**
      * 空的 Page 对象
@@ -21,8 +22,8 @@ public class PageHelper {
      * @return Page
      */
     @SuppressWarnings("unchecked")
-    public static <T> Page<T> emptyPage() {
-        return (Page<T>) EMPTY_PAGE;
+    public static <T> IPage<T> emptyPage() {
+        return (IPage<T>) EMPTY_PAGE;
     }
 
     /**
@@ -32,9 +33,9 @@ public class PageHelper {
      * @param function 转换方法
      * @param <T>      转换前类型
      * @param <R>      转换后类型
-     * @return Page
+     * @return IPage
      */
-    public static <T, R> Page<R> convert(Page<T> page, Function<T, R> function) {
+    public static <T, R> IPage<R> convert(IPage<T> page, Function<T, R> function) {
         return new Page<R>(page.getCurrent(), page.getSize())
                 .setRecords(page.getRecords()
                         .stream()

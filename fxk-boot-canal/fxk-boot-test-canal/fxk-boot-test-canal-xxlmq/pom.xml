@@ -8,9 +8,9 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>fxk-boot-test-canal-xxlmq</artifactId>
-
+    <name>FXK Boot Test Canal XXL MQ</name>
+    <description>FXK Boot Test Canal XXL MQ</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
@@ -22,5 +22,4 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>

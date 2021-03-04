@@ -2,15 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-mqbroker-autoconfigure</artifactId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>fxk-boot-mqbroker-rabbit-autoconfigure</artifactId>
-
+    <name>FXK Boot MQ Broker Rabbit Autoconfigure</name>
+    <description>FXK Boot MQ Broker Rabbit Autoconfigure</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
@@ -26,5 +26,4 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
-
 </project>

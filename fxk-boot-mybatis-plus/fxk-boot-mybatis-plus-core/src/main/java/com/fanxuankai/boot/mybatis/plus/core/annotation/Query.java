@@ -42,12 +42,12 @@ public @interface Query {
         EQ,
 
         /**
-         * >=
+         * &gt;=
          */
         GE,
 
         /**
-         * <=
+         * &lt;=
          */
         LE,
 
@@ -72,12 +72,12 @@ public @interface Query {
         LIKE_RIGHT,
 
         /**
-         * >
+         * &gt;
          */
         GT,
 
         /**
-         * <
+         * &lt;
          */
         LT,
 
@@ -92,7 +92,7 @@ public @interface Query {
         NOT_IN,
 
         /**
-         * <>
+         * &lt;&gt;
          */
         NE,
 

@@ -2,18 +2,19 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>fxk-boot-parent</artifactId>
-        <groupId>com.fanxuankai.boot</groupId>
-        <version>${revision}</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../fxk-boot-parent</relativePath>
+    </parent>
     <artifactId>fxk-boot-springfox</artifactId>
     <packaging>pom</packaging>
+    <name>FXK Boot SpringFox</name>
+    <description>FXK Boot SpringFox</description>
     <modules>
         <module>fxk-boot-springfox-autoconfigure</module>
         <module>fxk-boot-starter-springfox</module>
     </modules>
-
 </project>

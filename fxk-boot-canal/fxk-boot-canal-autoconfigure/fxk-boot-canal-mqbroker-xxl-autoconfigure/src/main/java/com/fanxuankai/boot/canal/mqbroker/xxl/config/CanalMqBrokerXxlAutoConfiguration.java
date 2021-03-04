@@ -26,7 +26,7 @@ public class CanalMqBrokerXxlAutoConfiguration implements ApplicationContextAwar
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         consumerHelper.accept((definition, s) -> {
-            // EventListenerRegistry 代码注册方式不支持匿名类
+            // EventListenerRegistry 代码注册方式不支持匿名类(无法获取泛型)
             EventListener<String> eventListener = new EventListener<String>() {
                 @Override
                 public void onEvent(Event<String> event) {

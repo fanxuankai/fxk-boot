@@ -2,14 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-distributed-id</artifactId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>fxk-boot-ddid-autoconfigure</artifactId>
+    <name>FXK Boot Dang Dang ID Autoconfigure</name>
+    <description>FXK Boot Dang Dang ID Autoconfigure</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,5 +35,4 @@
             <artifactId>sharding-jdbc-self-id-generator</artifactId>
         </dependency>
     </dependencies>
-
 </project>

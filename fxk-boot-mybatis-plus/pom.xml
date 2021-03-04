@@ -2,19 +2,20 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-parent</artifactId>
         <version>${revision}</version>
+        <relativePath>../fxk-boot-parent</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>fxk-boot-mybatis-plus</artifactId>
     <packaging>pom</packaging>
-
+    <name>FXK Boot Mybatis Plus</name>
+    <description>FXK Boot Mybatis Plus</description>
     <modules>
         <module>fxk-boot-mybatis-plus-autoconfigure</module>
         <module>fxk-boot-starter-mybatis-plus</module>
         <module>fxk-boot-mybatis-plus-core</module>
     </modules>
-
 </project>

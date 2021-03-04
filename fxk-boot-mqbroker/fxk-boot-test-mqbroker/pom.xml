@@ -2,19 +2,19 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-mqbroker</artifactId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>fxk-boot-test-mqbroker</artifactId>
     <packaging>pom</packaging>
-
+    <name>FXK Boot Test MQ Broker</name>
+    <description>FXK Boot Test MQ Broker</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-
     <modules>
         <module>fxk-boot-test-mqbroker-common</module>
         <module>fxk-boot-test-mqbroker-kafka</module>
@@ -23,7 +23,6 @@
         <module>fxk-boot-test-mqbroker-runlion-xxl</module>
         <module>fxk-boot-test-mqbroker-xxl</module>
     </modules>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,5 +37,4 @@
             <artifactId>jmockdata</artifactId>
         </dependency>
     </dependencies>
-
 </project>

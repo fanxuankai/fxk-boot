@@ -2,20 +2,19 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-canal</artifactId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>fxk-boot-test-canal</artifactId>
     <packaging>pom</packaging>
-
+    <name>FXK Boot Test Canal</name>
+    <description>FXK Boot Test Canal</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-
     <modules>
         <module>fxk-boot-test-canal-elasticsearch</module>
         <module>fxk-boot-test-canal-kafka</module>
@@ -31,12 +30,10 @@
         <module>fxk-boot-test-canal-xxlmq</module>
         <module>fxk-boot-test-canal-clickhouse</module>
     </modules>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
-
 </project>

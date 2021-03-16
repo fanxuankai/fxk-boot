@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * @author fanxuankai
  */
-public class NotBetweenQueryHandler extends AbstractQueryHandler {
+public class NotBetweenWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
         if (val instanceof Collection) {
             List<?> betweenVal = new ArrayList<>((Collection<?>) val);
             wrapper.notBetween(column, betweenVal.get(0), betweenVal.get(1));

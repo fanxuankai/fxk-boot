@@ -6,14 +6,16 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class NeQueryHandler extends AbstractQueryHandler {
+public class OrderByDescWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.ne(column, val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        if (val instanceof Boolean) {
+            wrapper.orderByDesc((boolean) val, column);
+        }
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.NE;
+        return Query.Type.ORDER_BY_DESC;
     }
 }

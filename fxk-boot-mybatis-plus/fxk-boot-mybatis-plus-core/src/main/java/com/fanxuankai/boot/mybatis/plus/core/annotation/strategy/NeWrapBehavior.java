@@ -6,14 +6,14 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class NotLikeQueryHandler extends AbstractQueryHandler {
+public class NeWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.notLike(column, val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        wrapper.ne(column, val);
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.NOT_LIKE;
+        return Query.Type.NE;
     }
 }

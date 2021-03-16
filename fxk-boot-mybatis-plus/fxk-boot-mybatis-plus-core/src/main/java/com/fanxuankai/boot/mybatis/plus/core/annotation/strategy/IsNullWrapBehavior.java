@@ -6,14 +6,16 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class OrderByAscQueryHandler extends AbstractQueryHandler {
+public class IsNullWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.orderByAsc((boolean) val, column);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        if (val instanceof Boolean) {
+            wrapper.isNull((boolean) val, column);
+        }
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.ORDER_BY_ASC;
+        return Query.Type.IS_NULL;
     }
 }

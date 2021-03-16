@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Query {
-
     /**
      * 属性名
      *
@@ -126,6 +125,5 @@ public @interface Query {
          */
         ORDER_BY_DESC,
     }
-
 }
 

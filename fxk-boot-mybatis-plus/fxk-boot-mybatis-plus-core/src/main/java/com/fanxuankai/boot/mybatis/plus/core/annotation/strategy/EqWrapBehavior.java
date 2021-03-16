@@ -6,14 +6,14 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class GeQueryHandler extends AbstractQueryHandler {
+public class EqWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.ge(column, val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        wrapper.eq(column, val);
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.GE;
+        return Query.Type.EQ;
     }
 }

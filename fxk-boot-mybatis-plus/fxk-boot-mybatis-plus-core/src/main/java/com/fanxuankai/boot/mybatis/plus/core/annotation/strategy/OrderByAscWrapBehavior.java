@@ -3,21 +3,19 @@ package com.fanxuankai.boot.mybatis.plus.core.annotation.strategy;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 
-import java.util.Collection;
-
 /**
  * @author fanxuankai
  */
-public class InQueryHandler extends AbstractQueryHandler {
+public class OrderByAscWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        if (val instanceof Collection) {
-            wrapper.in(column, (Collection<?>) val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        if (val instanceof Boolean) {
+            wrapper.orderByAsc((boolean) val, column);
         }
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.IN;
+        return Query.Type.ORDER_BY_ASC;
     }
 }

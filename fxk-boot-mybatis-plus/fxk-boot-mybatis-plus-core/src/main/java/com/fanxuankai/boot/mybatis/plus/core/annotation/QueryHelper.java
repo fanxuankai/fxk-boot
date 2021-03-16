@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
-import com.fanxuankai.boot.mybatis.plus.core.annotation.strategy.QueryHandlerRegistry;
+import com.fanxuankai.boot.mybatis.plus.core.annotation.strategy.QueryCriteriaWrapper;
+import com.fanxuankai.boot.mybatis.plus.core.annotation.strategy.WrapBehaviorLoader;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +16,6 @@ import java.util.Map;
  * @author fanxuankai
  */
 public class QueryHelper {
-
-    public static QueryHandlerRegistry REGISTRY = QueryHandlerRegistry.newInstance();
-
     /**
      * 查询条件类转 QueryWrapper
      *
@@ -34,7 +30,7 @@ public class QueryHelper {
             return Wrappers.emptyWrapper();
         }
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        init(wrapper, entityClass, criteria);
+        wrap(wrapper, entityClass, criteria);
         return wrapper;
     }
 
@@ -52,13 +48,14 @@ public class QueryHelper {
         if (criteria == null) {
             return wrapper;
         }
-        init(wrapper, entityClass, criteria);
+        wrap(wrapper, entityClass, criteria);
         return wrapper;
     }
 
-    private static <T, C> void init(AbstractWrapper<T, String, ?> wrapper, Class<T> entityClass, C criteria) {
+    private static <T, C> void wrap(AbstractWrapper<T, String, ?> wrapper, Class<T> entityClass, C criteria) {
         Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(entityClass);
-        List<Field> fields = getAllFields(criteria.getClass(), new ArrayList<>());
+        List<Field> fields = ReflectionKit.getFieldList(criteria.getClass());
+        QueryCriteriaWrapper queryCriteriaWrapper = new QueryCriteriaWrapper();
         for (Field field : fields) {
             field.setAccessible(true);
             Query q = field.getAnnotation(Query.class);
@@ -83,15 +80,8 @@ public class QueryHelper {
             }
             ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(attributeName));
             String column = columnCache.getColumn();
-            REGISTRY.get(q.type()).handle(wrapper, column, val);
+            queryCriteriaWrapper.setWrapBehavior(WrapBehaviorLoader.get(q.type()));
+            queryCriteriaWrapper.wrap(wrapper, column, val);
         }
-    }
-
-    private static List<Field> getAllFields(Class<?> clazz, List<Field> fields) {
-        if (clazz != null) {
-            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
-            getAllFields(clazz.getSuperclass(), fields);
-        }
-        return fields;
     }
 }

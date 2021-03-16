@@ -6,14 +6,14 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class LeQueryHandler extends AbstractQueryHandler {
+public class LtWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.le(column, val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        wrapper.lt(column, val);
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.LE;
+        return Query.Type.LT;
     }
 }

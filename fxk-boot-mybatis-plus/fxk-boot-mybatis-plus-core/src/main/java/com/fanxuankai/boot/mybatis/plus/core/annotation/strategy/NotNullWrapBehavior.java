@@ -6,14 +6,16 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class OrderByDescQueryHandler extends AbstractQueryHandler {
+public class NotNullWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.orderByDesc((boolean) val, column);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        if (val instanceof Boolean) {
+            wrapper.isNotNull((boolean) val, column);
+        }
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.ORDER_BY_DESC;
+        return Query.Type.NOT_NULL;
     }
 }

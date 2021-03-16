@@ -6,14 +6,14 @@ import com.fanxuankai.boot.mybatis.plus.core.annotation.Query;
 /**
  * @author fanxuankai
  */
-public class GtQueryHandler extends AbstractQueryHandler {
+public class LikeLeftWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
-        wrapper.gt(column, val);
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+        wrapper.likeLeft(column, val);
     }
 
     @Override
     protected Query.Type getType() {
-        return Query.Type.GT;
+        return Query.Type.LIKE_LEFT;
     }
 }

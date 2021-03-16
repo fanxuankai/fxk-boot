@@ -8,9 +8,9 @@ import java.util.Collection;
 /**
  * @author fanxuankai
  */
-public class NotInQueryHandler extends AbstractQueryHandler {
+public class NotInWrapBehavior extends AbstractWrapBehavior {
     @Override
-    public void handle(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
+    public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
         if (val instanceof Collection) {
             wrapper.notIn(column, (Collection<?>) val);
         }

@@ -114,6 +114,8 @@ public class EnumTest {
         generateModel.setAuth("fanxuankai");
         generateModel.setPath(new File("").getAbsoluteFile().getAbsolutePath() + "/src/test/java");
         generateModel.setPackageName("com.fanxuankai.boot.enums");
+        generateModel.setIncrement(true);
+        generateModel.setGenerateDataOnly(true);
         enumGenerator.generate(generateModel);
     }
 }

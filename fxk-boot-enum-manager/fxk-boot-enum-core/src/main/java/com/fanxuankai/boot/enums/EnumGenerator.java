@@ -14,7 +14,6 @@ import freemarker.template.TemplateExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
@@ -26,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +33,6 @@ import java.util.stream.Collectors;
 @Service
 public class EnumGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnumGenerator.class);
-
     @Resource
     private EnumTypeService enumTypeService;
     @Resource
@@ -44,19 +41,27 @@ public class EnumGenerator {
     /**
      * 生成枚举数据和枚举类
      *
-     * @param generateModel 不需要创建枚举类时传 null
+     * @param generateModel /
      */
     @Transactional(rollbackFor = Exception.class)
-    public void generate(@Nullable GenerateModel generateModel) {
-        // 清空枚举数据
-        delete();
-        // 插入枚举数据
-        add();
-        if (generateModel == null) {
-            return;
+    public void generate(GenerateModel generateModel) {
+        List<EnumType> enumTypes;
+        if (generateModel.isIncrement()) {
+            List<EnumDTO> incrementEnumDtoList = enumService.addIncrement(getEnumFromJson());
+            if (incrementEnumDtoList.isEmpty()) {
+                return;
+            }
+            enumTypes = enumTypeService.list(incrementEnumDtoList.stream()
+                    .map(EnumDTO::getEnumType)
+                    .map(EnumDTO.EnumType::getName).collect(Collectors.toList()));
+        } else {
+            // 清空枚举数据
+            delete();
+            // 插入枚举数据
+            enumService.add(getEnumFromJson());
+            enumTypes = enumTypeService.list();
         }
-        List<EnumType> enumTypes = enumTypeService.list();
-        if (enumTypes.isEmpty()) {
+        if (generateModel.isGenerateDataOnly() || enumTypes.isEmpty()) {
             return;
         }
         Map<Long, List<Enum>> map = map(enumTypes.stream().map(EnumType::getId).collect(Collectors.toList()));
@@ -111,9 +116,8 @@ public class EnumGenerator {
                 .collect(Collectors.toList()));
     }
 
-    private void add() {
-        Objects.requireNonNull(JSON.parseArray(getEnumJsonString(), EnumDTO.class))
-                .forEach(enumDTO -> enumService.add(enumDTO));
+    private List<EnumDTO> getEnumFromJson() {
+        return JSON.parseArray(getEnumJsonString(), EnumDTO.class);
     }
 
     private String getEnumJsonString() {

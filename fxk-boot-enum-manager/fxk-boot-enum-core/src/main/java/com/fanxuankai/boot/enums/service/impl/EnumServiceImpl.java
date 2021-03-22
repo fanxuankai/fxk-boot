@@ -115,6 +115,24 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
     }
 
     @Override
+    public List<EnumDTO> addIncrement(List<EnumDTO> dtoList) {
+        if (CollectionUtils.isEmpty(dtoList)) {
+            return Collections.emptyList();
+        }
+        List<String> enumTypeNames = dtoList.stream()
+                .map(EnumDTO::getEnumType)
+                .map(EnumDTO.EnumType::getName)
+                .distinct().collect(Collectors.toList());
+        Set<String> existsEnumTypeNames =
+                enumTypeService.list(enumTypeNames).stream().map(EnumType::getName).collect(Collectors.toSet());
+        List<EnumDTO> incrementList =
+                dtoList.stream().filter(enumDTO -> !existsEnumTypeNames.contains(enumDTO.getEnumType().getName()))
+                        .collect(Collectors.toList());
+        add(incrementList);
+        return incrementList;
+    }
+
+    @Override
     public void add(String typeName, EnumDTO.Enum anEnum) {
         Optional<EnumVO> optional = find(typeName);
         if (!optional.isPresent()) {

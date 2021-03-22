@@ -28,6 +28,14 @@ public interface EnumService extends IService<Enum> {
     void add(List<EnumDTO> dtoList);
 
     /**
+     * 批量新增枚举类型,增量模式
+     *
+     * @param dtoList 枚举数据
+     * @return List 增量的数据
+     */
+    List<EnumDTO> addIncrement(List<EnumDTO> dtoList);
+
+    /**
      * 增加枚举
      *
      * @param typeName 枚举类名

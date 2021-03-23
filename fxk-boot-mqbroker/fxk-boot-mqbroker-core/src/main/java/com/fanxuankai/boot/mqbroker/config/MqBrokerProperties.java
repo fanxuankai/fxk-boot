@@ -15,19 +15,10 @@ import java.util.Map;
 @ConfigurationProperties(prefix = MqBrokerProperties.PREFIX)
 public class MqBrokerProperties {
     public static final String PREFIX = "mq-broker";
-    public static final String DING_TALK_PREFIX = PREFIX + ".ding-talk";
     /**
-     * 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
-     */
-    private int msgSize = 1_000;
-    /**
-     * 最大重试次数
+     * 消费失败时, 最大重试次数
      */
     private int maxRetry = 3;
-    /**
-     * 拉取数据的间隔 ms
-     */
-    private long intervalMillis = 300_000;
     /**
      * 发布回调超时 ms
      */
@@ -41,34 +32,27 @@ public class MqBrokerProperties {
      */
     private boolean manualAcknowledge;
     /**
+     * 事件策略, 可以配置相同事件多个消费者
      * key: 事件名 value: EventStrategy
      */
     private Map<String, EventStrategy> eventStrategy = Collections.emptyMap();
-
+    /**
+     * 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+     */
+    private int msgSize = 1_000;
+    /**
+     * 补偿时, 拉取数据的间隔 ms
+     */
+    private long intervalMillis = 300_000;
+    /**
+     * 钉钉推送参数
+     */
     @NestedConfigurationProperty
     private DingTalk dingTalk = new DingTalk();
-
-    /**
-     * 禁用钉钉推送
-     */
-    private Boolean disabledDingTalkPush = Boolean.FALSE;
-
     /**
      * 开启延迟消息
      */
     private Boolean enabledDelayedMessage = Boolean.FALSE;
-
-    public static String getDingTalkPrefix() {
-        return DING_TALK_PREFIX;
-    }
-
-    public int getMsgSize() {
-        return msgSize;
-    }
-
-    public void setMsgSize(int msgSize) {
-        this.msgSize = msgSize;
-    }
 
     public int getMaxRetry() {
         return maxRetry;
@@ -76,14 +60,6 @@ public class MqBrokerProperties {
 
     public void setMaxRetry(int maxRetry) {
         this.maxRetry = maxRetry;
-    }
-
-    public long getIntervalMillis() {
-        return intervalMillis;
-    }
-
-    public void setIntervalMillis(long intervalMillis) {
-        this.intervalMillis = intervalMillis;
     }
 
     public long getPublisherCallbackTimeout() {
@@ -118,20 +94,28 @@ public class MqBrokerProperties {
         this.eventStrategy = eventStrategy;
     }
 
+    public int getMsgSize() {
+        return msgSize;
+    }
+
+    public void setMsgSize(int msgSize) {
+        this.msgSize = msgSize;
+    }
+
+    public long getIntervalMillis() {
+        return intervalMillis;
+    }
+
+    public void setIntervalMillis(long intervalMillis) {
+        this.intervalMillis = intervalMillis;
+    }
+
     public DingTalk getDingTalk() {
         return dingTalk;
     }
 
     public void setDingTalk(DingTalk dingTalk) {
         this.dingTalk = dingTalk;
-    }
-
-    public Boolean getDisabledDingTalkPush() {
-        return disabledDingTalkPush;
-    }
-
-    public void setDisabledDingTalkPush(Boolean disabledDingTalkPush) {
-        this.disabledDingTalkPush = disabledDingTalkPush;
     }
 
     public Boolean getEnabledDelayedMessage() {

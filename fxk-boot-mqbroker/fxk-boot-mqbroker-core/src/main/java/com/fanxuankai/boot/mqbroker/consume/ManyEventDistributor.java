@@ -10,19 +10,20 @@ import java.util.List;
  * @author fanxuankai
  */
 @Component
-public class AtLeastOnceEventDistributor extends AbstractEventDistributor {
+public class ManyEventDistributor extends AbstractEventDistributor {
 
     @Override
     @SuppressWarnings("rawtypes unchecked")
     protected void onEvent(Event<?> event, List<EventListener<?>> eventListeners) {
-        boolean success = false;
         Throwable throwable = null;
+        boolean success = true;
         for (EventListener eventListener : eventListeners) {
             try {
                 eventListener.onEvent(event);
-                success = true;
             } catch (Exception e) {
                 throwable = e;
+                success = false;
+                break;
             }
         }
         if (!success) {
@@ -32,6 +33,6 @@ public class AtLeastOnceEventDistributor extends AbstractEventDistributor {
 
     @Override
     public EventStrategy getEventListenerStrategy() {
-        return EventStrategy.AT_LEAST_ONCE;
+        return EventStrategy.MANY;
     }
 }

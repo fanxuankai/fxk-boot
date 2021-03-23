@@ -84,22 +84,22 @@ spring:
     password: HzB!OPxxE$5CwJIZ
     driver-class-name: com.mysql.cj.jdbc.Driver
 mq-broker:
-  # 拉取消息的数量
-  #msg-size: 1000
   # 最大重试次数
   #max-retry: 3
-  # 拉取数据的间隔 ms
-  #interval-millis: 1000
   # 发布回调超时
   #publisher-callback-timeout: 300000
   # 消费超时
   #consume-timeout: 300000
   # 手动确认
   #manual-acknowledge: false
-  # 事件策略
+  # 事件策略, 可以配置相同事件多个消费者
   #event-strategy:
-    # key: 消息队列 value: EventStrategy
+    # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
     #user: DEFAULT
+  # 补偿时, 拉取消息的数量
+  #msg-size: 1000
+  # 补偿时, 拉取数据的间隔 ms
+  #interval-millis: 1000
   # 钉钉推送配置(发送、消费失败)
   #ding-talk:
     #enabled:

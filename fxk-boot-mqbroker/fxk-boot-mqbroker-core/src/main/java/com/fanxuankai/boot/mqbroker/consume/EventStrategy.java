@@ -22,5 +22,9 @@ public enum EventStrategy {
      * 零次或者多次
      */
     AT_MOST_MANY,
+    /**
+     * 多次, 可能会重复消费, 需要做幂等
+     */
+    MANY,
     ;
 }

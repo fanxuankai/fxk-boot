@@ -1,11 +1,18 @@
 package com.fanxuankai.boot.canal.elasticsearch.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fanxuankai.boot.canal.elasticsearch.document.ProductInfo;
+import com.fanxuankai.boot.canal.elasticsearch.function.AttributeFunction;
+import com.fanxuankai.canal.elasticsearch.annotation.Index;
+import com.fanxuankai.canal.elasticsearch.annotation.Indexes;
 
 /**
  * @author fanxuankai
  */
 @TableName(value = "t_attribute", schema = "canal_client_example")
+@Indexes({
+        @Index(documentClass = ProductInfo.class, documentFunctionClass = AttributeFunction.class)
+})
 public class Attribute {
     private Long id;
     private Integer type;

@@ -5,7 +5,7 @@ import com.fanxuankai.boot.canal.elasticsearch.document.ProductInfo;
 import com.fanxuankai.boot.canal.elasticsearch.domain.ProductAttribute;
 import com.fanxuankai.boot.canal.elasticsearch.service.AttributeService;
 import com.fanxuankai.boot.canal.elasticsearch.service.ProductAttributeService;
-import com.fanxuankai.canal.elasticsearch.OneToOneDocumentFunction;
+import com.fanxuankai.canal.elasticsearch.ManyToOneDocumentFunction;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 @Service
-public class ProductAttributeFunction implements OneToOneDocumentFunction<ProductAttribute, ProductInfo> {
+public class ProductAttributeFunction implements ManyToOneDocumentFunction<ProductAttribute, ProductInfo> {
     @Resource
     private AttributeService attributeService;
     @Resource

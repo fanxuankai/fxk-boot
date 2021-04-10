@@ -9,8 +9,7 @@ import com.fanxuankai.canal.elasticsearch.ManyToOneDocumentFunction;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,23 +23,36 @@ public class ProductAttributeFunction implements ManyToOneDocumentFunction<Produ
     private ProductAttributeService productAttributeService;
 
     @Override
-    public ProductInfo applyForUpdate(ProductAttribute before, ProductAttribute after) {
-        return applyForDelete(after);
-    }
-
-    @Override
-    public ProductInfo applyForDelete(ProductAttribute delete) {
+    public ProductInfo applyForInsert(ProductAttribute insert) {
         ProductInfo productInfo = new ProductInfo();
-        productInfo.setId(delete.getProductId());
-        productInfo.setAttributeList(Optional.of(
-                productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
-                        .eq(ProductAttribute::getProductId, delete.getProductId()))
-                        .stream()
-                        .map(ProductAttribute::getAttributeId)
-                        .collect(Collectors.toList()))
+        productInfo.setId(insert.getProductId());
+        productInfo.setAttributeList(Optional.of(productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
+                .eq(ProductAttribute::getProductId, insert.getProductId()))
+                .stream()
+                .map(ProductAttribute::getAttributeId)
+                .collect(Collectors.toList()))
                 .filter(o -> !o.isEmpty())
                 .map(ids -> attributeService.listByIds(ids))
                 .orElse(Collections.emptyList()));
         return productInfo;
+    }
+
+    @Override
+    public List<ProductInfo> applyForUpdate(ProductAttribute before, ProductAttribute after) {
+        // productId 发生变化
+        if (!Objects.equals(before.getProductId(), after.getProductId())) {
+            return Arrays.asList(applyForInsert(before), applyForInsert(after));
+        }
+        // attributeId 发生变化
+        if (!Objects.equals(before.getAttributeId(), after.getAttributeId())) {
+            return Collections.singletonList(applyForInsert(after));
+        }
+        // 关联关系未发生变化
+        return Collections.emptyList();
+    }
+
+    @Override
+    public ProductInfo applyForDelete(ProductAttribute delete) {
+        return applyForInsert(delete);
     }
 }

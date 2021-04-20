@@ -4,6 +4,7 @@ import com.fanxuankai.boot.distributed.lock.DistributedLocker;
 import com.fanxuankai.boot.distributed.lock.exception.LockException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author fanxuankai
  */
+@Component
 public class RedisLocker implements DistributedLocker {
     private final RedissonClient redissonClient;
 

@@ -70,12 +70,16 @@ public class QueryHelper {
                 continue;
             }
             if (StringUtils.isNotBlank(fuzzy)) {
-                for (String s : fuzzy.split(StringPool.COMMA)) {
-                    wrapper.and(theWrapper -> {
-                        ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(s));
-                        theWrapper.like(columnCache.getColumn(), val);
-                    });
-                }
+                wrapper.and(theWrapper -> {
+                    String[] split = fuzzy.split(StringPool.COMMA);
+                    String first = split[0];
+                    ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(first));
+                    theWrapper.like(columnCache.getColumn(), val);
+                    for (int i = 1; i < split.length; i++) {
+                        columnCache = columnMap.get(LambdaUtils.formatKey(split[i]));
+                        theWrapper.or().like(columnCache.getColumn(), val);
+                    }
+                });
                 continue;
             }
             ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(attributeName));

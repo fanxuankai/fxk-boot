@@ -14,13 +14,11 @@ import org.springframework.lang.NonNull;
  * @author fanxuankai
  */
 public class LockPointcutAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
-
     private final Advice advice;
-
     private final Pointcut pointcut;
 
-    public LockPointcutAdvisor(@NonNull LockMethodInterceptor lockInterceptor) {
-        this.advice = lockInterceptor;
+    public LockPointcutAdvisor(@NonNull LockMethodInterceptor interceptor) {
+        this.advice = interceptor;
         this.pointcut = AnnotationMatchingPointcut.forMethodAnnotation(Lock.class);
     }
 
@@ -42,5 +40,4 @@ public class LockPointcutAdvisor extends AbstractPointcutAdvisor implements Bean
             ((BeanFactoryAware) this.advice).setBeanFactory(beanFactory);
         }
     }
-
 }

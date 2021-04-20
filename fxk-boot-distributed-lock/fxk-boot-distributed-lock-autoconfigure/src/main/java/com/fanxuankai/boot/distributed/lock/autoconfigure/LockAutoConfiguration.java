@@ -13,15 +13,8 @@ public class LockAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean({DistributedLocker.class})
-    public LockMethodInterceptor lockMethodInterceptor(DistributedLocker distributedLocker) {
-        return new LockMethodInterceptor(distributedLocker);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnBean({LockMethodInterceptor.class})
-    public LockPointcutAdvisor lockPointcutAdvisor(LockMethodInterceptor lockMethodInterceptor) {
-        return new LockPointcutAdvisor(lockMethodInterceptor);
+    public LockPointcutAdvisor lockPointcutAdvisor(DistributedLocker distributedLocker) {
+        return new LockPointcutAdvisor(new LockMethodInterceptor(distributedLocker));
     }
 
 }

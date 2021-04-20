@@ -80,9 +80,7 @@ public class LockMethodInterceptor implements MethodInterceptor {
             SpelExpression spelExpression = parser.parseRaw(expression);
             return Optional.ofNullable(spelExpression.getValue(context))
                     .orElse(null);
-        })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 }

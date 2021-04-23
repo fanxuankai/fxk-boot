@@ -233,12 +233,7 @@
             </dependency>
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-enum-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-starter-enum-mysql</artifactId>
+                <artifactId>fxk-boot-starter-enum</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

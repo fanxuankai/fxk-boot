@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -161,7 +162,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
                 success = true;
             } catch (Throwable throwable) {
                 LOGGER.error("消息消费失败, code: " + msg.getCode(), throwable);
-                msg.setCause(throwable.getLocalizedMessage());
+                msg.setCause(ExceptionUtil.stacktraceToString(throwable));
                 ThreadUtil.sleep(1, TimeUnit.SECONDS);
                 msg.setRetry(++i);
             }

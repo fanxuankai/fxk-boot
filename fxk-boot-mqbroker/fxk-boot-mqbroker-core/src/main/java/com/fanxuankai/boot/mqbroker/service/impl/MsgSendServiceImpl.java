@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -163,7 +164,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
                 success = true;
             } catch (Throwable throwable) {
                 LOGGER.error("消息发送失败, code: " + msg.getCode(), throwable);
-                msg.setCause(throwable.getLocalizedMessage());
+                msg.setCause(ExceptionUtil.stacktraceToString(throwable));
                 ThreadUtil.sleep(1, TimeUnit.SECONDS);
             }
         } while (!success && retry && ++i < mqBrokerProperties.getMaxRetry());

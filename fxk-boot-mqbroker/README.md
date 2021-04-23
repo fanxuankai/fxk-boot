@@ -107,7 +107,7 @@ mq-broker:
     #accessToken:
     #secret:
     #env:
-  # 开启延迟消息
+  # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
   #enabledDelayedMessage: false
 ```
 - 监听事件

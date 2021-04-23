@@ -1,11 +1,11 @@
 package com.fanxuankai.boot.mqbroker.service;
 
+import cn.hutool.core.codec.Base64;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
 import com.taobao.api.ApiException;
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -89,7 +89,7 @@ public class MqBrokerDingTalkClientHelper {
                 Mac mac = Mac.getInstance("HmacSHA256");
                 mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
                 byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-                String sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
+                String sign = URLEncoder.encode(Base64.encode(signData), "UTF-8");
                 serviceUrl += "&timestamp=" + timestamp;
                 serviceUrl += "&sign=" + sign;
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {

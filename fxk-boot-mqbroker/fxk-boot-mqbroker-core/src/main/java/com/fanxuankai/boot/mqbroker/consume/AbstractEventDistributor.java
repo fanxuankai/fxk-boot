@@ -1,11 +1,11 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.json.JSONUtil;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
-import com.fanxuankai.commons.util.AddressUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -44,13 +44,12 @@ public abstract class AbstractEventDistributor implements EventDistributor, Cons
         ListenerMetadata listenerMetadata = new ListenerMetadata();
         listenerMetadata.setGroup(msg.getMsgGroup());
         listenerMetadata.setTopic(msg.getTopic());
-        event.setData(JSON.parseObject(msg.getData(),
-                EventListenerRegistry.getDataType(listenerMetadata)));
+        event.setData(JSONUtil.toBean(msg.getData(), EventListenerRegistry.getDataType(listenerMetadata)));
         event.setRetryCount(msg.getRetryCount());
         Optional.ofNullable(msg.getRetryCount())
                 .ifPresent(event::setRetryCount);
         distribute(event);
-        msg.setHostAddress(AddressUtils.getHostAddress());
+        msg.setHostAddress(NetUtil.getLocalhostStr());
         msgReceiveService.success(msg);
     }
 

@@ -59,7 +59,7 @@ CREATE TABLE `mq_broker_msg_receive` (
     <dependency>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-starter-mqbroker-rabbit</artifactId>
-        <version>${mqbroker.spring.boot.version}</version>
+        <version>${latestVersion}</version>
     </dependency>
     <dependency>
         <groupId>mysql</groupId>

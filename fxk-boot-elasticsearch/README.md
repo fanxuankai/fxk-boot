@@ -1,1 +1,0 @@
-# elasticsearch-spring-boot-starter

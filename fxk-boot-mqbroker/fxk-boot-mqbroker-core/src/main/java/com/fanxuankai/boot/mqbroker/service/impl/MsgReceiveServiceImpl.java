@@ -1,5 +1,8 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -16,9 +19,6 @@ import com.fanxuankai.boot.mqbroker.mapper.MsgReceiveMapper;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
-import com.fanxuankai.commons.util.AddressUtils;
-import com.fanxuankai.commons.util.concurrent.Threads;
-import com.fanxuankai.spring.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -48,7 +48,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     @Resource
     private EventDistributorFactory eventDistributorFactory;
     @Resource
-    private ThreadPoolExecutor threadPoolExecutor;
+    private ExecutorService executorService;
     @Resource
     private MqBrokerDingTalkClientHelper mqBrokerDingTalkClientHelper;
 
@@ -75,7 +75,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         MsgReceive entity = new MsgReceive();
         entity.setStatus(Status.RUNNING.getCode());
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         return update(entity, new UpdateWrapper<MsgReceive>()
                 .lambda()
                 .eq(Msg::getStatus, Status.CREATED.getCode())
@@ -105,7 +105,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         MsgReceive entity = new MsgReceive();
         entity.setLastModifiedDate(new Date());
         entity.setStatus(Status.SUCCESS.getCode());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         update(entity, new UpdateWrapper<MsgReceive>()
                 .lambda()
                 .eq(Msg::getId, msg.getId())
@@ -118,7 +118,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setRetry(msg.getRetry());
         entity.setCause(msg.getCause());
         entity.setLastModifiedDate(new Date());
-        String hostAddress = AddressUtils.getHostAddress();
+        String hostAddress = NetUtil.getLocalhostStr();
         entity.setHostAddress(hostAddress);
         if (msg.getRetry() < mqBrokerProperties.getMaxRetry()) {
             entity.setStatus(Status.CREATED.getCode());
@@ -138,14 +138,14 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setCause(msg.getCause());
         entity.setRetry(msg.getRetry());
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         update(entity, Wrappers.lambdaUpdate(MsgReceive.class).eq(Msg::getId, msg.getId()));
     }
 
     @Override
     public void consume(MsgReceive msg, boolean retry, boolean async) {
         if (async) {
-            threadPoolExecutor.execute(() -> consume(msg, retry));
+            executorService.execute(() -> consume(msg, retry));
         } else {
             consume(msg, retry);
         }
@@ -154,7 +154,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     private void consume(MsgReceive msg, boolean retry) {
         int i = msg.getRetry();
         boolean success = false;
-        msg = BeanUtils.copyProperties(msg, MsgReceive.class);
+        msg = BeanUtil.copyProperties(msg, MsgReceive.class);
         do {
             try {
                 eventDistributorFactory.get(msg).accept(msg);
@@ -162,7 +162,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
             } catch (Throwable throwable) {
                 LOGGER.error("消息消费失败, code: " + msg.getCode(), throwable);
                 msg.setCause(throwable.getLocalizedMessage());
-                Threads.sleep(1, TimeUnit.SECONDS);
+                ThreadUtil.sleep(1, TimeUnit.SECONDS);
                 msg.setRetry(++i);
             }
         } while (!success && retry && i < mqBrokerProperties.getMaxRetry());

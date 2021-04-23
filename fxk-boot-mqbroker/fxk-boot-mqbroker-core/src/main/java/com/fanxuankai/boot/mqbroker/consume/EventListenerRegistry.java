@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
-import com.fanxuankai.spring.util.GenericTypeUtils;
+import com.fanxuankai.commons.extra.spring.util.GenericTypeUtils;
 
 import java.util.*;
 

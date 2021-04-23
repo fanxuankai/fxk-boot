@@ -1,5 +1,7 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -14,8 +16,6 @@ import com.fanxuankai.boot.mqbroker.mapper.MsgSendMapper;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
-import com.fanxuankai.commons.util.AddressUtils;
-import com.fanxuankai.commons.util.concurrent.Threads;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -58,7 +58,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         MsgSend entity = new MsgSend();
         entity.setStatus(Status.RUNNING.getCode());
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         return update(entity, new UpdateWrapper<MsgSend>()
                 .lambda()
                 .eq(Msg::getStatus, Status.CREATED.getCode())
@@ -87,7 +87,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
     public void success(MsgSend msg) {
         MsgSend entity = new MsgSend();
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         entity.setStatus(Status.SUCCESS.getCode());
         update(entity, new UpdateWrapper<MsgSend>()
                 .lambda()
@@ -99,7 +99,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
     public void success(String topic, String code) {
         MsgSend entity = new MsgSend();
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         entity.setStatus(Status.SUCCESS.getCode());
         update(entity, new UpdateWrapper<MsgSend>()
                 .lambda()
@@ -127,7 +127,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         entity.setRetry(msg.getRetry());
         entity.setCause(msg.getCause());
         entity.setLastModifiedDate(new Date());
-        String hostAddress = AddressUtils.getHostAddress();
+        String hostAddress = NetUtil.getLocalhostStr();
         entity.setHostAddress(hostAddress);
         LambdaUpdateWrapper<MsgSend> lambda = new UpdateWrapper<MsgSend>().lambda()
                 .eq(Msg::getId, msg.getId())
@@ -149,7 +149,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         entity.setCause(msg.getCause());
         entity.setRetry(msg.getRetry());
         entity.setLastModifiedDate(new Date());
-        entity.setHostAddress(AddressUtils.getHostAddress());
+        entity.setHostAddress(NetUtil.getLocalhostStr());
         update(entity, Wrappers.lambdaUpdate(MsgSend.class).eq(Msg::getId, msg.getId()));
     }
 
@@ -164,7 +164,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
             } catch (Throwable throwable) {
                 LOGGER.error("消息发送失败, code: " + msg.getCode(), throwable);
                 msg.setCause(throwable.getLocalizedMessage());
-                Threads.sleep(1, TimeUnit.SECONDS);
+                ThreadUtil.sleep(1, TimeUnit.SECONDS);
             }
         } while (!success && retry && ++i < mqBrokerProperties.getMaxRetry());
         msg.setRetry(i);

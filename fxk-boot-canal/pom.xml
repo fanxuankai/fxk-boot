@@ -14,8 +14,37 @@
     <name>FXK Boot Canal</name>
     <description>FXK Boot Canal</description>
     <modules>
-        <module>fxk-boot-canal-autoconfigure</module>
-        <module>fxk-boot-starter-canal</module>
+        <module>fxk-boot-canal-core-autoconfigure</module>
+        <module>fxk-boot-canal-mq-autoconfigure</module>
+        <module>fxk-boot-canal-mqbroker-autoconfigure</module>
+        <module>fxk-boot-starter-canal-elasticsearch</module>
+        <module>fxk-boot-starter-canal-kafka</module>
+        <module>fxk-boot-starter-canal-mqbroker-kafka</module>
+        <module>fxk-boot-starter-canal-mqbroker-rabbit</module>
+        <module>fxk-boot-starter-canal-mqbroker-rocket</module>
+        <module>fxk-boot-starter-canal-mqbroker-xxl</module>
+        <module>fxk-boot-starter-canal-mysql</module>
+        <module>fxk-boot-starter-canal-rabbitmq</module>
+        <module>fxk-boot-starter-canal-redis</module>
+        <module>fxk-boot-starter-canal-rocketmq</module>
+        <module>fxk-boot-starter-canal-xxlmq</module>
+        <module>fxk-boot-starter-canal-clickhouse</module>
         <module>fxk-boot-test-canal</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

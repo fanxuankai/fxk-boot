@@ -9,8 +9,7 @@ import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import com.fanxuankai.boot.mqbroker.task.TaskConfigurer;
-import com.fanxuankai.commons.util.concurrent.ThreadPoolService;
-import com.fanxuankai.spring.util.annotation.EnableApplicationContextAware;
+import com.fanxuankai.commons.core.util.concurrent.ThreadPool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,10 +26,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -43,7 +42,6 @@ import java.util.concurrent.atomic.AtomicLong;
         TaskConfigurer.class})
 @EnableTransactionManagement
 @EnableScheduling
-@EnableApplicationContextAware
 public class MqBrokerAutoConfiguration implements ApplicationContextAware {
 
     @Bean(destroyMethod = "shutdown")
@@ -63,8 +61,8 @@ public class MqBrokerAutoConfiguration implements ApplicationContextAware {
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean
-    public ThreadPoolExecutor threadPoolExecutor() {
-        return ThreadPoolService.getInstance();
+    public ExecutorService executorService() {
+        return ThreadPool.INSTANCE.getExecutor();
     }
 
     @Override

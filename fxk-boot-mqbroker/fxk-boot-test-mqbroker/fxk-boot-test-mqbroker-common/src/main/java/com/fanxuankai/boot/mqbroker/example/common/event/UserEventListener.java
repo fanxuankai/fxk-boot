@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.mqbroker.example.common.event;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import com.fanxuankai.boot.mqbroker.consume.EventListener;
 import com.fanxuankai.boot.mqbroker.consume.Listener;
 import com.fanxuankai.boot.mqbroker.example.common.domain.User;
@@ -16,6 +16,6 @@ public class UserEventListener implements EventListener<User> {
 
     @Override
     public void onEvent(Event<User> event) {
-        System.out.println("接收到事件: " + JSON.toJSONString(event));
+        System.out.println("接收到事件: " + JSONUtil.toJsonStr(event));
     }
 }

@@ -2,7 +2,7 @@ package com.fanxuankai.boot.canal.rabbit;
 
 import com.fanxuankai.boot.canal.mq.common.domain.User;
 import com.fanxuankai.boot.canal.mq.common.service.UserService;
-import com.fanxuankai.commons.util.MockUtils;
+import com.fanxuankai.commons.core.util.MockUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

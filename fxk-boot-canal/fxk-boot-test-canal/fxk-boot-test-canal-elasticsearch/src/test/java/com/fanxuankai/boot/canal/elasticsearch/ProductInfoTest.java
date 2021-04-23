@@ -1,12 +1,12 @@
 package com.fanxuankai.boot.canal.elasticsearch;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.fanxuankai.boot.canal.elasticsearch.domain.Attribute;
 import com.fanxuankai.boot.canal.elasticsearch.domain.Product;
 import com.fanxuankai.boot.canal.elasticsearch.domain.ProductAttribute;
 import com.fanxuankai.boot.canal.elasticsearch.service.AttributeService;
 import com.fanxuankai.boot.canal.elasticsearch.service.ProductAttributeService;
 import com.fanxuankai.boot.canal.elasticsearch.service.ProductService;
-import com.fanxuankai.commons.util.concurrent.Threads;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
@@ -90,7 +90,7 @@ public class ProductInfoTest {
         productAttributeList.add(productAttribute);
         productAttributeService.saveBatch(productAttributeList);
 
-        Threads.sleep(5, TimeUnit.SECONDS);
+        ThreadUtil.sleep(5, TimeUnit.SECONDS);
     }
 
     @Test

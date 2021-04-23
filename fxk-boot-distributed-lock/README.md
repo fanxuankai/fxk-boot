@@ -7,7 +7,7 @@
 <dependency>
     <groupId>com.fanxuankai.boot</groupId>
     <artifactId>fxk-boot-starter-redis-lock</artifactId>
-    <version>2.2.7-SNAPSHOT</version>
+    <version>${latestVersion}</version>
 </dependency>
 ```
 - Usage

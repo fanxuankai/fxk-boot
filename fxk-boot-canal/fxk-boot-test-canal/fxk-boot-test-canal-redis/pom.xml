@@ -16,9 +16,5 @@
             <groupId>com.fanxuankai.boot</groupId>
             <artifactId>fxk-boot-starter-canal-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fanxuankai.spring</groupId>
-            <artifactId>fxk-spring-util</artifactId>
-        </dependency>
     </dependencies>
 </project>

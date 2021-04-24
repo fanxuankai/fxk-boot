@@ -27,6 +27,8 @@ public class EnumApp implements ApplicationRunner {
         model.setPath("/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-starter" +
                 "-enum-sample/src/main/java");
         model.setPackageName("com.fanxuankai.boot.enums");
+        model.setGenerateDataOnly(false);
+        model.setIncrement(false);
         enumGenerator.generate(model);
     }
 }

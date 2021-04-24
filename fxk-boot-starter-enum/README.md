@@ -42,27 +42,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 ```
 
-- Usage
-```
-@Resource
-private EnumService enumService;
-@Resource
-private EnumGenerator enumGenerator;
-
-// 创建颜色、是否删除枚举, 方式一
-List<EnumDTO.Enum> list = new ArrayList<>(3);
-list.add(new EnumDTO.Enum().setName("white").setValue("白色"));
-list.add(new EnumDTO.Enum().setName("red").setValue("红色"));
-list.add(new EnumDTO.Enum().setName("black").setValue("黑色"));
-enumService.add(new EnumDTO().setEnumType(new EnumDTO.EnumType().setName("colour").setDescription("颜色")).setEnumList(list));
-list = new ArrayList<>(2);
-list.add(new EnumDTO.Enum().setName("no").setValue("未删除"));
-list.add(new EnumDTO.Enum().setName("yes").setValue("已删除"));
-enumService.add(new EnumDTO().setEnumType(new EnumDTO.EnumType().setName("deleted").setDescription("是否删除")).setEnumList(list));
-
-// 创建颜色、是否删除枚举, 方式二
-JSON.parseArray(json, EnumDTO.class).forEach(enumDTO -> enumService.add(enumDTO));
-json 格式如下:
+- JSON 配置
+```json
 [
   {
     "enumType": {
@@ -101,16 +82,22 @@ json 格式如下:
     ]
   }
 ]
+```
+- 运行
+```
+@Resource
+private EnumGenerator enumGenerator;
 
-// 生成枚举类
 GenerateModel model = new GenerateModel();
 model.setAuth("fanxuankai");
 model.setPath("项目绝对路径/src/main/java");
 model.setPackageName("com.fanxuankai.boot.enums");
+model.setGenerateDataOnly(false);
+model.setIncrement(false);
 enumGenerator.generate(model);
 ```
 
-- 枚举使用
+- 枚举工具使用
 ```
 // 查找是否删除
 EnumUtils.find(Deleted.class, 0).ifPresent(System.out::println);

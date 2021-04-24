@@ -1,0 +1,18 @@
+[
+  {
+    "enumType": {
+      "name": "deleted",
+      "description": "是否删除"
+    },
+    "enumList": [
+      {
+        "name": "no",
+        "value": "未删除"
+      },
+      {
+        "name": "yes",
+        "value": "已删除"
+      }
+    ]
+  }
+]

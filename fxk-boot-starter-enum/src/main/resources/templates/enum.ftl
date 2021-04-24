@@ -5,7 +5,7 @@ package ${packageName};
  *
  * @author ${auth}
  */
-public enum ${enumVO.enumType.name} {
+public enum ${enumVO.enumType.name} implements EnumProtocol {
     <#list enumVO.enumList as anEnum>
     /**
      * ${anEnum.value}
@@ -13,18 +13,20 @@ public enum ${enumVO.enumType.name} {
     ${anEnum.name}(${anEnum.code}, "${anEnum.value}"),
     </#list>
     ;
-    private final Integer code;
+    private final int code;
     private final String value;
 
-    ${enumVO.enumType.name}(Integer code, String value) {
+    ${enumVO.enumType.name}(int code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public Integer getCode() {
+    @Override
+    public int getCode() {
         return this.code;
     }
 
+    @Override
     public String getValue() {
         return this.value;
     }

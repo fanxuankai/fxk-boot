@@ -36,9 +36,9 @@ CREATE TABLE `sys_enum` (
 ```yml
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/canal_client_example?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/fxk-boot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: HzB!OPxxE$5CwJIZ
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 ```
 
@@ -103,16 +103,17 @@ json 格式如下:
 ]
 
 // 生成枚举类
-enumGenerator.generate(new GenerateModel()
-                .setAuth("fanxuankai")
-                .setPath("项目绝对路径/src/main/java")
-                .setPackageName("com.fanxuankai.boot.enums"));
+GenerateModel model = new GenerateModel();
+model.setAuth("fanxuankai");
+model.setPath("项目绝对路径/src/main/java");
+model.setPackageName("com.fanxuankai.boot.enums");
+enumGenerator.generate(model);
 ```
 
 - 枚举使用
 ```
 // 查找是否删除
-EnumManager.find(Deleted.class, 0).ifPresent(System.out::println);
+EnumUtils.find(Deleted.class, 0).ifPresent(System.out::println);
 // 查找颜色
-System.out.println(EnumManager.get(Colour.class, 0));
+System.out.println(EnumUtils.get(Colour.class, 0));
 ```

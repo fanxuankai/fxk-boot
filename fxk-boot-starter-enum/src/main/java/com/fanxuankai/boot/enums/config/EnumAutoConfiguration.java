@@ -13,5 +13,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackageClasses = EnumGenerator.class)
 @EnableTransactionManagement
 public class EnumAutoConfiguration {
-
 }

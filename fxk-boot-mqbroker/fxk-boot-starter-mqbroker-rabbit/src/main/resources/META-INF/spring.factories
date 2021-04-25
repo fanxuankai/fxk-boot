@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.boot.mqbroker.rabbit.autoconfigure.MqBrokerRabbitAutoConfiguration
+  com.fanxuankai.boot.mqbroker.rabbit.MqBrokerRabbitAutoConfiguration

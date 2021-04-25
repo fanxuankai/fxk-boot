@@ -38,6 +38,8 @@ public class MsgReceiveConsumer {
     private DataSourceTransactionManager dataSourceTransactionManager;
     @Resource
     private TransactionDefinition transactionDefinition;
+    @Resource
+    private EventListenerRegistry eventListenerRegistry;
 
     public void consume(MsgReceive msg, boolean retry) {
         int i = msg.getRetry();
@@ -52,7 +54,8 @@ public class MsgReceiveConsumer {
                 ListenerMetadata listenerMetadata = new ListenerMetadata();
                 listenerMetadata.setGroup(msg.getMsgGroup());
                 listenerMetadata.setTopic(msg.getTopic());
-                event.setData(JSONUtil.toBean(msg.getData(), EventListenerRegistry.getDataType(listenerMetadata)));
+                event.setData(JSONUtil.toBean(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata),
+                        true));
                 event.setRetryCount(msg.getRetryCount());
                 Optional.ofNullable(msg.getRetryCount())
                         .ifPresent(event::setRetryCount);

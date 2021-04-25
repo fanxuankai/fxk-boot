@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
+package com.fanxuankai.boot.mqbroker.xxl;
 
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.xxl.mq.client.consumer.IMqConsumer;
@@ -21,6 +21,7 @@ public class MqBrokerXxlMqSpringClientFactory implements ApplicationContextAware
 
     private String adminAddress;
     private String accessToken;
+    private EventListenerRegistry eventListenerRegistry;
     private XxlMqClientFactory xxlMqClientFactory;
 
     public void setAdminAddress(String adminAddress) {
@@ -31,11 +32,14 @@ public class MqBrokerXxlMqSpringClientFactory implements ApplicationContextAware
         this.accessToken = accessToken;
     }
 
+    public void setEventListenerRegistry(EventListenerRegistry eventListenerRegistry) {
+        this.eventListenerRegistry = eventListenerRegistry;
+    }
+
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-
         // load consumer from spring
-        List<IMqConsumer> consumerList = EventListenerRegistry.getAllListenerMetadata()
+        List<IMqConsumer> consumerList = eventListenerRegistry.getAllListenerMetadata()
                 .parallelStream()
                 .map(s -> {
                     try {
@@ -48,14 +52,11 @@ public class MqBrokerXxlMqSpringClientFactory implements ApplicationContextAware
                     }
                 })
                 .collect(Collectors.toList());
-
         // init
         xxlMqClientFactory = new XxlMqClientFactory();
-
         xxlMqClientFactory.setAdminAddress(adminAddress);
         xxlMqClientFactory.setAccessToken(accessToken);
         xxlMqClientFactory.setConsumerList(consumerList);
-
         xxlMqClientFactory.init();
     }
 

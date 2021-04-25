@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mqbroker.rocket.autoconfigure;
+package com.fanxuankai.boot.mqbroker.rocket;
 
 import com.alibaba.fastjson.JSON;
 import com.fanxuankai.boot.mqbroker.consume.AbstractMqConsumer;
@@ -41,7 +41,9 @@ public class MqBrokerRocketAutoConfiguration {
     }
 
     @Bean(initMethod = "start")
-    public DefaultMQPushConsumer pushConsumer(RocketMQProperties properties, AbstractMqConsumer<Event<?>> mqConsumer) {
+    public DefaultMQPushConsumer pushConsumer(RocketMQProperties properties,
+                                              AbstractMqConsumer<Event<?>> mqConsumer,
+                                              EventListenerRegistry eventListenerRegistry) {
         DefaultMQPushConsumer consumer =
                 new DefaultMQPushConsumer(properties.getProducer().getGroup());
         consumer.setNamesrvAddr(properties.getNameServer());
@@ -52,7 +54,7 @@ public class MqBrokerRocketAutoConfiguration {
                     Event.class)));
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
-        EventListenerRegistry.getAllListenerMetadata()
+        eventListenerRegistry.getAllListenerMetadata()
                 .forEach(s -> {
                     try {
                         consumer.unsubscribe(s.getTopic());

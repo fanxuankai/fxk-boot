@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
+package com.fanxuankai.boot.mqbroker.xxl;
 
 import com.fanxuankai.boot.mqbroker.consume.MqConsumer;
 import javassist.ClassClassPath;

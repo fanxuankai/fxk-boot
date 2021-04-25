@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
+package com.fanxuankai.boot.mqbroker.xxl;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;

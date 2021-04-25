@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author fanxuankai
@@ -24,11 +24,11 @@ public class CanalAutoConfiguration implements ApplicationRunner {
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
     @Lazy
-    private ExecutorService executorService;
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean
-    public ExecutorService executorService() {
+    public ThreadPoolExecutor threadPoolExecutor() {
         return ThreadPool.INSTANCE.getExecutor();
     }
 
@@ -40,7 +40,7 @@ public class CanalAutoConfiguration implements ApplicationRunner {
                 .peek(canalWorker -> {
                     CanalWorkConfiguration canalWorkConfiguration = canalWorker.getCanalWorkConfiguration();
                     canalWorkConfiguration.setRedisTemplate(redisTemplate);
-                    canalWorkConfiguration.setExecutorService(executorService);
+                    canalWorkConfiguration.setExecutorService(threadPoolExecutor);
                 })
                 .forEach(CanalWorker::start);
         if (!canalWorkers.isEmpty()) {

@@ -25,7 +25,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -40,20 +40,22 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     @Resource
     private MsgReceiveConsumer msgReceiveConsumer;
     @Resource
-    private ExecutorService executorService;
+    private ThreadPoolExecutor threadPoolExecutor;
     @Resource
     private MqBrokerDingTalkClientHelper mqBrokerDingTalkClientHelper;
+    @Resource
+    private EventListenerRegistry eventListenerRegistry;
 
     @Override
     public List<MsgReceive> pullData() {
-        if (EventListenerRegistry.getAllListenerMetadata().isEmpty()) {
+        if (eventListenerRegistry.getAllListenerMetadata().isEmpty()) {
             return Collections.emptyList();
         }
         return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
                 new QueryWrapper<MsgReceive>()
                         .lambda()
                         .eq(Msg::getStatus, Status.CREATED.getCode())
-                        .in(Msg::getTopic, EventListenerRegistry.getAllListenerMetadata()
+                        .in(Msg::getTopic, eventListenerRegistry.getAllListenerMetadata()
                                 .stream()
                                 .map(ListenerMetadata::getTopic)
                                 .collect(Collectors.toList())
@@ -137,7 +139,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     @Override
     public void consume(MsgReceive msg, boolean retry, boolean async) {
         if (async) {
-            executorService.execute(() -> msgReceiveConsumer.consume(msg, retry));
+            threadPoolExecutor.execute(() -> msgReceiveConsumer.consume(msg, retry));
         } else {
             msgReceiveConsumer.consume(msg, retry);
         }

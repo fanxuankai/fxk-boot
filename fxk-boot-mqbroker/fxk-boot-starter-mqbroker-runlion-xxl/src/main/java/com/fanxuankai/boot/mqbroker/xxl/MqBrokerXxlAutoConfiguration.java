@@ -1,10 +1,9 @@
-package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
+package com.fanxuankai.boot.mqbroker.xxl;
 
 import cn.hutool.json.JSONUtil;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
-import com.fanxuankai.boot.xxl.mq.autoconfigure.XxlMqConfiguration;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.producer.XxlMqProducer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -40,14 +39,5 @@ public class MqBrokerXxlAutoConfiguration {
                 return false;
             }
         };
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(MqBrokerXxlMqSpringClientFactory.class)
-    public MqBrokerXxlMqSpringClientFactory mqBrokerXxlMqSpringClientFactory(XxlMqConfiguration xxlMqConfiguration) {
-        MqBrokerXxlMqSpringClientFactory canalXxlMqSpringClientFactory = new MqBrokerXxlMqSpringClientFactory();
-        canalXxlMqSpringClientFactory.setAdminAddress(xxlMqConfiguration.getAdmin().getAddress());
-        canalXxlMqSpringClientFactory.setAccessToken(xxlMqConfiguration.getAccessToken());
-        return canalXxlMqSpringClientFactory;
     }
 }

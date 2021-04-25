@@ -1,13 +1,11 @@
-package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
+package com.fanxuankai.boot.mqbroker.xxl;
 
 import cn.hutool.json.JSONUtil;
-import com.fanxuankai.boot.mqbroker.config.EventListenerRegistryHook;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
-import com.xxl.mq.client.consumer.IMqConsumer;
-import com.xxl.mq.client.consumer.MqConsumerRegistry;
+import com.fanxuankai.boot.xxl.mq.autoconfigure.XxlMqConfiguration;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.producer.XxlMqProducer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -20,7 +18,7 @@ import java.util.Optional;
  * @author fanxuankai
  */
 @Configuration
-public class MqBrokerXxlAutoConfiguration implements EventListenerRegistryHook {
+public class MqBrokerXxlAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(MqProducer.class)
@@ -45,19 +43,14 @@ public class MqBrokerXxlAutoConfiguration implements EventListenerRegistryHook {
         };
     }
 
-    @Override
-    public void execute() {
-        EventListenerRegistry.getAllListenerMetadata()
-                .parallelStream()
-                .map(listenerMetadata -> {
-                    try {
-                        return (IMqConsumer) MqConsumerHelper.newClass(listenerMetadata)
-                                .getConstructor()
-                                .newInstance();
-                    } catch (Exception e) {
-                        throw new RuntimeException("IMqConsumer 实例化失败", e);
-                    }
-                })
-                .forEach(MqConsumerRegistry::registerMqConsumer);
+    @Bean
+    @ConditionalOnMissingBean(MqBrokerXxlMqSpringClientFactory.class)
+    public MqBrokerXxlMqSpringClientFactory mqBrokerXxlMqSpringClientFactory(XxlMqConfiguration xxlMqConfiguration,
+                                                                             EventListenerRegistry eventListenerRegistry) {
+        MqBrokerXxlMqSpringClientFactory canalXxlMqSpringClientFactory = new MqBrokerXxlMqSpringClientFactory();
+        canalXxlMqSpringClientFactory.setAdminAddress(xxlMqConfiguration.getAdmin().getAddress());
+        canalXxlMqSpringClientFactory.setAccessToken(xxlMqConfiguration.getAccessToken());
+        canalXxlMqSpringClientFactory.setEventListenerRegistry(eventListenerRegistry);
+        return canalXxlMqSpringClientFactory;
     }
 }

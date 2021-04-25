@@ -1,12 +1,17 @@
 package com.fanxuankai.boot.mqbroker.rabbit;
 
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.json.JSONUtil;
 import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
+import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
@@ -21,30 +26,56 @@ import java.util.*;
  */
 public class MqBrokerRabbitProducer extends AbstractMqProducer {
     private final Set<String> queueCache = new HashSet<>();
+    private final MsgSendService msgSendService;
     private final AmqpAdmin amqpAdmin;
     private final RabbitTemplate rabbitTemplate;
     private final RabbitProperties rabbitProperties;
-    private final Exchange exchange;
-    private final Exchange delayedExchange;
-    private final boolean enabledDelayedMessage;
+    private final MqBrokerProperties mqBrokerProperties;
+    private Exchange exchange;
+    private Exchange delayedExchange;
+    private boolean enabledDelayedMessage;
     private final String correlationDataRegex;
 
-    public MqBrokerRabbitProducer(AmqpAdmin amqpAdmin,
-                                  RabbitTemplate rabbitTemplate,
+    public MqBrokerRabbitProducer(MsgSendService msgSendService,
+                                  AmqpAdmin amqpAdmin,
+                                  ConnectionFactory connectionFactory,
                                   RabbitProperties rabbitProperties,
                                   MqBrokerProperties mqBrokerProperties,
                                   String correlationDataRegex) {
+        this.msgSendService = msgSendService;
         this.amqpAdmin = amqpAdmin;
-        this.rabbitTemplate = rabbitTemplate;
         this.rabbitProperties = rabbitProperties;
+        this.mqBrokerProperties = mqBrokerProperties;
         this.correlationDataRegex = correlationDataRegex;
+        this.rabbitTemplate = new RabbitTemplate(connectionFactory);
+        init();
+    }
+
+    private void init() {
+        this.rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+            assert correlationData != null;
+            String[] split = Objects.requireNonNull(correlationData.getId()).split(StrPool.COMMA);
+            String topic = split[0];
+            String code = split[1];
+            if (ack) {
+                msgSendService.success(topic, code);
+            } else {
+                msgSendService.failure(topic, code, Optional.ofNullable(cause).orElse("nack"));
+            }
+        });
+        this.rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
+            String json = new String(message.getBody());
+            Event<String> event = JSONUtil.toBean(json, new TypeReference<Event<String>>() {
+            }, true);
+            String cause = "replyCode: " + replyCode + ", replyText: " + replyText + ", exchange: " + exchange;
+            msgSendService.failure(routingKey, event.getKey(), cause);
+        });
         Exchange exchange = new DirectExchange("mqBrokerRabbit.exchange");
         amqpAdmin.declareExchange(exchange);
         enabledDelayedMessage = Objects.equals(mqBrokerProperties.getEnabledDelayedMessage(), Boolean.FALSE);
         Exchange delayedExchange = null;
         if (enabledDelayedMessage) {
-            final Map<String, Object> args = new HashMap<>(1);
-            args.put("x-delayed-type", "direct");
+            Map<String, Object> args = MapUtil.of("x-delayed-type", "direct");
             delayedExchange = new CustomExchange("mqBrokerRabbit.delayed.exchange", "x-delayed-message",
                     true, false, args);
             amqpAdmin.declareExchange(delayedExchange);

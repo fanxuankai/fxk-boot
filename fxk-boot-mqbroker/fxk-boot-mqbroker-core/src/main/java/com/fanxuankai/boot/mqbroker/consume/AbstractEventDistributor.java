@@ -11,12 +11,18 @@ import java.util.List;
  */
 public abstract class AbstractEventDistributor implements EventDistributor {
 
+    private final EventListenerRegistry eventListenerRegistry;
+
+    public AbstractEventDistributor(EventListenerRegistry eventListenerRegistry) {
+        this.eventListenerRegistry = eventListenerRegistry;
+    }
+
     @Override
     public void distribute(Event<?> event) {
         ListenerMetadata listenerMetadata = new ListenerMetadata();
         listenerMetadata.setGroup(event.getGroup());
         listenerMetadata.setTopic(event.getName());
-        List<EventListener<?>> eventListeners = EventListenerRegistry.getListeners(listenerMetadata);
+        List<EventListener<?>> eventListeners = eventListenerRegistry.getListeners(listenerMetadata);
         if (CollectionUtils.isEmpty(eventListeners)) {
             return;
         }

@@ -14,6 +14,10 @@ import java.util.List;
 public class AtMostManyEventDistributor extends AbstractEventDistributor {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtMostManyEventDistributor.class);
 
+    public AtMostManyEventDistributor(EventListenerRegistry eventListenerRegistry) {
+        super(eventListenerRegistry);
+    }
+
     @Override
     @SuppressWarnings("rawtypes unchecked")
     protected void onEvent(Event<?> event, List<EventListener<?>> eventListeners) {

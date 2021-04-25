@@ -20,7 +20,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +33,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     @Resource
     protected MsgSendService msgSendService;
     @Resource
-    private ExecutorService executorService;
+    private ThreadPoolExecutor threadPoolExecutor;
     @Resource
     private MqBrokerDingTalkClientHelper mqBrokerDingTalkClientHelper;
 
@@ -54,7 +54,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         }
         MsgSend msgSend = createMessageSend(event);
         if (async) {
-            executorService.execute(() -> save(msgSend));
+            threadPoolExecutor.execute(() -> save(msgSend));
         } else {
             save(msgSend);
         }
@@ -84,7 +84,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
                 .map(this::createMessageSend)
                 .collect(Collectors.toList());
         if (async) {
-            executorService.execute(() -> save(msgSends));
+            threadPoolExecutor.execute(() -> save(msgSends));
         } else {
             save(msgSends);
         }

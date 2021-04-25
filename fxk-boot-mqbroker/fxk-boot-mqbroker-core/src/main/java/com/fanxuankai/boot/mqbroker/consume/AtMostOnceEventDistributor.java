@@ -15,6 +15,10 @@ public class AtMostOnceEventDistributor extends AbstractEventDistributor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AtMostOnceEventDistributor.class);
 
+    public AtMostOnceEventDistributor(EventListenerRegistry eventListenerRegistry) {
+        super(eventListenerRegistry);
+    }
+
     @Override
     @SuppressWarnings("rawtypes unchecked")
     protected void onEvent(Event<?> event, List<EventListener<?>> eventListeners) {

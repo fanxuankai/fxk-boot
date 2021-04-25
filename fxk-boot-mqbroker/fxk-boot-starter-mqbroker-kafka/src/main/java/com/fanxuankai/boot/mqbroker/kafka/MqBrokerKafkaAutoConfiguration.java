@@ -24,8 +24,10 @@ public class MqBrokerKafkaAutoConfiguration {
 
     @Bean
     public KafkaMessageListenerContainer<String, String> messageListenerContainer(
-            ConsumerFactory<String, Object> consumerFactory, AbstractMqConsumer<String> mqConsumer) {
-        String[] topics = EventListenerRegistry.getAllListenerMetadata()
+            ConsumerFactory<String, Object> consumerFactory,
+            AbstractMqConsumer<String> mqConsumer,
+            EventListenerRegistry eventListenerRegistry) {
+        String[] topics = eventListenerRegistry.getAllListenerMetadata()
                 .stream()
                 .map(ListenerMetadata::getTopic).toArray(String[]::new);
         ContainerProperties properties = new ContainerProperties(topics);

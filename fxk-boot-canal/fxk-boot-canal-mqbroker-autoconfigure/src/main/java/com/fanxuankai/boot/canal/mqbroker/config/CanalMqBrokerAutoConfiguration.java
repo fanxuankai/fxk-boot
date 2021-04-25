@@ -3,29 +3,24 @@ package com.fanxuankai.boot.canal.mqbroker.config;
 import com.fanxuankai.boot.canal.mq.config.CanalMqProperties;
 import com.fanxuankai.boot.canal.mqbroker.CanalMqBrokerWorker;
 import com.fanxuankai.boot.mqbroker.consume.EventListener;
-import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
+import com.fanxuankai.boot.mqbroker.consume.EventListenerBean;
+import com.fanxuankai.boot.mqbroker.consume.EventListenerContainer;
+import com.fanxuankai.boot.mqbroker.consume.SimpleEventListenerContainer;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
-import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNull;
 
-import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author fanxuankai
  */
-public class CanalMqBrokerAutoConfiguration implements ApplicationContextAware {
-
-    @Resource
-    private ConsumerHelper consumerHelper;
-
+public class CanalMqBrokerAutoConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = CanalMqProperties.PREFIX, name = "enabled", havingValue = "true")
     @ConditionalOnMissingBean
@@ -35,10 +30,12 @@ public class CanalMqBrokerAutoConfiguration implements ApplicationContextAware {
                 eventPublisher);
     }
 
-    @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+    @Bean(name = "canalMqBrokerEventListenerContainer")
+    public EventListenerContainer eventListenerContainer(ConsumerHelper consumerHelper) {
+        SimpleEventListenerContainer container = new SimpleEventListenerContainer();
+        List<EventListenerBean> listeners = new ArrayList<>();
         consumerHelper.accept((definition, s) -> {
-            // EventListenerRegistry 代码注册方式不支持匿名类
+            // 不能使用 lambda, 否则无法获取泛型
             EventListener<String> eventListener = new EventListener<String>() {
                 @Override
                 public void onEvent(Event<String> event) {
@@ -50,7 +47,9 @@ public class CanalMqBrokerAutoConfiguration implements ApplicationContextAware {
             listenerMetadata.setTopic(s);
             listenerMetadata.setWaitRateSeconds(definition.getWaitRateSeconds());
             listenerMetadata.setWaitMaxSeconds(definition.getWaitMaxSeconds());
-            EventListenerRegistry.addListener(listenerMetadata, eventListener);
+            listeners.add(new EventListenerBean(listenerMetadata, eventListener));
         });
+        container.setListeners(listeners);
+        return container;
     }
 }

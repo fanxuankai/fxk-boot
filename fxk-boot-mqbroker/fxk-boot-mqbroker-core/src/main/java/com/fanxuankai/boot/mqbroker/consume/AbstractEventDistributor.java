@@ -1,26 +1,15 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.json.JSONUtil;
-import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
-import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * @author fanxuankai
  */
-public abstract class AbstractEventDistributor implements EventDistributor, Consumer<MsgReceive> {
-
-    @Resource
-    private MsgReceiveService msgReceiveService;
+public abstract class AbstractEventDistributor implements EventDistributor {
 
     @Override
     public void distribute(Event<?> event) {
@@ -32,25 +21,6 @@ public abstract class AbstractEventDistributor implements EventDistributor, Cons
             return;
         }
         onEvent(event, eventListeners);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void accept(MsgReceive msg) {
-        Event<Object> event = new Event<>();
-        event.setGroup(msg.getMsgGroup());
-        event.setName(msg.getTopic());
-        event.setKey(msg.getCode());
-        ListenerMetadata listenerMetadata = new ListenerMetadata();
-        listenerMetadata.setGroup(msg.getMsgGroup());
-        listenerMetadata.setTopic(msg.getTopic());
-        event.setData(JSONUtil.toBean(msg.getData(), EventListenerRegistry.getDataType(listenerMetadata)));
-        event.setRetryCount(msg.getRetryCount());
-        Optional.ofNullable(msg.getRetryCount())
-                .ifPresent(event::setRetryCount);
-        distribute(event);
-        msg.setHostAddress(NetUtil.getLocalhostStr());
-        msgReceiveService.success(msg);
     }
 
     /**

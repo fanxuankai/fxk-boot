@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
  */
 public class UserManager {
     public static List<Event<User>> mockData() {
-        return IntStream.range(0, 5000)
+        return IntStream.range(0, 1)
                 .mapToObj(value -> {
                     Event<User> event = new Event<>();
                     event.setName("user");

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Listener(event = "user", name = "mqBrokerConsumer", waitRateSeconds = 1, waitMaxSeconds = 10)
 public class UserEventListener implements EventListener<User> {
-
     @Override
     public void onEvent(Event<User> event) {
         System.out.println("接收到事件: " + JSONUtil.toJsonStr(event));

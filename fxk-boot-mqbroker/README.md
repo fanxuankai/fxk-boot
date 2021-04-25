@@ -96,8 +96,8 @@ mq-broker:
   #event-strategy:
     # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
     #user: DEFAULT
-  # 补偿时, 拉取消息的数量
-  #msg-size: 1000
+  # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+  #msg-size: 100
   # 补偿时, 拉取数据的间隔 ms
   #interval-millis: 1000
   # 钉钉推送配置(发送、消费失败)

@@ -1,9 +1,6 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -11,7 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
-import com.fanxuankai.boot.mqbroker.consume.EventDistributorFactory;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
@@ -20,8 +16,6 @@ import com.fanxuankai.boot.mqbroker.mapper.MsgReceiveMapper;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -32,7 +26,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -42,12 +35,10 @@ import java.util.stream.Collectors;
 @Component
 public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgReceive>
         implements MsgReceiveService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MsgReceiveServiceImpl.class);
-
     @Resource
     private MqBrokerProperties mqBrokerProperties;
     @Resource
-    private EventDistributorFactory eventDistributorFactory;
+    private MsgReceiveConsumer msgReceiveConsumer;
     @Resource
     private ExecutorService executorService;
     @Resource
@@ -146,29 +137,9 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     @Override
     public void consume(MsgReceive msg, boolean retry, boolean async) {
         if (async) {
-            executorService.execute(() -> consume(msg, retry));
+            executorService.execute(() -> msgReceiveConsumer.consume(msg, retry));
         } else {
-            consume(msg, retry);
-        }
-    }
-
-    private void consume(MsgReceive msg, boolean retry) {
-        int i = msg.getRetry();
-        boolean success = false;
-        msg = BeanUtil.copyProperties(msg, MsgReceive.class);
-        do {
-            try {
-                eventDistributorFactory.get(msg).accept(msg);
-                success = true;
-            } catch (Throwable throwable) {
-                LOGGER.error("消息消费失败, code: " + msg.getCode(), throwable);
-                msg.setCause(ExceptionUtil.stacktraceToString(throwable));
-                ThreadUtil.sleep(1, TimeUnit.SECONDS);
-                msg.setRetry(++i);
-            }
-        } while (!success && retry && i < mqBrokerProperties.getMaxRetry());
-        if (!success) {
-            failure(msg);
+            msgReceiveConsumer.consume(msg, retry);
         }
     }
 }

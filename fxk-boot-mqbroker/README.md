@@ -109,6 +109,16 @@ mq-broker:
     #env:
   # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
   #enabledDelayedMessage: false
+  # 元数据, 自定义表名字段名
+  meta-data:
+    # 发送表表名
+    #msg-send-table: 
+    # 接收表表名
+    #msg-receive-table: 
+    # 创建日期字段名
+    #create-date-column: 
+    # 修改日期字段名
+    #last-modified-date-column: 
 ```
 - 监听事件
 ```

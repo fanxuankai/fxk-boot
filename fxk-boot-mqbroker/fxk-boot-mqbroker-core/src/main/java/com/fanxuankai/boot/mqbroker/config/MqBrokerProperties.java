@@ -48,11 +48,16 @@ public class MqBrokerProperties {
      * 钉钉推送参数
      */
     @NestedConfigurationProperty
-    private DingTalk dingTalk = new DingTalk();
+    private DingTalk dingTalk;
     /**
      * 开启延迟消息
      */
     private Boolean enabledDelayedMessage = Boolean.FALSE;
+    /**
+     * 元数据
+     */
+    @NestedConfigurationProperty
+    private MetaData metaData;
 
     public int getMaxRetry() {
         return maxRetry;
@@ -126,6 +131,14 @@ public class MqBrokerProperties {
         this.enabledDelayedMessage = enabledDelayedMessage;
     }
 
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
+    }
+
     /**
      * 钉钉配置参数
      */
@@ -189,6 +202,60 @@ public class MqBrokerProperties {
 
         public void setEnv(String env) {
             this.env = env;
+        }
+    }
+
+    /**
+     * 元数据
+     */
+    public static class MetaData {
+        /**
+         * 发送表的表名
+         */
+        private String msgSendTable;
+        /**
+         * 接收表的表名
+         */
+        private String msgReceiveTable;
+        /**
+         * 创建时间字段名
+         */
+        private String createDateColumn;
+        /**
+         * 修改时间字段名
+         */
+        private String lastModifiedDateColumn;
+
+        public String getMsgSendTable() {
+            return msgSendTable;
+        }
+
+        public void setMsgSendTable(String msgSendTable) {
+            this.msgSendTable = msgSendTable;
+        }
+
+        public String getMsgReceiveTable() {
+            return msgReceiveTable;
+        }
+
+        public void setMsgReceiveTable(String msgReceiveTable) {
+            this.msgReceiveTable = msgReceiveTable;
+        }
+
+        public String getCreateDateColumn() {
+            return createDateColumn;
+        }
+
+        public void setCreateDateColumn(String createDateColumn) {
+            this.createDateColumn = createDateColumn;
+        }
+
+        public String getLastModifiedDateColumn() {
+            return lastModifiedDateColumn;
+        }
+
+        public void setLastModifiedDateColumn(String lastModifiedDateColumn) {
+            this.lastModifiedDateColumn = lastModifiedDateColumn;
         }
     }
 }

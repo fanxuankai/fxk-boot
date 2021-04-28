@@ -32,7 +32,8 @@ public class MqBrokerDingTalkClientHelper {
     private MqBrokerProperties mqBrokerProperties;
 
     public void push(String title, String group, String topic, String code) {
-        if (!Objects.equals(mqBrokerProperties.getDingTalk().getEnabled(), Boolean.TRUE)) {
+        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
+        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
             return;
         }
         OapiRobotSendRequest request = new OapiRobotSendRequest();
@@ -43,18 +44,19 @@ public class MqBrokerDingTalkClientHelper {
                 "> 分组: " + group + "\n\n" +
                 "> 主题: " + topic + "\n\n" +
                 "> 代码: " + code + "\n\n" +
-                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n"
+                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
         );
         request.setMarkdown(markdown);
         try {
-            newDingTalkClient().execute(request);
+            newDingTalkClient(dingTalk).execute(request);
         } catch (ApiException e) {
             LOGGER.error("钉钉推送异常", e);
         }
     }
 
     public void push(String title, String group, String topic, String code, int retry, String ip) {
-        if (!Objects.equals(mqBrokerProperties.getDingTalk().getEnabled(), Boolean.TRUE)) {
+        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
+        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
             return;
         }
         OapiRobotSendRequest request = new OapiRobotSendRequest();
@@ -67,18 +69,17 @@ public class MqBrokerDingTalkClientHelper {
                 "> 代码: " + code + "\n\n" +
                 "> 重试次数: " + retry + "\n\n" +
                 "> 服务器 IP: " + ip + "\n\n" +
-                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n"
+                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
         );
         request.setMarkdown(markdown);
         try {
-            newDingTalkClient().execute(request);
+            newDingTalkClient(dingTalk).execute(request);
         } catch (ApiException e) {
             LOGGER.error("钉钉推送异常", e);
         }
     }
 
-    public DingTalkClient newDingTalkClient() {
-        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
+    private DingTalkClient newDingTalkClient(MqBrokerProperties.DingTalk dingTalk) {
         String serviceUrl = dingTalk.getUrl();
         serviceUrl += "?access_token=" + dingTalk.getAccessToken();
         if (StringUtils.hasText(dingTalk.getSecret())) {

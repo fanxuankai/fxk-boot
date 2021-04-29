@@ -19,7 +19,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author fanxuankai
  */
 public class CanalAutoConfiguration implements ApplicationRunner {
-
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
     @Resource

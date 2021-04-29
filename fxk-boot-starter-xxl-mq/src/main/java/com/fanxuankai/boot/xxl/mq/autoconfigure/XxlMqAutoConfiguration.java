@@ -11,16 +11,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author fanxuankai
  */
 @Configuration
-@EnableConfigurationProperties(XxlMqConfiguration.class)
+@EnableConfigurationProperties(XxlMqProperties.class)
 @EnableScheduling
 public class XxlMqAutoConfiguration {
-
     @Bean
     @ConditionalOnMissingBean
-    public XxlMqSpringClientFactory xxlMqSpringClientFactory(XxlMqConfiguration xxlMqConfiguration) {
+    public XxlMqSpringClientFactory xxlMqSpringClientFactory(XxlMqProperties xxlMqProperties) {
         XxlMqSpringClientFactory xxlMqSpringClientFactory = new XxlMqSpringClientFactory();
-        xxlMqSpringClientFactory.setAdminAddress(xxlMqConfiguration.getAdmin().getAddress());
-        xxlMqSpringClientFactory.setAccessToken(xxlMqConfiguration.getAccessToken());
+        xxlMqSpringClientFactory.setAdminAddress(xxlMqProperties.getAdmin().getAddress());
+        xxlMqSpringClientFactory.setAccessToken(xxlMqProperties.getAccessToken());
         return xxlMqSpringClientFactory;
     }
 }

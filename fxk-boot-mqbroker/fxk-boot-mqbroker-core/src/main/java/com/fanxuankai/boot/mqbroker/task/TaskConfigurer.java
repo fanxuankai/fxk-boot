@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.mqbroker.task;
 
-import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
+import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;

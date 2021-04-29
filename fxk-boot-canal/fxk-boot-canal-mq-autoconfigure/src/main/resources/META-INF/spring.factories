@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.boot.canal.mq.config.CanalMqAutoConfiguration
+  com.fanxuankai.boot.canal.mq.config.autoconfigure.CanalMqAutoConfiguration

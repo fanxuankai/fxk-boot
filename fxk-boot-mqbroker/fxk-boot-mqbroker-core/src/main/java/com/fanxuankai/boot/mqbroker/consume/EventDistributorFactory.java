@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
-import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
+import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
 import org.springframework.stereotype.Component;
 

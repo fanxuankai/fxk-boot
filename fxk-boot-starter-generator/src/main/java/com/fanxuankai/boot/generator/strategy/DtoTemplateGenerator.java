@@ -5,7 +5,7 @@ import com.fanxuankai.boot.generator.model.GenConfig;
 import com.fanxuankai.boot.generator.strategy.annotation.TemplateFileAnnotation;
 import com.fanxuankai.boot.generator.strategy.enums.TemplateFile;
 import com.fanxuankai.boot.generator.strategy.model.DtoTemplateData;
-import com.fanxuankai.boot.generator.config.CodeGeneratorProperties;
+import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

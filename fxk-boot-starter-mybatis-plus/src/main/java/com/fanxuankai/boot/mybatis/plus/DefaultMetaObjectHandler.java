@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.mybatis.plus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.fanxuankai.boot.mybatis.plus.autoconfigure.MybatisPlusProperties;
 import org.apache.ibatis.reflection.MetaObject;
 
 import javax.annotation.Resource;
@@ -13,7 +14,6 @@ import java.util.Objects;
  * @author fanxuankai
  */
 public class DefaultMetaObjectHandler implements MetaObjectHandler {
-
     @Resource
     private MybatisPlusProperties mybatisPlusProperties;
 
@@ -54,5 +54,4 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
             strictUpdateFill(metaObject, fieldName, LocalDate.class, LocalDate.now());
         }
     }
-
 }

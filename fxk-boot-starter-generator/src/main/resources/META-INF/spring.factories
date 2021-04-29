@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.boot.generator.config.CodeGeneratorAutoconfigure
+  com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorAutoConfiguration

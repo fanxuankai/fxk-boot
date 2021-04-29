@@ -2,7 +2,7 @@ package com.fanxuankai.boot.generator.strategy;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fanxuankai.boot.generator.config.CodeGeneratorProperties;
+import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
 import com.fanxuankai.boot.generator.constants.Constants;
 import com.fanxuankai.boot.generator.model.ColumnInfo;
 import com.fanxuankai.boot.generator.model.GenConfig;

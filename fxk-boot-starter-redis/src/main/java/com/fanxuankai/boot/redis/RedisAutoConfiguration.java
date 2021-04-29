@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,8 +27,9 @@ public class RedisAutoConfiguration {
         Jackson2JsonRedisSerializer<?> jsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // JSON 字符串包含类型信息
-        om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
+        // JSON 字符串包含类型信息,类信息作为一个属性
+        om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY);
         jsonRedisSerializer.setObjectMapper(om);
         RedisSerializer<String> string = RedisSerializer.string();
         // key 和 hashKey 使用字符串序列化

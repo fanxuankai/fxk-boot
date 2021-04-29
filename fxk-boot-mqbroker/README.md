@@ -53,6 +53,27 @@ CREATE TABLE `mq_broker_msg_receive` (
   UNIQUE KEY `uk_topic_code` (`topic`,`code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='接收消息表';
 ```
+- 支持自定义表名字段名  
+在 resources 目录下创建 table-info.json
+```json
+[
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.Msg",
+    "fieldMap": {
+      "createDate": "my_create_date",
+      "lastModifiedDate": "my_last_modified_date"
+    }
+  },
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.MsgSend",
+    "tableName": "my_msg_send"
+  },
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.MsgReceive",
+    "tableName": "my_msg_receive"
+  }
+]
+```
 - 添加 maven 依赖
 ```xml
 <dependencies>
@@ -109,16 +130,6 @@ mq-broker:
     #env:
   # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
   #enabledDelayedMessage: false
-  # 元数据, 自定义表名字段名
-  meta-data:
-    # 发送表表名
-    #msg-send-table: 
-    # 接收表表名
-    #msg-receive-table: 
-    # 创建日期字段名
-    #create-date-column: 
-    # 修改日期字段名
-    #last-modified-date-column: 
 ```
 - 监听事件
 ```

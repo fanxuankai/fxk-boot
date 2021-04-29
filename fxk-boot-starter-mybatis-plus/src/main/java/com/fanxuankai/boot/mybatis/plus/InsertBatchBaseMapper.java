@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mybatis.plus.autoconfigure;
+package com.fanxuankai.boot.mybatis.plus;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

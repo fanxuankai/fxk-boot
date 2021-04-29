@@ -23,6 +23,20 @@ CREATE TABLE `sys_enum` (
   UNIQUE KEY `uk_type_code` (`type_id`,`code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='枚举';
 ```
+- 支持自定义表名  
+在 resources 目录下创建 table-info.json
+```json
+[
+  {
+    "className": "com.fanxuankai.boot.enums.domain.Enum",
+    "tableName": "my_sys_enum"
+  },
+  {
+    "className": "com.fanxuankai.boot.enums.domain.EnumType",
+    "tableName": "my_sys_enum_type"
+  }
+]
+```
 - 添加依赖
 ```xml
 <dependency>

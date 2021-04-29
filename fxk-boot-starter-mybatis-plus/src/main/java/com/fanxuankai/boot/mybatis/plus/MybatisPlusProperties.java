@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mybatis.plus.autoconfigure;
+package com.fanxuankai.boot.mybatis.plus;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.mybatis.plus.autoconfigure;
+package com.fanxuankai.boot.mybatis.plus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -25,8 +25,7 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
         if (Objects.equals(Date.class.getName(), createDateFieldType)) {
             strictInsertFill(metaObject, createDateFieldName, Date.class, new Date());
         } else if (Objects.equals(LocalDateTime.class.getName(), createDateFieldType)) {
-            strictInsertFill(metaObject, createDateFieldName, LocalDateTime.class,
-                    LocalDateTime.now());
+            strictInsertFill(metaObject, createDateFieldName, LocalDateTime.class, LocalDateTime.now());
         } else if (Objects.equals(LocalDate.class.getName(), createDateFieldType)) {
             strictInsertFill(metaObject, createDateFieldName, LocalDate.class, LocalDate.now());
         }

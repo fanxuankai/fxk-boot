@@ -1,8 +1,5 @@
 package com.fanxuankai.boot.springfox.autoconfigure;
 
-import com.fanxuankai.boot.springfox.ApiInfoConfiguration;
-import com.fanxuankai.boot.springfox.ApisConfiguration;
-import com.fanxuankai.boot.springfox.DocketConfiguration;
 import io.swagger.models.auth.In;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,7 +39,7 @@ public class SwaggerAutoConfiguration implements WebMvcConfigurer {
 
     @Bean
     public Docket createRestApi() throws ClassNotFoundException {
-        DocketConfiguration docket = swaggerProperties.getDocket();
+        SwaggerProperties.Docket docket = swaggerProperties.getDocket();
         return new Docket(DocumentationType.OAS_30)
                 .pathMapping("/")
                 // 开关
@@ -65,7 +62,7 @@ public class SwaggerAutoConfiguration implements WebMvcConfigurer {
 
     @SuppressWarnings("unchecked")
     private Predicate<RequestHandler> apis() throws ClassNotFoundException {
-        ApisConfiguration apis = swaggerProperties.getDocket().getApis();
+        SwaggerProperties.Apis apis = swaggerProperties.getDocket().getApis();
         if (apis == null) {
             return RequestHandlerSelectors.any();
         }
@@ -91,7 +88,7 @@ public class SwaggerAutoConfiguration implements WebMvcConfigurer {
      * API 页面上半部分展示信息
      */
     private ApiInfo apiInfo() {
-        ApiInfoConfiguration apiInfo = swaggerProperties.getDocket().getApiInfo();
+        SwaggerProperties.ApiInfo apiInfo = swaggerProperties.getDocket().getApiInfo();
         if (apiInfo == null) {
             return null;
         }

@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 /**
  * @author fanxuankai
  */
-public class Oauth2MetadataSourceService implements FilterInvocationSecurityMetadataSource {
+public class Oauth2MetadataSource implements FilterInvocationSecurityMetadataSource {
     private final PermissionMapper permissionMapper;
 
-    public Oauth2MetadataSourceService(PermissionMapper permissionMapper) {
+    public Oauth2MetadataSource(PermissionMapper permissionMapper) {
         this.permissionMapper = permissionMapper;
     }
 

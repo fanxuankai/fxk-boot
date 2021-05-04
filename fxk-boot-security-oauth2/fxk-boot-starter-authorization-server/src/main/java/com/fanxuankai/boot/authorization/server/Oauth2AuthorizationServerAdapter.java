@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
@@ -26,13 +26,16 @@ public class Oauth2AuthorizationServerAdapter extends AuthorizationServerConfigu
      */
     private final DataSource dataSource;
     private final UserDetailsService userDetailsService;
+    private final TokenStore tokenStore;
 
     public Oauth2AuthorizationServerAdapter(AuthenticationManager authenticationManager,
                                             DataSource dataSource,
-                                            UserDetailsService userDetailsService) {
+                                            UserDetailsService userDetailsService,
+                                            TokenStore tokenStore) {
         this.authenticationManager = authenticationManager;
         this.dataSource = dataSource;
         this.userDetailsService = userDetailsService;
+        this.tokenStore = tokenStore;
     }
 
     @Override
@@ -53,8 +56,8 @@ public class Oauth2AuthorizationServerAdapter extends AuthorizationServerConfigu
         converter.setSigningKey("test-secret");
         // 开启密码授权类型
         endpoints.authenticationManager(authenticationManager)
-                // 配置token存储方式，一共有五种，这里采用数据库的方式
-                .tokenStore(new JdbcTokenStore(dataSource))
+                // 配置token存储方式，一共有五种
+                .tokenStore(tokenStore)
                 // 对Jwt签名时，增加一个密钥，JwtAccessTokenConverter：对Jwt来进行编码以及解码的类
                 .accessTokenConverter(converter)
                 // 鉴权失败时的返回信息

@@ -18,9 +18,11 @@ import org.springframework.security.access.intercept.AbstractSecurityInterceptor
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
@@ -37,8 +39,11 @@ import javax.sql.DataSource;
 public class Oauth2AuthorizationServerAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    public AuthorizationServerConfigurerAdapter authorizationServerConfigurerAdapter(AuthenticationManager authenticationManager, DataSource dataSource, UserDetailsService userDetailsService) {
-        return new Oauth2AuthorizationServerAdapter(authenticationManager, dataSource, userDetailsService);
+    public AuthorizationServerConfigurer authorizationServerConfigurer(AuthenticationManager authenticationManager,
+                                                                       DataSource dataSource,
+                                                                       UserDetailsService userDetailsService,
+                                                                       TokenStore tokenStore) {
+        return new Oauth2AuthorizationServerAdapter(authenticationManager, dataSource, userDetailsService, tokenStore);
     }
 
     @Bean
@@ -56,13 +61,13 @@ public class Oauth2AuthorizationServerAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SecurityMetadataSource securityMetadataSource(PermissionMapper permissionMapper) {
-        return new Oauth2MetadataSourceService(permissionMapper);
+        return new Oauth2MetadataSource(permissionMapper);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public UserDetailsService userDetailsService(UserDao userDao, RoleDao roleDao, UserRoleDao userRoleDao) {
-        return new Oauth2UserDetailsService(userDao, roleDao, userRoleDao);
+        return new Oauth2UserDetailsServiceImpl(userDao, roleDao, userRoleDao);
     }
 
     @Bean
@@ -70,5 +75,11 @@ public class Oauth2AuthorizationServerAutoConfiguration {
     public AbstractSecurityInterceptor securityInterceptor(SecurityMetadataSource securityMetadataSource,
                                                            AccessDecisionManager accessDecisionManager) {
         return new Oauth2SecurityInterceptor(securityMetadataSource, accessDecisionManager);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TokenStore tokenStore(DataSource dataSource) {
+        return new JdbcTokenStore(dataSource);
     }
 }

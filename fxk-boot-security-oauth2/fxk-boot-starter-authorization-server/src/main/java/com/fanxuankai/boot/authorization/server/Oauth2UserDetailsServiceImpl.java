@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * @author fanxuankai
  */
-public class Oauth2UserDetailsService implements UserDetailsService {
+public class Oauth2UserDetailsServiceImpl implements UserDetailsService {
     private final UserDao userDao;
     private final RoleDao roleDao;
     private final UserRoleDao userRoleDao;
 
-    public Oauth2UserDetailsService(UserDao userDao, RoleDao roleDao, UserRoleDao userRoleDao) {
+    public Oauth2UserDetailsServiceImpl(UserDao userDao, RoleDao roleDao, UserRoleDao userRoleDao) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.userRoleDao = userRoleDao;

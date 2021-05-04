@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.fanxuankai.boot.resource.server.autoconfigure.Oauth2ResourceServerAutoConfiguration

@@ -44,6 +44,8 @@
         <javassist.version>3.27.0-GA</javassist.version>
         <xxl-mq-client.version>1.2.2</xxl-mq-client.version>
         <springfox.version>3.0.0</springfox.version>
+        <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <spring-security-oauth.version>2.2.7.RELEASE</spring-security-oauth.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -53,6 +55,16 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${spring-security-oauth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-jwt</artifactId>
+                <version>${spring-security-jwt.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fanxuankai</groupId>
@@ -289,6 +301,16 @@
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-starter-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-authorization-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-resource-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

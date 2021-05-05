@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.generator.strategy;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
 import com.fanxuankai.boot.generator.constants.Constants;
@@ -49,9 +50,8 @@ public class QueryCriteriaTemplateGenerator extends AbstractTemplateGenerator<Qu
     @Override
     protected QueryCriteriaTemplateData getTemplateData(GenConfig genConfig, CodeGeneratorProperties properties) {
         QueryCriteriaTemplateData data = super.getTemplateData(genConfig, properties);
-        String comma = ",";
         data.setColumns(data.getColumns().stream()
-                .flatMap(columnData -> Arrays.stream(columnData.getQueryType().split(comma))
+                .flatMap(columnData -> Arrays.stream(columnData.getQueryType().split(StrPool.COMMA))
                         .map(s -> {
                             ColumnData o = new ColumnData();
                             BeanUtil.copyProperties(columnData, o);

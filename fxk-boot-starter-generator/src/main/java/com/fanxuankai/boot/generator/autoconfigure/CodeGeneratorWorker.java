@@ -1,6 +1,8 @@
 package com.fanxuankai.boot.generator.autoconfigure;
 
+import cn.hutool.core.text.StrPool;
 import com.fanxuankai.boot.generator.service.GeneratorService;
+import com.fanxuankai.commons.core.util.OptionalUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -26,11 +28,11 @@ public class CodeGeneratorWorker implements ApplicationRunner {
      * 生成代码
      */
     private void generate() {
-        String regex = ",";
-        for (String file : generatorProperties.getTables()
-                .split(regex)) {
-            generatorService.generateCode(file);
-        }
-        System.exit(0);
+        OptionalUtils.of(generatorProperties.getTables())
+                .ifPresent(tables -> {
+                    for (String file : tables.split(StrPool.COMMA)) {
+                        generatorService.generateCode(file);
+                    }
+                });
     }
 }

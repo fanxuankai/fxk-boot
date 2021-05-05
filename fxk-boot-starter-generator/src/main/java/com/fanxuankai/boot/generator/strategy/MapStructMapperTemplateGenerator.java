@@ -27,7 +27,7 @@ public class MapStructMapperTemplateGenerator extends AbstractTemplateGenerator<
 
     @Override
     protected String getSuffix() {
-        return "MapStructMapper";
+        return "Converter";
     }
 
 }

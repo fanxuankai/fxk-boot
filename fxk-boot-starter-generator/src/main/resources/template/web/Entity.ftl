@@ -1,11 +1,11 @@
 package ${packageName}.model;
 
-import com.fanxuankai.commons.extra.mybatis.domain.BaseModel;
 <#if fill>
 import com.baomidou.mybatisplus.annotation.FieldFill;
 </#if>
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fanxuankai.commons.extra.mybatis.base.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

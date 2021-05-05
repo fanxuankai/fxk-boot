@@ -18,7 +18,7 @@ code-generator:
   # 密码
   password: 123456
   # 需要生成的表
-  tables: t_user
+  tables:
   # 作者
   author: fanxuankai
   # 去表前缀
@@ -38,16 +38,16 @@ code-generator:
   # 自动填值 { 列名: INSERT|UPDATE|INSERT_UPDATE }
   auto-fill:
     create_user_id: INSERT
-    gmt_create: INSERT
+    create_date: INSERT
     modified_user_id: UPDATE
-    gmt_modified: UPDATE
+    last_modified_date: UPDATE
     deleted: INSERT
   # dto 不显示的字段
-  form-exclude-columns: create_user_id,gmt_create,modified_user_id,gmt_modified,deleted
+  form-exclude-columns: create_user_id,create_date,modified_user_id,last_modified_date,deleted
   # vo 不显示的字段
   list-exclude-columns: deleted
   # 父类字段
-  inherited-columns: id,create_user_id,gmt_create,modified_user_id,gmt_modified,deleted
+  inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
   # 数据库类型转 Java 类型
   column-type-mapping:
     bigint: Long

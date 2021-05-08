@@ -2,6 +2,7 @@ package com.fanxuankai.boot.enums.web;
 
 import com.fanxuankai.boot.enums.EnumVO;
 import com.fanxuankai.boot.enums.service.EnumService;
+import com.fanxuankai.commons.core.util.ResultUtils;
 import com.fanxuankai.commons.domain.Result;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class EnumController {
     @GetMapping("/get/{typeName}")
     public Result<EnumVO> get(@PathVariable String typeName) {
         EnumVO enumVO = enumService.find(typeName).orElse(null);
-        return Result.newResult(enumVO);
+        return ResultUtils.newResult(enumVO);
     }
 
     /**
@@ -41,6 +42,6 @@ public class EnumController {
     @PostMapping("/list")
     public Result<List<EnumVO>> list(@RequestBody(required = false) List<String> typeNames) {
         List<EnumVO> list = CollectionUtils.isEmpty(typeNames) ? enumService.all() : enumService.list(typeNames);
-        return Result.newResult(list);
+        return ResultUtils.newResult(list);
     }
 }

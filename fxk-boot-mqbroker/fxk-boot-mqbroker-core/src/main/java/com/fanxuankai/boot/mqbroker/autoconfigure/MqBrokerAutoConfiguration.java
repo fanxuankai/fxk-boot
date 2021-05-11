@@ -6,7 +6,6 @@ import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import com.fanxuankai.boot.mqbroker.task.TaskConfigurer;
 import com.fanxuankai.commons.core.util.concurrent.ThreadPool;
-import com.fanxuankai.commons.extra.mybatis.util.MetadataUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,10 +33,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @EnableTransactionManagement
 @EnableScheduling
 public class MqBrokerAutoConfiguration {
-    static {
-        MetadataUtils.modifyMetadataIfNecessary();
-    }
-
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean
     public ScheduledExecutorService scheduledExecutorService() {

@@ -9,11 +9,11 @@ public enum Deleted implements EnumProtocol {
     /**
      * 未删除
      */
-    NO(0, "未删除"),
+    NO(10, "未删除"),
     /**
      * 已删除
      */
-    YES(1, "已删除"),
+    YES(15, "已删除"),
     ;
     private final int code;
     private final String value;

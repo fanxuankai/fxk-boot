@@ -56,7 +56,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 ```
 
-- JSON 配置
+- JSON 配置  
+code 不指定则默认为自增长数字
 ```json
 [
   {

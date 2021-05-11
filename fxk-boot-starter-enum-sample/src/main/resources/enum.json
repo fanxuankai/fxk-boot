@@ -6,10 +6,12 @@
     },
     "enumList": [
       {
+        "code": 10,
         "name": "no",
         "value": "未删除"
       },
       {
+        "code": 15,
         "name": "yes",
         "value": "已删除"
       }

@@ -17,16 +17,15 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 public class Oauth2MetadataSource implements FilterInvocationSecurityMetadataSource {
+    /**
+     * 每一个资源所需要的角色 Collection<ConfigAttribute>决策器会用到
+     */
+    private static Map<String, Collection<ConfigAttribute>> map = Collections.emptyMap();
     private final PermissionMapper permissionMapper;
 
     public Oauth2MetadataSource(PermissionMapper permissionMapper) {
         this.permissionMapper = permissionMapper;
     }
-
-    /**
-     * 每一个资源所需要的角色 Collection<ConfigAttribute>决策器会用到
-     */
-    private static Map<String, Collection<ConfigAttribute>> map = Collections.emptyMap();
 
     /**
      * 返回请求的资源需要的角色

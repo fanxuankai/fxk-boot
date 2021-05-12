@@ -33,11 +33,11 @@ import java.util.*;
  */
 @Service
 public class GeneratorServiceImpl implements GeneratorService, ApplicationContextAware {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorServiceImpl.class);
     private final CodeGeneratorProperties properties;
     private final JdbcTemplate jdbcTemplate;
-    private Collection<TemplateGenerator> templateGenerators;
     private final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorServiceImpl.class);
+    private Collection<TemplateGenerator> templateGenerators;
 
     public GeneratorServiceImpl(CodeGeneratorProperties properties, JdbcTemplate jdbcTemplate) {
         this.properties = properties;

@@ -5,7 +5,7 @@ import com.fanxuankai.boot.mqbroker.mapper.MsgSendMapper;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import com.fanxuankai.boot.mqbroker.task.TaskConfigurer;
-import com.fanxuankai.commons.core.util.concurrent.ThreadPool;
+import com.fanxuankai.commons.util.concurrent.ThreadPool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

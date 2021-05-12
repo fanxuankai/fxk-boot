@@ -12,12 +12,12 @@ import javax.annotation.Resource;
  */
 @SpringBootApplication
 public class EnumApp implements ApplicationRunner {
+    @Resource
+    private EnumGenerator enumGenerator;
+
     public static void main(String[] args) {
         SpringApplication.run(EnumApp.class, args);
     }
-
-    @Resource
-    private EnumGenerator enumGenerator;
 
     @Override
     public void run(ApplicationArguments args) {

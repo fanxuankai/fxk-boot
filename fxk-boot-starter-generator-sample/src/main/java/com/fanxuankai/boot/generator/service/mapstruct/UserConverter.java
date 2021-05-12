@@ -3,7 +3,7 @@ package com.fanxuankai.boot.generator.service.mapstruct;
 import com.fanxuankai.boot.generator.dto.UserDto;
 import com.fanxuankai.boot.generator.model.User;
 import com.fanxuankai.boot.generator.vo.UserVo;
-import com.fanxuankai.commons.core.util.Converter;
+import com.fanxuankai.commons.util.Converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

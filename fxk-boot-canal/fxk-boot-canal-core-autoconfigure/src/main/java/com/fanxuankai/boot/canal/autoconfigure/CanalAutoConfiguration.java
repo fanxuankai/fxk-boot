@@ -3,7 +3,7 @@ package com.fanxuankai.boot.canal.autoconfigure;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fanxuankai.canal.core.CanalWorker;
 import com.fanxuankai.canal.core.config.CanalWorkConfiguration;
-import com.fanxuankai.commons.core.util.concurrent.ThreadPool;
+import com.fanxuankai.commons.util.concurrent.ThreadPool;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

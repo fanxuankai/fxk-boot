@@ -15,14 +15,14 @@ import java.util.concurrent.TimeUnit;
 @Component
 @SuppressWarnings({"unchecked", "unused"})
 public class RedisUtils implements InitializingBean {
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
     private static RedisTemplate<String, Object> rt;
     private static ValueOperations<String, Object> valueOps;
     private static ListOperations<String, Object> listOps;
     private static HashOperations<String, String, Object> hashOps;
     private static ZSetOperations<String, Object> zSetOps;
     private static SetOperations<String, Object> setOps;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void afterPropertiesSet() {

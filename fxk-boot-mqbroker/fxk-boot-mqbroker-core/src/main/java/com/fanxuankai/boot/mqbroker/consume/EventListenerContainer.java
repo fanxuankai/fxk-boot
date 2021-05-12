@@ -7,16 +7,16 @@ import java.util.List;
  */
 public interface EventListenerContainer {
     /**
-     * 设置事件监听者
-     *
-     * @param listeners /
-     */
-    void setListeners(List<EventListenerBean> listeners);
-
-    /**
      * 获取事件监听者
      *
      * @return /
      */
     List<EventListenerBean> getListeners();
+
+    /**
+     * 设置事件监听者
+     *
+     * @param listeners /
+     */
+    void setListeners(List<EventListenerBean> listeners);
 }

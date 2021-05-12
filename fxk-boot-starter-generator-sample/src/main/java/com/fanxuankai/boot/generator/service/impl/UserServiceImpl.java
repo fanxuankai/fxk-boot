@@ -8,7 +8,7 @@ import com.fanxuankai.boot.generator.service.UserService;
 import com.fanxuankai.boot.generator.service.mapstruct.UserConverter;
 import com.fanxuankai.boot.generator.vo.UserVo;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
-import com.fanxuankai.commons.web.util.ExcelUtils;
+import com.fanxuankai.commons.util.ExcelDownloadUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,8 @@ import java.util.Map;
  * @date 2021-05-05
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, UserQueryCriteria, UserConverter, UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, UserQueryCriteria, UserConverter,
+        UserDao> implements UserService {
     @Override
     public void download(List<UserVo> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -48,6 +49,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, User
             map.put("修改时间", user.getLastModifiedDate());
             list.add(map);
         }
-        ExcelUtils.downloadExcel(list, response);
+        ExcelDownloadUtils.downloadExcel(list, response);
     }
 }

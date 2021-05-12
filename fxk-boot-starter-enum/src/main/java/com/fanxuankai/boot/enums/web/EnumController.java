@@ -2,8 +2,8 @@ package com.fanxuankai.boot.enums.web;
 
 import com.fanxuankai.boot.enums.EnumVO;
 import com.fanxuankai.boot.enums.service.EnumService;
-import com.fanxuankai.commons.core.util.ResultUtils;
 import com.fanxuankai.commons.domain.Result;
+import com.fanxuankai.commons.util.ResultUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 

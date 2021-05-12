@@ -25,7 +25,7 @@ public interface UserApi {
      * @return List
      */
     @GetMapping("api/user/list")
-   	List<UserVo> list(@RequestBody UserQueryCriteria criteria);
+    List<UserVo> list(@RequestBody UserQueryCriteria criteria);
 
     /**
      * 根据 ID 查询用户

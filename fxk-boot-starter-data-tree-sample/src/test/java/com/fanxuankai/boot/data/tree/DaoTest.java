@@ -3,7 +3,7 @@ package com.fanxuankai.boot.data.tree;
 import cn.hutool.core.lang.UUID;
 import com.fanxuankai.boot.data.tree.dao.UserTreeDao;
 import com.fanxuankai.boot.data.tree.domain.UserTree;
-import com.fanxuankai.commons.core.util.IdUtils;
+import com.fanxuankai.commons.util.IdUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +17,9 @@ import javax.annotation.Resource;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DaoTest {
+    private final long rootId = 1;
     @Resource
     private UserTreeDao dao;
-
-    private final long rootId = 1;
     private long childrenId = 2;
     private long floorId = 1000;
 

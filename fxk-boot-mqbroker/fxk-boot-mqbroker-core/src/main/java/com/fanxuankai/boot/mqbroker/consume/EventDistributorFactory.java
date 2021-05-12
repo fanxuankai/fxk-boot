@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Component
 public class EventDistributorFactory {
 
+    private final Map<EventStrategy, AbstractEventDistributor> consumerMap;
     @Resource
     private MqBrokerProperties mqBrokerProperties;
-    private final Map<EventStrategy, AbstractEventDistributor> consumerMap;
 
     public EventDistributorFactory(List<AbstractEventDistributor> distributors) {
         consumerMap = distributors.stream()

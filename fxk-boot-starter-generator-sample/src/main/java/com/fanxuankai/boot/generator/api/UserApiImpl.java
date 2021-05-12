@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserApiImpl implements UserApi {
 
-	private final UserService userService;
+    private final UserService userService;
 
     /**
      * 查询用户所有数据不分页

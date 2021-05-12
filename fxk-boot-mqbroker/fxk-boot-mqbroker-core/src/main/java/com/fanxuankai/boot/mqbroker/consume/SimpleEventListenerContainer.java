@@ -9,12 +9,12 @@ public class SimpleEventListenerContainer implements EventListenerContainer {
     private List<EventListenerBean> listeners;
 
     @Override
-    public void setListeners(List<EventListenerBean> listeners) {
-        this.listeners = listeners;
+    public List<EventListenerBean> getListeners() {
+        return listeners;
     }
 
     @Override
-    public List<EventListenerBean> getListeners() {
-        return listeners;
+    public void setListeners(List<EventListenerBean> listeners) {
+        this.listeners = listeners;
     }
 }

@@ -28,6 +28,14 @@ public class EnumDTO {
         this.enumList = enumList;
     }
 
+    @Override
+    public String toString() {
+        return "EnumDTO{" +
+                "enumType=" + enumType +
+                ", enumList=" + enumList +
+                '}';
+    }
+
     /**
      * 枚举类型
      */
@@ -115,13 +123,5 @@ public class EnumDTO {
                     ", value='" + value + '\'' +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "EnumDTO{" +
-                "enumType=" + enumType +
-                ", enumList=" + enumList +
-                '}';
     }
 }

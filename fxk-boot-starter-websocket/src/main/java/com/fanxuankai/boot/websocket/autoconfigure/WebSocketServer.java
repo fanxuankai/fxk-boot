@@ -30,6 +30,42 @@ public class WebSocketServer {
     private String sid = "";
 
     /**
+     * 群发自定义消息
+     */
+    public static void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
+        log.info("推送消息到窗口" + sid + "，推送内容:" + message);
+
+        for (WebSocketServer item : webSocketSet) {
+            try {
+                //为null则全部推送
+                if (sid == null) {
+//                    item.sendMessage(message);
+                } else if (item.sid.equals(sid)) {
+                    item.sendMessage(message);
+                }
+            } catch (IOException e) {
+                continue;
+            }
+        }
+    }
+
+    public static synchronized int getOnlineCount() {
+        return onlineCount;
+    }
+
+    public static synchronized void addOnlineCount() {
+        WebSocketServer.onlineCount++;
+    }
+
+    public static synchronized void subOnlineCount() {
+        WebSocketServer.onlineCount--;
+    }
+
+    public static CopyOnWriteArraySet<WebSocketServer> getWebSocketSet() {
+        return webSocketSet;
+    }
+
+    /**
      * 连接建立成功调用的方法
      */
     @OnOpen
@@ -93,41 +129,5 @@ public class WebSocketServer {
      */
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
-    }
-
-    /**
-     * 群发自定义消息
-     */
-    public static void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
-        log.info("推送消息到窗口" + sid + "，推送内容:" + message);
-
-        for (WebSocketServer item : webSocketSet) {
-            try {
-                //为null则全部推送
-                if (sid == null) {
-//                    item.sendMessage(message);
-                } else if (item.sid.equals(sid)) {
-                    item.sendMessage(message);
-                }
-            } catch (IOException e) {
-                continue;
-            }
-        }
-    }
-
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static synchronized void addOnlineCount() {
-        WebSocketServer.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        WebSocketServer.onlineCount--;
-    }
-
-    public static CopyOnWriteArraySet<WebSocketServer> getWebSocketSet() {
-        return webSocketSet;
     }
 }

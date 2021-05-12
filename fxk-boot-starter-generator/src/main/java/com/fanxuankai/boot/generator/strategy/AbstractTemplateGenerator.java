@@ -11,13 +11,13 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
+import com.fanxuankai.boot.generator.constants.Constants;
 import com.fanxuankai.boot.generator.model.ColumnInfo;
 import com.fanxuankai.boot.generator.model.GenConfig;
 import com.fanxuankai.boot.generator.strategy.annotation.TemplateFileAnnotation;
 import com.fanxuankai.boot.generator.strategy.model.ColumnData;
 import com.fanxuankai.boot.generator.strategy.model.TemplateData;
 import com.fanxuankai.boot.generator.utils.StringUtils;
-import com.fanxuankai.boot.generator.constants.Constants;
 import org.springframework.util.ObjectUtils;
 
 import java.io.File;

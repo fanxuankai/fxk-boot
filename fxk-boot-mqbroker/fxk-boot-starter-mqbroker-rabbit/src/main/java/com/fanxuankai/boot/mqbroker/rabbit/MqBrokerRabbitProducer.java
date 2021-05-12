@@ -31,10 +31,10 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitProperties rabbitProperties;
     private final MqBrokerProperties mqBrokerProperties;
+    private final String correlationDataRegex;
     private Exchange exchange;
     private Exchange delayedExchange;
     private boolean enabledDelayedMessage;
-    private final String correlationDataRegex;
 
     public MqBrokerRabbitProducer(MsgSendService msgSendService,
                                   AmqpAdmin amqpAdmin,

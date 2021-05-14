@@ -4,7 +4,3 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-delete-field: deleted

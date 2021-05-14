@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.data.tree;
 
 import cn.hutool.core.lang.UUID;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.data.tree.dao.UserTreeDao;
 import com.fanxuankai.boot.data.tree.domain.UserTree;
 import com.fanxuankai.commons.util.IdUtils;
@@ -16,7 +17,7 @@ import javax.annotation.Resource;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class DaoTest {
+public class UserTreeDaoTest {
     private final long rootId = 1;
     @Resource
     private UserTreeDao dao;
@@ -25,6 +26,7 @@ public class DaoTest {
 
     @Test
     public void test() {
+        dao.remove(Wrappers.emptyWrapper());
         buildTree();
         query();
         moveNode();

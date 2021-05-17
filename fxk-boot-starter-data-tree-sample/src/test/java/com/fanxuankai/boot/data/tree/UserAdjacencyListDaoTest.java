@@ -1,8 +1,9 @@
 package com.fanxuankai.boot.data.tree;
 
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fanxuankai.boot.data.tree.dao.UserPathTreeDao;
-import com.fanxuankai.boot.data.tree.domain.UserPathTree;
+import com.fanxuankai.boot.data.tree.dao.UserAdjacencyListDao;
+import com.fanxuankai.boot.data.tree.domain.UserAdjacencyList;
 import com.fanxuankai.commons.util.IdUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,20 +11,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author fanxuankai
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class UserPathTreeDaoTest {
-    private final long rootId = 1;
+public class UserAdjacencyListDaoTest {
     @Resource
-    private UserPathTreeDao dao;
+    private UserAdjacencyListDao dao;
+    private final long rootId = 1;
     private long childrenId = 2;
     private long floorId = 1000;
-    private final LongAdder longAdder = new LongAdder();
 
     @Test
     public void test() {
@@ -36,10 +35,9 @@ public class UserPathTreeDaoTest {
 
     @Test
     public void buildTree() {
-        UserPathTree node = new UserPathTree();
+        UserAdjacencyList node = new UserAdjacencyList();
         node.setId(rootId);
-        node.setCode("" + longAdder.longValue());
-        longAdder.increment();
+        node.setCode(UUID.fastUUID().toString());
         node.setName("root");
         dao.insertNode(node);
         addChildren(node.getId(), 2, 2, 10);
@@ -48,29 +46,31 @@ public class UserPathTreeDaoTest {
     @Test
     public void query() {
         long id = childrenId - 1;
-        dao.ancestor(floorId - 1);
+        dao.ancestors(floorId - 1);
         dao.descendants(rootId);
         dao.parent(id);
         dao.children(rootId);
         dao.sibling(id);
-        dao.leaf(rootId);
-        dao.nonLeaf(rootId);
-        dao.root(rootId);
+        dao.leaf(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
+        dao.nonLeaf(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
+        dao.roots(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
         dao.degree(rootId);
         dao.level(id);
         dao.height(rootId);
         dao.degree(rootId);
-        dao.roots(null);
+        dao.roots(Wrappers.lambdaQuery(UserAdjacencyList.class));
     }
 
     @Test
     public void moveNode() {
-        dao.moveNode(2L, 3L);
+        UserAdjacencyList entity = new UserAdjacencyList();
+        entity.setPid(3L);
+        dao.update(entity, Wrappers.lambdaUpdate(UserAdjacencyList.class).eq(UserAdjacencyList::getId, 2L));
     }
 
     @Test
     public void removeNode() {
-        dao.removeNode(rootId);
+        dao.removeNode(rootId, true);
     }
 
     /**
@@ -86,7 +86,7 @@ public class UserPathTreeDaoTest {
             return;
         }
         for (int i = 0; i < c; i++) {
-            UserPathTree node = new UserPathTree();
+            UserAdjacencyList node = new UserAdjacencyList();
             long _id;
             if (level == 2) {
                 _id = childrenId++;
@@ -96,8 +96,7 @@ public class UserPathTreeDaoTest {
                 _id = IdUtils.nextId();
             }
             node.setId(_id);
-            node.setCode("" + longAdder.longValue());
-            longAdder.increment();
+            node.setCode(UUID.fastUUID().toString());
             node.setName(level + "代" + i);
             node.setPid(id);
             dao.insertNode(node);

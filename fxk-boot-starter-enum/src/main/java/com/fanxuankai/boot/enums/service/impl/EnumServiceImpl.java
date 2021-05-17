@@ -58,6 +58,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
         Map<Long, EnumType> enumTypeMap = enumTypes.stream().collect(Collectors.toMap(EnumType::getId, o -> o));
         return list(new QueryWrapper<Enum>()
                 .lambda()
+                .eq(Enum::getDisabled, 0)
                 .in(Enum::getTypeId, enumTypeMap.keySet()))
                 .stream()
                 .collect(Collectors.groupingBy(Enum::getTypeId))

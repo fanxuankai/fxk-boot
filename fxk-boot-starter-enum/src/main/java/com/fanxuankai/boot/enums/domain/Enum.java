@@ -32,6 +32,10 @@ public class Enum {
      * 枚举值
      */
     private String value;
+    /**
+     * 是否禁用 0:否 1:是
+     */
+    private Integer disabled;
 
     public Long getId() {
         return id;
@@ -71,5 +75,13 @@ public class Enum {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Integer getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Integer disabled) {
+        this.disabled = disabled;
     }
 }

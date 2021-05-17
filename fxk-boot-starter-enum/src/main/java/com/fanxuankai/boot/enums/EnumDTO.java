@@ -90,6 +90,10 @@ public class EnumDTO {
          * 枚举值
          */
         private String value;
+        /**
+         * 是否禁用 0:否 1:是
+         */
+        private Integer disabled;
 
         public Integer getCode() {
             return code;
@@ -115,12 +119,21 @@ public class EnumDTO {
             this.value = value;
         }
 
+        public Integer getDisabled() {
+            return disabled;
+        }
+
+        public void setDisabled(Integer disabled) {
+            this.disabled = disabled;
+        }
+
         @Override
         public String toString() {
             return "Enum{" +
                     "code=" + code +
                     ", name='" + name + '\'' +
                     ", value='" + value + '\'' +
+                    ", disabled=" + disabled +
                     '}';
         }
     }

@@ -5,7 +5,7 @@ import com.fanxuankai.commons.extra.mybatis.tree.AdjacencyList;
 /**
  * @author fanxuankai
  */
-public class UserAdjacencyList implements AdjacencyList.Node {
+public class UserAdjacencyList implements AdjacencyList.Entity {
     private Long id;
     private Long pid;
     private String code;

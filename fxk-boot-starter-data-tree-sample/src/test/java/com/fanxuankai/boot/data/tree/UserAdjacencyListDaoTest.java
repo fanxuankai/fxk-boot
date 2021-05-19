@@ -4,13 +4,16 @@ import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.data.tree.dao.UserAdjacencyListDao;
 import com.fanxuankai.boot.data.tree.domain.UserAdjacencyList;
+import com.fanxuankai.commons.extra.mybatis.tree.TreeUtils;
 import com.fanxuankai.commons.util.IdUtils;
+import com.fanxuankai.commons.util.Node;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author fanxuankai
@@ -39,7 +42,7 @@ public class UserAdjacencyListDaoTest {
         node.setId(rootId);
         node.setCode(UUID.fastUUID().toString());
         node.setName("root");
-        dao.insertNode(node);
+        dao.insertNode(node, null);
         addChildren(node.getId(), 2, 2, 10);
     }
 
@@ -47,17 +50,19 @@ public class UserAdjacencyListDaoTest {
     public void query() {
         long id = childrenId - 1;
         dao.ancestors(floorId - 1);
-        dao.descendants(rootId);
+        List<Node<UserAdjacencyList>> descendants = dao.descendants(rootId);
+        TreeUtils.flat(descendants);
+        dao.tree(rootId);
         dao.parent(id);
         dao.children(rootId);
         dao.sibling(id);
-        dao.leaf(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
-        dao.nonLeaf(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
-        dao.roots(Wrappers.lambdaQuery(UserAdjacencyList.class).eq(UserAdjacencyList::getId, rootId));
+        dao.leaf(Wrappers.lambdaQuery(UserAdjacencyList.class));
+        dao.nonLeaf(Wrappers.lambdaQuery(UserAdjacencyList.class));
+        dao.roots(Wrappers.lambdaQuery(UserAdjacencyList.class));
         dao.degree(rootId);
         dao.level(id);
         dao.height(rootId);
-        dao.degree(rootId);
+        dao.depth(id);
         dao.roots(Wrappers.lambdaQuery(UserAdjacencyList.class));
     }
 
@@ -98,8 +103,7 @@ public class UserAdjacencyListDaoTest {
             node.setId(_id);
             node.setCode(UUID.fastUUID().toString());
             node.setName(level + "代" + i);
-            node.setPid(id);
-            dao.insertNode(node);
+            dao.insertNode(node, id);
             addChildren(node.getId(), c, level + 1, depth);
         }
     }

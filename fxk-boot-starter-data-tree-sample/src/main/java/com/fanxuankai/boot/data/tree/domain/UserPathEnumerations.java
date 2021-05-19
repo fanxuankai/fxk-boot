@@ -5,7 +5,7 @@ import com.fanxuankai.commons.extra.mybatis.tree.PathEnumerations;
 /**
  * @author fanxuankai
  */
-public class UserPathEnumerations implements PathEnumerations.Node {
+public class UserPathEnumerations implements PathEnumerations.Entity {
     private Long id;
     private String path;
     private String code;
@@ -25,6 +25,7 @@ public class UserPathEnumerations implements PathEnumerations.Node {
         return path;
     }
 
+    @Override
     public void setPath(String path) {
         this.path = path;
     }

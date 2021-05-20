@@ -7,6 +7,7 @@ import com.fanxuankai.commons.extra.mybatis.tree.PathEnumerations;
  */
 public class UserPathEnumerations implements PathEnumerations.Entity {
     private Long id;
+    private Long pid;
     private String path;
     private String code;
     private String name;
@@ -18,6 +19,16 @@ public class UserPathEnumerations implements PathEnumerations.Entity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Long getPid() {
+        return pid;
+    }
+
+    @Override
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     @Override

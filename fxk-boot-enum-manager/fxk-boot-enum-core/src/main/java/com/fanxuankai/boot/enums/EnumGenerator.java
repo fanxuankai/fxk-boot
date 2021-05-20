@@ -22,9 +22,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -117,7 +115,29 @@ public class EnumGenerator {
     }
 
     private List<EnumDTO> getEnumFromJson() {
-        return JSON.parseArray(getEnumJsonString(), EnumDTO.class);
+        List<EnumDTO> list = JSON.parseArray(getEnumJsonString(), EnumDTO.class);
+        list.stream().collect(Collectors.groupingBy(o -> o.getEnumType().getName()))
+                .forEach((s, enums) -> {
+                    if (enums.size() > 1) {
+                        throw new IllegalArgumentException("枚举类型名重复: " + s);
+                    }
+                    EnumDTO enumDTO = enums.get(0);
+                    Set<Integer> codes = new HashSet<>();
+                    Set<String> names = new HashSet<>();
+                    for (EnumDTO.Enum anEnum : enumDTO.getEnumList()) {
+                        if (anEnum.getCode() != null && codes.contains(anEnum.getCode())) {
+                            throw new IllegalArgumentException("枚举类型: " + s + ", code 重复: " + anEnum.getCode());
+                        } else {
+                            codes.add(anEnum.getCode());
+                        }
+                        if (anEnum.getName() != null && names.contains(anEnum.getName())) {
+                            throw new IllegalArgumentException("枚举类型: " + s + ", name 重复: " + anEnum.getName());
+                        } else {
+                            names.add(anEnum.getName());
+                        }
+                    }
+                });
+        return list;
     }
 
     private String getEnumJsonString() {

@@ -28,7 +28,7 @@ import java.math.BigDecimal;
  */
 @Data
 @Accessors(chain = true)
-public class ${className}Dto implements Serializable {
+public class ${className}DTO implements Serializable {
 <#if columns??>
     <#list columns as column>
         <#if column.remark != ''>

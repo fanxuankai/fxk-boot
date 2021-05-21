@@ -2,7 +2,7 @@ package com.fanxuankai.boot.generator.api;
 
 import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
 import com.fanxuankai.boot.generator.service.UserService;
-import com.fanxuankai.boot.generator.vo.UserVo;
+import com.fanxuankai.boot.generator.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +27,7 @@ public class UserApiImpl implements UserApi {
      * @return List
      */
     @Override
-    public List<UserVo> list(UserQueryCriteria criteria) {
+    public List<UserVO> list(UserQueryCriteria criteria) {
         return userService.list(criteria);
     }
 
@@ -35,10 +35,10 @@ public class UserApiImpl implements UserApi {
      * 根据 ID 查询用户
      *
      * @param id ID
-     * @return UserVo
+     * @return UserVO
      */
     @Override
-    public UserVo get(Long id) {
+    public UserVO get(Long id) {
         return userService.get(id);
     }
 }

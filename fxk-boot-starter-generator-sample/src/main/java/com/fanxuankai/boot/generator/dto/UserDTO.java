@@ -1,27 +1,19 @@
-package com.fanxuankai.boot.generator.vo;
+package com.fanxuankai.boot.generator.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * 用户 视图对象
+ * 用户 数据传输对象
  *
  * @author fanxuankai
  * @date 2021-05-21
  */
 @Data
 @Accessors(chain = true)
-public class UserVo implements Serializable {
-    /**
-     * ID
-     */
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long id;
-
+public class UserDTO implements Serializable {
     /**
      * 类型 枚举: materielType
      */
@@ -30,7 +22,6 @@ public class UserVo implements Serializable {
     /**
      * 子类型
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long subType;
 
     /**
@@ -77,29 +68,5 @@ public class UserVo implements Serializable {
      * 关联物料名称
      */
     private String relationName;
-
-    /**
-     * 创建人
-     */
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long createUserId;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createDate;
-
-    /**
-     * 修改人
-     */
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long modifiedUserId;
-
-    /**
-     * 修改时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date lastModifiedDate;
 
 }

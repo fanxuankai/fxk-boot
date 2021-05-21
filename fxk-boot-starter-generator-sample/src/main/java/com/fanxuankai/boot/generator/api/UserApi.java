@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.generator.api;
 
 import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
-import com.fanxuankai.boot.generator.vo.UserVo;
+import com.fanxuankai.boot.generator.vo.UserVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +25,14 @@ public interface UserApi {
      * @return List
      */
     @GetMapping("api/user/list")
-   	List<UserVo> list(@RequestBody UserQueryCriteria criteria);
+   	List<UserVO> list(@RequestBody UserQueryCriteria criteria);
 
     /**
      * 根据 ID 查询用户
      *
      * @param id ID
-     * @return UserVo
+     * @return UserVO
      */
     @GetMapping("api/user/get/{id}")
-    UserVo get(@PathVariable Long id);
+    UserVO get(@PathVariable Long id);
 }

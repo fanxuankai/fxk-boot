@@ -3,9 +3,9 @@
 针对 Mybatis-Plus 框架, 基于 FreeMarker 实现, 代码易维护易扩展, 方便二次开发;  
 代码分层如下: 
 - Api: API 接口
-- Dto: 数据传输层
-- QueryCriteria: 查询条件(跟 Dto 同一个包), 结合 @Query、QueryHelp 可以自动构造 Wrapper, 避免重复的 Wrapper 构造
-- Vo: 视图对象层
+- DTO: 数据传输层
+- QueryCriteria: 查询条件(跟 DTO 同一个包), 结合 @Query、QueryHelp 可以自动构造 Wrapper, 避免重复的 Wrapper 构造
+- VO: 视图对象层
 - ApiImpl: API 实现类
 - Controller: 控制器层
 - Dao: 数据访问接口

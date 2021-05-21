@@ -1,12 +1,12 @@
 package ${packageName}.service.impl;
 
 import ${packageName}.dao.${className}Dao;
-import ${packageName}.dto.${className}Dto;
+import ${packageName}.dto.${className}DTO;
 import ${packageName}.dto.${className}QueryCriteria;
 import ${packageName}.model.${className};
 import ${packageName}.service.${className}Service;
 import ${packageName}.service.mapstruct.${className}Converter;
-import ${packageName}.vo.${className}Vo;
+import ${packageName}.vo.${className}VO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
 import com.fanxuankai.commons.util.ExcelDownloadUtils;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,11 @@ import java.util.Map;
  * @date ${date}
  */
 @Service
-public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${className}Dto, ${className}Vo, ${className}QueryCriteria, ${className}Converter, ${className}Dao> implements ${className}Service {
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${className}DTO, ${className}VO, ${className}QueryCriteria, ${className}Converter, ${className}Dao> implements ${className}Service {
     @Override
-    public void download(List<${className}Vo> all, HttpServletResponse response) throws IOException {
+    public void download(List<${className}VO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (${className}Vo ${changeClassName} : all) {
+        for (${className}VO ${changeClassName} : all) {
             Map<String, Object> map = new LinkedHashMap<>();
         <#list columns as column>
             <#if column.primaryKey == false && column.listShow>

@@ -39,7 +39,7 @@ public class DtoTemplateGenerator extends AbstractTemplateGenerator<DtoTemplateD
 
     @Override
     protected String getSuffix() {
-        return "Dto";
+        return "DTO";
     }
 
     @Override

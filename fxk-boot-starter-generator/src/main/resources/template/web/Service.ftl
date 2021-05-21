@@ -1,8 +1,8 @@
 package ${packageName}.service;
 
-import ${packageName}.dto.${className}Dto;
+import ${packageName}.dto.${className}DTO;
 import ${packageName}.dto.${className}QueryCriteria;
-import ${packageName}.vo.${className}Vo;
+import ${packageName}.vo.${className}VO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 
 /**
@@ -11,5 +11,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  * @author ${author}
  * @date ${date}
  */
-public interface ${className}Service extends BaseService<${className}Dto, ${className}Vo, ${className}QueryCriteria> {
+public interface ${className}Service extends BaseService<${className}DTO, ${className}VO, ${className}QueryCriteria> {
 }

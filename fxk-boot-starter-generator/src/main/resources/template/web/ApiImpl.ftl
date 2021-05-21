@@ -2,7 +2,7 @@ package ${packageName}.api;
 
 import ${packageName}.dto.${className}QueryCriteria;
 import ${packageName}.service.${className}Service;
-import ${packageName}.vo.${className}Vo;
+import ${packageName}.vo.${className}VO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +27,7 @@ public class ${className}ApiImpl implements ${className}Api {
      * @return List
      */
     @Override
-    public List<${className}Vo> list(${className}QueryCriteria criteria) {
+    public List<${className}VO> list(${className}QueryCriteria criteria) {
         return ${changeClassName}Service.list(criteria);
     }
 
@@ -35,10 +35,10 @@ public class ${className}ApiImpl implements ${className}Api {
      * 根据 ID 查询${comment}
      *
      * @param ${pkFieldName} ID
-     * @return ${className}Vo
+     * @return ${className}VO
      */
     @Override
-    public ${className}Vo get(${pkCapitalFieldType} ${pkFieldName}) {
+    public ${className}VO get(${pkCapitalFieldType} ${pkFieldName}) {
         return ${changeClassName}Service.get(${pkFieldName});
     }
 }

@@ -1,8 +1,8 @@
 package com.fanxuankai.boot.generator.service.mapstruct;
 
-import com.fanxuankai.boot.generator.dto.UserDto;
+import com.fanxuankai.boot.generator.dto.UserDTO;
 import com.fanxuankai.boot.generator.model.User;
-import com.fanxuankai.boot.generator.vo.UserVo;
+import com.fanxuankai.boot.generator.vo.UserVO;
 import com.fanxuankai.commons.util.Converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -14,5 +14,5 @@ import org.mapstruct.ReportingPolicy;
  * @date 2021-05-21
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserConverter extends Converter<User, UserDto, UserVo> {
+public interface UserConverter extends Converter<User, UserDTO, UserVO> {
 }

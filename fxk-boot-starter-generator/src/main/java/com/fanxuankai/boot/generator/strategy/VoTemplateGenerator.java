@@ -36,7 +36,7 @@ public class VoTemplateGenerator extends AbstractTemplateGenerator<TemplateData>
 
     @Override
     protected String getSuffix() {
-        return "Vo";
+        return "VO";
     }
 
 }

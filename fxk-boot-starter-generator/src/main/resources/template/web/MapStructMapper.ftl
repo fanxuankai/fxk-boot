@@ -1,8 +1,8 @@
 package ${packageName}.service.mapstruct;
 
-import ${packageName}.dto.${className}Dto;
+import ${packageName}.dto.${className}DTO;
 import ${packageName}.model.${className};
-import ${packageName}.vo.${className}Vo;
+import ${packageName}.vo.${className}VO;
 import com.fanxuankai.commons.util.Converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -14,5 +14,5 @@ import org.mapstruct.ReportingPolicy;
  * @date ${date}
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ${className}Converter extends Converter<${className}, ${className}Dto, ${className}Vo> {
+public interface ${className}Converter extends Converter<${className}, ${className}DTO, ${className}VO> {
 }

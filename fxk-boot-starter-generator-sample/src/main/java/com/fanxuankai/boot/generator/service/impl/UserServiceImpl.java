@@ -1,12 +1,12 @@
 package com.fanxuankai.boot.generator.service.impl;
 
 import com.fanxuankai.boot.generator.dao.UserDao;
-import com.fanxuankai.boot.generator.dto.UserDto;
+import com.fanxuankai.boot.generator.dto.UserDTO;
 import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
 import com.fanxuankai.boot.generator.model.User;
 import com.fanxuankai.boot.generator.service.UserService;
 import com.fanxuankai.boot.generator.service.mapstruct.UserConverter;
-import com.fanxuankai.boot.generator.vo.UserVo;
+import com.fanxuankai.boot.generator.vo.UserVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
 import com.fanxuankai.commons.util.ExcelDownloadUtils;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,11 @@ import java.util.Map;
  * @date 2021-05-21
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, UserQueryCriteria, UserConverter, UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserQueryCriteria, UserConverter, UserDao> implements UserService {
     @Override
-    public void download(List<UserVo> all, HttpServletResponse response) throws IOException {
+    public void download(List<UserVO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (UserVo user : all) {
+        for (UserVO user : all) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("类型 枚举: materielType", user.getType());
             map.put("子类型", user.getSubType());

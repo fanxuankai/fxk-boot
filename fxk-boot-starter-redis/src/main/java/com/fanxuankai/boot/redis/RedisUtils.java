@@ -199,6 +199,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          */
         public static <T> void set(String key, T value) {
             valueOps.set(key, value);
@@ -208,6 +209,7 @@ public class RedisUtils implements InitializingBean {
          * 获取指定 key 的值
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> T get(String key) {
@@ -231,6 +233,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> T getAndSet(String key, T value) {
@@ -252,6 +255,7 @@ public class RedisUtils implements InitializingBean {
          * 批量获取
          *
          * @param keys /
+         * @param <T>  /
          * @return /
          */
         public static <T> List<T> multiGet(Collection<String> keys) {
@@ -278,6 +282,7 @@ public class RedisUtils implements InitializingBean {
          * @param timeout 过期时间
          * @param unit    时间单位, 天:TimeUnit.DAYS 小时:TimeUnit.HOURS 分钟:TimeUnit.MINUTES
          *                秒:TimeUnit.SECONDS 毫秒:TimeUnit.MILLISECONDS
+         * @param <T>     /
          */
         public static <T> void set(String key, T value, long timeout, TimeUnit unit) {
             valueOps.set(key, value, timeout, unit);
@@ -288,6 +293,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean setIfAbsent(String key, T value) {
@@ -300,6 +306,7 @@ public class RedisUtils implements InitializingBean {
          * @param key    /
          * @param value  /
          * @param offset 从指定位置开始覆写
+         * @param <T>    /
          */
         public static <T> void set(String key, T value, long offset) {
             valueOps.set(key, value, offset);
@@ -319,6 +326,7 @@ public class RedisUtils implements InitializingBean {
          * 批量添加
          *
          * @param maps /
+         * @param <T>  /
          */
         public static <T> void multiSet(Map<String, T> maps) {
             valueOps.multiSet(maps);
@@ -328,6 +336,7 @@ public class RedisUtils implements InitializingBean {
          * 同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在
          *
          * @param maps /
+         * @param <T>  /
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean multiSetIfAbsent(Map<String, T> maps) {
@@ -374,6 +383,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param field /
+         * @param <T>   /
          * @return /
          */
         public static <T> T get(String key, String field) {
@@ -385,6 +395,7 @@ public class RedisUtils implements InitializingBean {
          * 获取所有给定字段的值
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> Map<String, T> entries(String key) {
@@ -397,6 +408,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key    /
          * @param fields /
+         * @param <T>    /
          * @return /
          */
         public static <T> List<T> multiGet(String key, Collection<String> fields) {
@@ -410,6 +422,7 @@ public class RedisUtils implements InitializingBean {
          * @param key     /
          * @param hashKey /
          * @param value   /
+         * @param <T>     /
          */
         public static <T> void put(String key, String hashKey, T value) {
             hashOps.put(key, hashKey, value);
@@ -420,6 +433,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key  /
          * @param maps /
+         * @param <T>  /
          */
         public static <T> void putAll(String key, Map<String, T> maps) {
             hashOps.putAll(key, maps);
@@ -431,6 +445,7 @@ public class RedisUtils implements InitializingBean {
          * @param key     /
          * @param hashKey /
          * @param value   /
+         * @param <T>     /
          * @return /
          */
         public static <T> Boolean putIfAbsent(String key, String hashKey, T value) {
@@ -507,6 +522,7 @@ public class RedisUtils implements InitializingBean {
          * 获取哈希表中所有值
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> List<T> values(String key) {
@@ -519,6 +535,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key     /
          * @param options /
+         * @param <T>     /
          * @return /
          */
         public static <T> Cursor<Map.Entry<String, T>> scan(String key, ScanOptions options) {
@@ -535,6 +552,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param index /
+         * @param <T>   /
          * @return /
          */
         public static <T> T index(String key, long index) {
@@ -547,6 +565,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param start 开始位置, 0是开始位置
          * @param end   结束位置, -1返回所有
+         * @param <T>   /
          * @return /
          */
         public static <T> List<T> range(String key, long start, long end) {
@@ -558,6 +577,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long leftPush(String key, T value) {
@@ -567,6 +587,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long leftPushAll(String key, T... values) {
@@ -576,6 +597,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long leftPushAll(String key, Collection<T> values) {
@@ -587,6 +609,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long leftPushIfPresent(String key, T value) {
@@ -599,6 +622,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param pivot /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long leftPush(String key, String pivot, T value) {
@@ -608,6 +632,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long rightPush(String key, T value) {
@@ -617,6 +642,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long rightPushAll(String key, T... value) {
@@ -626,6 +652,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long rightPushAll(String key, Collection<T> value) {
@@ -637,6 +664,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long rightPushIfPresent(String key, T value) {
@@ -649,6 +677,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param pivot /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long rightPush(String key, String pivot, T value) {
@@ -661,6 +690,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param index 位置
          * @param value /
+         * @param <T>   /
          */
         public static <T> void set(String key, long index, T value) {
             listOps.set(key, index, value);
@@ -670,6 +700,7 @@ public class RedisUtils implements InitializingBean {
          * 移出并获取列表的第一个元素
          *
          * @param key /
+         * @param <T> /
          * @return / 删除的元素
          */
         public static <T> T leftPop(String key) {
@@ -682,6 +713,7 @@ public class RedisUtils implements InitializingBean {
          * @param key     /
          * @param timeout 等待时间
          * @param unit    时间单位
+         * @param <T>     /
          * @return /
          */
         public static <T> T leftPop(String key, long timeout, TimeUnit unit) {
@@ -692,6 +724,7 @@ public class RedisUtils implements InitializingBean {
          * 移除并获取列表最后一个元素
          *
          * @param key /
+         * @param <T> /
          * @return / 删除的元素
          */
         public static <T> T rightPop(String key) {
@@ -704,6 +737,7 @@ public class RedisUtils implements InitializingBean {
          * @param key     /
          * @param timeout 等待时间
          * @param unit    时间单位
+         * @param <T>     /
          * @return /
          */
         public static <T> T rightPop(String key, long timeout, TimeUnit unit) {
@@ -715,6 +749,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param sourceKey      /
          * @param destinationKey /
+         * @param <T>            /
          * @return /
          */
         public static <T> T rightPopAndLeftPush(String sourceKey, String destinationKey) {
@@ -728,6 +763,7 @@ public class RedisUtils implements InitializingBean {
          * @param destinationKey /
          * @param timeout        /
          * @param unit           /
+         * @param <T>            /
          * @return /
          */
         public static <T> T rightPopAndLeftPush(String sourceKey, String destinationKey, long timeout, TimeUnit unit) {
@@ -738,9 +774,11 @@ public class RedisUtils implements InitializingBean {
          * 删除集合中值等于value得元素
          *
          * @param key   /
-         * @param index index=0, 删除所有值等于value的元素; index>0, 从头部开始删除第一个值等于value的元素;
-         *              index<0, 从尾部开始删除第一个值等于value的元素;
+         * @param index index 为 0, 删除所有值等于value的元素;
+         *              index 大于 0, 从头部开始删除第一个值等于value的元素;
+         *              index 小于 0, 从尾部开始删除第一个值等于value的元素;
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long remove(String key, long index, T value) {
@@ -777,6 +815,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long add(String key, T... values) {
@@ -788,6 +827,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long add(String key, Collection<T> values) {
@@ -799,6 +839,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long remove(String key, T... values) {
@@ -809,6 +850,7 @@ public class RedisUtils implements InitializingBean {
          * 移除并返回集合的一个随机元素
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> T pop(String key) {
@@ -821,6 +863,7 @@ public class RedisUtils implements InitializingBean {
          * @param key     /
          * @param value   /
          * @param destKey /
+         * @param <T>     /
          * @return /
          */
         public static <T> Boolean move(String key, T value, String destKey) {
@@ -842,6 +885,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Boolean isMember(String key, T value) {
@@ -853,6 +897,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key      /
          * @param otherKey /
+         * @param <T>      /
          * @return /
          */
         public static <T> Set<T> intersect(String key, String otherKey) {
@@ -864,6 +909,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key       /
          * @param otherKeys /
+         * @param <T>       /
          * @return /
          */
         public static <T> Set<T> intersect(String key, Collection<String> otherKeys) {
@@ -899,6 +945,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key       /
          * @param otherKeys /
+         * @param <T>       /
          * @return /
          */
         public static <T> Set<T> union(String key, String otherKeys) {
@@ -910,6 +957,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key       /
          * @param otherKeys /
+         * @param <T>       /
          * @return /
          */
         public static <T> Set<T> union(String key, Collection<String> otherKeys) {
@@ -945,6 +993,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key      /
          * @param otherKey /
+         * @param <T>      /
          * @return /
          */
         public static <T> Set<T> difference(String key, String otherKey) {
@@ -956,6 +1005,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key       /
          * @param otherKeys /
+         * @param <T>       /
          * @return /
          */
         public static <T> Set<T> difference(String key, Collection<String> otherKeys) {
@@ -991,6 +1041,7 @@ public class RedisUtils implements InitializingBean {
          * 获取集合所有元素
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> Set<T> members(String key) {
@@ -1001,6 +1052,7 @@ public class RedisUtils implements InitializingBean {
          * 随机获取集合中的一个元素
          *
          * @param key /
+         * @param <T> /
          * @return /
          */
         public static <T> T randomMember(String key) {
@@ -1012,6 +1064,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param count /
+         * @param <T>   /
          * @return /
          */
         public static <T> List<T> randomMembers(String key, long count) {
@@ -1023,6 +1076,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param count /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<T> distinctRandomMembers(String key, long count) {
@@ -1032,6 +1086,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key     /
          * @param options /
+         * @param <T>     /
          * @return /
          */
         public static <T> Cursor<T> scan(String key, ScanOptions options) {
@@ -1048,6 +1103,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param value /
          * @param score /
+         * @param <T>   /
          * @return /
          */
         public static <T> Boolean add(String key, T value, double score) {
@@ -1057,6 +1113,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long add(String key, Set<ZSetOperations.TypedTuple<T>> values) {
@@ -1067,6 +1124,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key    /
          * @param values /
+         * @param <T>    /
          * @return /
          */
         public static <T> Long remove(String key, T... values) {
@@ -1079,6 +1137,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param value /
          * @param delta /
+         * @param <T>   /
          * @return /
          */
         public static <T> Double incrementScore(String key, T value, double delta) {
@@ -1090,6 +1149,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return / 0表示第一位
          */
         public static <T> Long rank(String key, T value) {
@@ -1101,6 +1161,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Long reverseRank(String key, T value) {
@@ -1113,6 +1174,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param start 开始位置
          * @param end   结束位置, -1查询所有
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<T> range(String key, long start, long end) {
@@ -1125,6 +1187,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param start /
          * @param end   /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeWithScores(String key, long start,
@@ -1139,6 +1202,7 @@ public class RedisUtils implements InitializingBean {
          * @param key /
          * @param min 最小值
          * @param max 最大值
+         * @param <T> /
          * @return /
          */
         public static <T> Set<T> rangeByScore(String key, double min, double max) {
@@ -1151,6 +1215,7 @@ public class RedisUtils implements InitializingBean {
          * @param key /
          * @param min 最小值
          * @param max 最大值
+         * @param <T> /
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeByScoreWithScores(String key, double min, double max) {
@@ -1164,6 +1229,7 @@ public class RedisUtils implements InitializingBean {
          * @param max   /
          * @param start /
          * @param end   /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeByScoreWithScores(String key, double min, double max,
@@ -1178,6 +1244,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param start /
          * @param end   /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<T> reverseRange(String key, long start, long end) {
@@ -1190,6 +1257,7 @@ public class RedisUtils implements InitializingBean {
          * @param key   /
          * @param start /
          * @param end   /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> reverseRangeWithScores(String key, long start, long end) {
@@ -1203,6 +1271,7 @@ public class RedisUtils implements InitializingBean {
          * @param key /
          * @param min /
          * @param max /
+         * @param <T> /
          * @return /
          */
         public static <T> Set<T> reverseRangeByScore(String key, double min, double max) {
@@ -1215,6 +1284,7 @@ public class RedisUtils implements InitializingBean {
          * @param key /
          * @param min /
          * @param max /
+         * @param <T> /
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> reverseRangeByScoreWithScores(String key, double min,
@@ -1229,6 +1299,7 @@ public class RedisUtils implements InitializingBean {
          * @param max   /
          * @param start /
          * @param end   /
+         * @param <T>   /
          * @return /
          */
         public static <T> Set<T> reverseRangeByScore(String key, double min, double max, long start, long end) {
@@ -1272,6 +1343,7 @@ public class RedisUtils implements InitializingBean {
          *
          * @param key   /
          * @param value /
+         * @param <T>   /
          * @return /
          */
         public static <T> Double score(String key, T value) {
@@ -1351,6 +1423,7 @@ public class RedisUtils implements InitializingBean {
         /**
          * @param key     /
          * @param options /
+         * @param <T>     /
          * @return /
          */
         public static <T> Cursor<ZSetOperations.TypedTuple<T>> scan(String key, ScanOptions options) {

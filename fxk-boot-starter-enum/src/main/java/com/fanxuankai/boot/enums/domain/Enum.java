@@ -33,9 +33,9 @@ public class Enum {
      */
     private String value;
     /**
-     * 是否禁用 0:否 1:是
+     * 是否禁用
      */
-    private Integer disabled;
+    private boolean disabled;
 
     public Long getId() {
         return id;
@@ -77,11 +77,11 @@ public class Enum {
         this.value = value;
     }
 
-    public Integer getDisabled() {
+    public boolean isDisabled() {
         return disabled;
     }
 
-    public void setDisabled(Integer disabled) {
+    public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
 }

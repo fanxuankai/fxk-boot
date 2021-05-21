@@ -58,7 +58,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
         Map<Long, EnumType> enumTypeMap = enumTypes.stream().collect(Collectors.toMap(EnumType::getId, o -> o));
         return list(new QueryWrapper<Enum>()
                 .lambda()
-                .eq(Enum::getDisabled, 0)
+                .eq(Enum::isDisabled, false)
                 .in(Enum::getTypeId, enumTypeMap.keySet()))
                 .stream()
                 .collect(Collectors.groupingBy(Enum::getTypeId))
@@ -166,13 +166,15 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
 
     private List<Enum> enumList(List<EnumDTO.Enum> dtoEnumList, Long typeId) {
         List<Enum> enumList = new ArrayList<>(dtoEnumList.size());
-        for (int i = 0; i < dtoEnumList.size(); i++) {
+        int lastCode = 0;
+        for (EnumDTO.Enum value : dtoEnumList) {
             Enum anEnum = new Enum();
-            BeanUtils.copyProperties(dtoEnumList.get(i), anEnum);
+            BeanUtils.copyProperties(value, anEnum);
             anEnum.setTypeId(typeId);
             if (anEnum.getCode() == null) {
-                anEnum.setCode(i);
+                anEnum.setCode(lastCode + 1);
             }
+            lastCode = anEnum.getCode();
             enumList.add(anEnum);
         }
         return enumList;

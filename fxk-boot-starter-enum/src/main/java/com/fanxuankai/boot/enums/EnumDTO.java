@@ -48,6 +48,10 @@ public class EnumDTO {
          * 枚举类型描述
          */
         private String description;
+        /**
+         * 只生成数据
+         */
+        private boolean generateDataOnly;
 
         public String getName() {
             return name;
@@ -65,11 +69,20 @@ public class EnumDTO {
             this.description = description;
         }
 
+        public boolean isGenerateDataOnly() {
+            return generateDataOnly;
+        }
+
+        public void setGenerateDataOnly(boolean generateDataOnly) {
+            this.generateDataOnly = generateDataOnly;
+        }
+
         @Override
         public String toString() {
             return "EnumType{" +
                     "name='" + name + '\'' +
                     ", description='" + description + '\'' +
+                    ", generateDataOnly=" + generateDataOnly +
                     '}';
         }
     }
@@ -91,9 +104,9 @@ public class EnumDTO {
          */
         private String value;
         /**
-         * 是否禁用 0:否 1:是
+         * 是否禁用
          */
-        private Integer disabled;
+        private boolean disabled;
 
         public Integer getCode() {
             return code;
@@ -119,11 +132,11 @@ public class EnumDTO {
             this.value = value;
         }
 
-        public Integer getDisabled() {
+        public boolean isDisabled() {
             return disabled;
         }
 
-        public void setDisabled(Integer disabled) {
+        public void setDisabled(boolean disabled) {
             this.disabled = disabled;
         }
 

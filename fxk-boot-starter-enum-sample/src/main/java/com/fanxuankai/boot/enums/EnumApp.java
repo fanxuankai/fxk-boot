@@ -30,5 +30,6 @@ public class EnumApp implements ApplicationRunner {
         model.setGenerateDataOnly(false);
         model.setIncrement(false);
         enumGenerator.generate(model);
+        System.exit(0);
     }
 }

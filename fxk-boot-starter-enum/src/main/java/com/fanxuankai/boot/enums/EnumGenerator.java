@@ -54,11 +54,15 @@ public class EnumGenerator {
                     .map(EnumDTO.EnumType::getName).collect(Collectors.toList()));
         } else {
             // 清空枚举数据
-            delete();
+            enumService.removeByIds(enumService.list().stream().map(Enum::getId)
+                    .collect(Collectors.toList()));
+            enumTypeService.removeByIds(enumTypeService.list().stream().map(EnumType::getId)
+                    .collect(Collectors.toList()));
             // 插入枚举数据
             enumService.add(getEnumFromJson());
             enumTypes = enumTypeService.list();
         }
+        enumTypes.removeIf(EnumType::isGenerateDataOnly);
         if (generateModel.isGenerateDataOnly() || enumTypes.isEmpty()) {
             return;
         }
@@ -104,13 +108,6 @@ public class EnumGenerator {
         } catch (IOException | TemplateException e) {
             LOGGER.error(String.format("生成枚举 %s 失败", name), e);
         }
-    }
-
-    private void delete() {
-        enumService.removeByIds(enumService.list().stream().map(Enum::getId)
-                .collect(Collectors.toList()));
-        enumTypeService.removeByIds(enumTypeService.list().stream().map(EnumType::getId)
-                .collect(Collectors.toList()));
     }
 
     private List<EnumDTO> getEnumFromJson() {

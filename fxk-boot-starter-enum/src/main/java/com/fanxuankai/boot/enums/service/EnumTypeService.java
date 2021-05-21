@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.enums.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.boot.enums.EnumDTO;
@@ -55,12 +56,9 @@ public interface EnumTypeService extends IService<EnumType> {
         if (CollectionUtils.isEmpty(enumTypes)) {
             return;
         }
-        saveBatch(enumTypes.stream().map(enumType -> {
-            EnumType entity = new EnumType();
-            entity.setName(enumType.getName());
-            entity.setDescription(enumType.getDescription());
-            return entity;
-        }).collect(Collectors.toList()));
+        saveBatch(enumTypes.stream().map(enumType ->
+                BeanUtil.copyProperties(enumType, EnumType.class))
+                .collect(Collectors.toList()));
     }
 
     /**

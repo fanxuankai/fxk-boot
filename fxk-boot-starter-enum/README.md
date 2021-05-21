@@ -8,6 +8,7 @@ CREATE TABLE `sys_enum_type` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '类名',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `generate_data_only` tinyint(1) DEFAULT NULL COMMENT '只生成数据',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='枚举类';
@@ -18,6 +19,7 @@ CREATE TABLE `sys_enum` (
   `name` varchar(255) DEFAULT NULL COMMENT '枚举名',
   `code` tinyint(4) DEFAULT NULL COMMENT '枚举代码',
   `value` varchar(255) DEFAULT NULL COMMENT '枚举值',
+  `disabled` tinyint(1) DEFAULT NULL COMMENT '是否禁用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_type_name` (`type_id`,`name`) USING BTREE,
   UNIQUE KEY `uk_type_code` (`type_id`,`code`) USING BTREE
@@ -63,7 +65,8 @@ code 不指定则默认为自增长数字
   {
     "enumType": {
       "name": "deleted",
-      "description": "是否删除"
+      "description": "是否删除",
+      "generateDataOnly": false
     },
     "enumList": [
       {

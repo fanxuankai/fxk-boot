@@ -2,7 +2,8 @@
   {
     "enumType": {
       "name": "deleted",
-      "description": "是否删除"
+      "description": "是否删除",
+      "generateDataOnly": false
     },
     "enumList": [
       {

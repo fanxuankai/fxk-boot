@@ -24,6 +24,10 @@ public class EnumType {
      * 枚举描述
      */
     private String description;
+    /**
+     * 只生成数据
+     */
+    private boolean generateDataOnly;
 
     public Long getId() {
         return id;
@@ -47,5 +51,13 @@ public class EnumType {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isGenerateDataOnly() {
+        return generateDataOnly;
+    }
+
+    public void setGenerateDataOnly(boolean generateDataOnly) {
+        this.generateDataOnly = generateDataOnly;
     }
 }

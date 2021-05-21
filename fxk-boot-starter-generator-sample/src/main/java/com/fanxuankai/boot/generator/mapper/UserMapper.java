@@ -7,7 +7,7 @@ import com.fanxuankai.boot.generator.model.User;
  * 用户 Mapper 接口
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 public interface UserMapper extends BaseMapper<User> {
 }

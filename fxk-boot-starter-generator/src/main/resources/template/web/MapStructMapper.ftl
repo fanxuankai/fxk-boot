@@ -3,7 +3,7 @@ package ${packageName}.service.mapstruct;
 import ${packageName}.dto.${className}Dto;
 import ${packageName}.model.${className};
 import ${packageName}.vo.${className}Vo;
-import com.fanxuankai.commons.core.util.Converter;
+import com.fanxuankai.commons.util.Converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

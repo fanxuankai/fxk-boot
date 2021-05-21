@@ -8,7 +8,7 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
  * 用户 数据访问接口
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 public interface UserDao extends BaseDao<User, UserQueryCriteria> {
 }

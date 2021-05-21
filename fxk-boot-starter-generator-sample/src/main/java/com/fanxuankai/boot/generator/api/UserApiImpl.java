@@ -12,13 +12,13 @@ import java.util.List;
  * 用户 API 实现类
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 @RestController
 @RequiredArgsConstructor
 public class UserApiImpl implements UserApi {
 
-    private final UserService userService;
+	private final UserService userService;
 
     /**
      * 查询用户所有数据不分页

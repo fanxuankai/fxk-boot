@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
  * 用户 MapStruct 对象转换接口
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserConverter extends Converter<User, UserDto, UserVo> {

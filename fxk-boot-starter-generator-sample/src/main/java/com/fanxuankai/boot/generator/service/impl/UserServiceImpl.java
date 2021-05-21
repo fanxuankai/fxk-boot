@@ -22,11 +22,10 @@ import java.util.Map;
  * 用户 服务实现类
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, UserQueryCriteria, UserConverter,
-        UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDto, UserVo, UserQueryCriteria, UserConverter, UserDao> implements UserService {
     @Override
     public void download(List<UserVo> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

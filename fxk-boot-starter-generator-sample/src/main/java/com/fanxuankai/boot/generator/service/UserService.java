@@ -9,7 +9,7 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  * 用户 服务接口
  *
  * @author fanxuankai
- * @date 2021-05-05
+ * @date 2021-05-21
  */
 public interface UserService extends BaseService<UserDto, UserVo, UserQueryCriteria> {
 }

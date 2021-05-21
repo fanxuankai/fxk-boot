@@ -18,7 +18,7 @@ code-generator:
   # 密码
   password: 123456
   # 需要生成的表
-  tables:
+  tables: t_user
   # 作者
   author: fanxuankai
   # 去表前缀

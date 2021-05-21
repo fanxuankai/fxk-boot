@@ -8,7 +8,7 @@ import ${packageName}.service.${className}Service;
 import ${packageName}.service.mapstruct.${className}Converter;
 import ${packageName}.vo.${className}Vo;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
-import com.fanxuankai.commons.web.util.ExcelUtils;
+import com.fanxuankai.commons.util.ExcelDownloadUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +42,6 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${cla
         </#list>
             list.add(map);
         }
-        ExcelUtils.downloadExcel(list, response);
+        ExcelDownloadUtils.downloadExcel(list, response);
     }
 }

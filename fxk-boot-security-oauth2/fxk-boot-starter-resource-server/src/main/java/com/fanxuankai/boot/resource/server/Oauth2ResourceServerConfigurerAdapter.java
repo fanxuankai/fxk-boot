@@ -1,9 +1,14 @@
-package com.fanxuankai.boot.resource.server.adapter;
+package com.fanxuankai.boot.resource.server;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import javax.annotation.Resource;
 
 /**
  * 资源服务器
@@ -11,6 +16,9 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
  * @author fanxuankai
  */
 public class Oauth2ResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+    @Resource
+    private TokenStore tokenStore;
+
     /**
      * 这里设置需要token验证的url
      * 这些url可以在WebSecurityConfigurerAdapter中排查掉，
@@ -20,17 +28,27 @@ public class Oauth2ResourceServerConfigurerAdapter extends ResourceServerConfigu
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated().and()
-                .requestMatchers().antMatchers("/api/**");
+        http.csrf().disable()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
+        resources.resourceId("order")
+                .tokenStore(tokenStore)
+                .stateless(true);
+    }
+
+    private ResourceServerTokenServices resourceServerTokenServices() {
+        // 远程 token 验证
         RemoteTokenServices tokenServices = new RemoteTokenServices();
         tokenServices.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
         tokenServices.setClientId("dev");
         tokenServices.setClientSecret("dev");
-        resources.tokenServices(tokenServices);
+        return tokenServices;
     }
 }

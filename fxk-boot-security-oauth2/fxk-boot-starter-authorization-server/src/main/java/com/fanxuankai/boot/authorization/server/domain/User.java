@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.authorization.server.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class User implements UserDetails, Serializable {
     private String username;
     private String password;
     @TableField(exist = false)
-    private List<Role> authorities;
+    private List<? extends GrantedAuthority> authorities;
 
     public Long getId() {
         return id;
@@ -43,11 +44,11 @@ public class User implements UserDetails, Serializable {
     }
 
     @Override
-    public List<Role> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<Role> authorities) {
+    public void setAuthorities(List<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 

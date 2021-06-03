@@ -1,9 +1,11 @@
 package com.fanxuankai.boot.authorization.server.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+
 /**
  * @author fanxuankai
  */
-public class Permission {
+public class Permission implements GrantedAuthority {
     private Long id;
     private String url;
     private String name;
@@ -48,5 +50,10 @@ public class Permission {
 
     public void setPid(Long pid) {
         this.pid = pid;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }

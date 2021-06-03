@@ -1,12 +1,10 @@
 package com.fanxuankai.boot.authorization.server.domain;
 
 
-import org.springframework.security.core.GrantedAuthority;
-
 /**
  * @author fanxuankai
  */
-public class Role implements GrantedAuthority {
+public class Role {
     private Long id;
     private String name;
 
@@ -24,10 +22,5 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getAuthority() {
-        return name;
     }
 }

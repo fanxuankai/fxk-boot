@@ -1,11 +1,11 @@
 package com.fanxuankai.boot.authorization.server;
 
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 
+import javax.annotation.Resource;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +15,8 @@ import java.io.IOException;
  * @author fanxuankai
  */
 public class Oauth2SecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
-    private final SecurityMetadataSource securityMetadataSource;
-
-    public Oauth2SecurityInterceptor(SecurityMetadataSource securityMetadataSource,
-                                     AccessDecisionManager accessDecisionManager) {
-        this.securityMetadataSource = securityMetadataSource;
-        super.setAccessDecisionManager(accessDecisionManager);
-    }
+    @Resource
+    private SecurityMetadataSource securityMetadataSource;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

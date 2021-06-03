@@ -26,7 +26,7 @@ public class Oauth2WebSecurityAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //校验用户
+        // 校验用户
         auth.userDetailsService(userDetailsService).passwordEncoder(new PasswordEncoder() {
             // 对密码进行加密
             @Override
@@ -51,14 +51,17 @@ public class Oauth2WebSecurityAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.requestMatchers()
+        http.csrf().disable()
+                .requestMatchers()
                 .antMatchers("/oauth/**", "/login", "/login-error")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/oauth/**").authenticated()
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login-error");
+                .formLogin()
+//                .loginPage("/login")
+//                .failureUrl("/login-error")
+        ;
     }
 
     @Bean

@@ -1,30 +1,25 @@
 package com.fanxuankai.boot.authorization.server;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fanxuankai.boot.authorization.server.dao.RoleDao;
 import com.fanxuankai.boot.authorization.server.dao.UserDao;
-import com.fanxuankai.boot.authorization.server.dao.UserRoleDao;
+import com.fanxuankai.boot.authorization.server.domain.Permission;
 import com.fanxuankai.boot.authorization.server.domain.User;
+import com.fanxuankai.boot.authorization.server.mapper.PermissionMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @author fanxuankai
  */
 public class Oauth2UserDetailsServiceImpl implements UserDetailsService {
-    private final UserDao userDao;
-    private final RoleDao roleDao;
-    private final UserRoleDao userRoleDao;
-
-    public Oauth2UserDetailsServiceImpl(UserDao userDao, RoleDao roleDao, UserRoleDao userRoleDao) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-        this.userRoleDao = userRoleDao;
-    }
+    @Resource
+    private UserDao userDao;
+    @Resource
+    private PermissionMapper permissionMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -32,10 +27,8 @@ public class Oauth2UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             return null;
         }
-        List<Long> roleIds = userRoleDao.listRoleIds(user.getId());
-        if (!CollectionUtils.isEmpty(roleIds)) {
-            user.setAuthorities(roleDao.listByIds(roleIds));
-        }
+        List<Permission> permissions = permissionMapper.getRolePermissionsByUserId(user.getId());
+        user.setAuthorities(permissions);
         return user;
     }
 }

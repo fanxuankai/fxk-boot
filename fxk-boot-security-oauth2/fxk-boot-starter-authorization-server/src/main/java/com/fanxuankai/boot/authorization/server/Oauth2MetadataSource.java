@@ -9,6 +9,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,11 +22,8 @@ public class Oauth2MetadataSource implements FilterInvocationSecurityMetadataSou
      * 每一个资源所需要的角色 Collection<ConfigAttribute>决策器会用到
      */
     private static Map<String, Collection<ConfigAttribute>> map = Collections.emptyMap();
-    private final PermissionMapper permissionMapper;
-
-    public Oauth2MetadataSource(PermissionMapper permissionMapper) {
-        this.permissionMapper = permissionMapper;
-    }
+    @Resource
+    private PermissionMapper permissionMapper;
 
     /**
      * 返回请求的资源需要的角色
@@ -62,8 +60,7 @@ public class Oauth2MetadataSource implements FilterInvocationSecurityMetadataSou
         List<RolePermissionVO> rolePermissions = permissionMapper.getRolePermissions();
         for (RolePermissionVO rolePermissionVO : rolePermissions) {
             String url = rolePermissionVO.getPermissionUrl();
-            String roleName = rolePermissionVO.getRoleName();
-            ConfigAttribute role = new SecurityConfig(roleName);
+            ConfigAttribute role = new SecurityConfig(rolePermissionVO.getPermissionName());
             if (map.containsKey(url)) {
                 map.get(url).add(role);
             } else {

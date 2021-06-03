@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.resource.server.web;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/api")
 public class HelloController {
     @PostMapping("/api/hi")
+    @PreAuthorize("hasAuthority('API')")
     public String say(String name) {
         return "hi , " + name;
     }

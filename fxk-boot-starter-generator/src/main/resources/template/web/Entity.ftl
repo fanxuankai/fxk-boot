@@ -48,7 +48,6 @@ public class ${className} extends BaseModel {
     @TableField(value = "${column.columnName}"<#if column.fill??>, fill = FieldFill.${column.fill}</#if>)
         </#if>
     private ${column.fieldType} ${column.fieldName};
-
     </#list>
 </#if>
 }

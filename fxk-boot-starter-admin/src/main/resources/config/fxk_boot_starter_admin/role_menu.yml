@@ -1,0 +1,49 @@
+---
+tableName: "role_menu"
+comment: "角色-菜单"
+author: "fanxuankai"
+prefix: "t_"
+projectDir: "/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-starter-admin"
+apiPath: ""
+webPath: ""
+serviceName: "admin-service"
+packageName: "com.fanxuankai.boot.admin"
+cover: true
+templates: ["api/QueryCriteria", "web/Dao", "web/DaoImpl", "web/Entity", "web/Mapper"]
+columnInfos:
+- columnName: "id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: true
+  unique: false
+  extra: ""
+  remark: "主键"
+  notNull: true
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "role_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "角色 id"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "menu_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "菜单 id"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true

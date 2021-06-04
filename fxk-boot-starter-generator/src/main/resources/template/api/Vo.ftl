@@ -39,7 +39,6 @@ public class ${className}VO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
         </#if>
     private ${column.fieldType} ${column.fieldName};
-
     </#list>
 </#if>
 }

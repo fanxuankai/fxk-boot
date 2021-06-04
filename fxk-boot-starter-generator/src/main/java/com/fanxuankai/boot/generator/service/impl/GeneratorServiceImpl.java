@@ -54,13 +54,11 @@ public class GeneratorServiceImpl implements GeneratorService, ApplicationContex
         GenConfig genConfig = new GenConfig();
         genConfig.setTableName(tableName);
         String tableInfoSql = String.format("select table_comment from information_schema.tables where table_schema =" +
-                        " '%s' and table_name = '%s'"
-                , properties.getSchema(), tableName);
+                " '%s' and table_name = '%s'", properties.getSchema(), tableName);
         genConfig.setComment(jdbcTemplate.queryForObject(tableInfoSql, String.class));
         String sql = String.format("select column_name, is_nullable, data_type, column_comment, column_key, extra " +
-                        "from information_schema.columns where table_schema = '%s' and table_name = '%s' order by " +
-                        "ordinal_position"
-                , properties.getSchema(), tableName);
+                "from information_schema.columns where table_schema = '%s' and table_name = '%s' order by " +
+                "ordinal_position", properties.getSchema(), tableName);
         List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
         List<ColumnInfo> columnInfos = ListUtil.list(false);
         for (Map<String, Object> map : result) {

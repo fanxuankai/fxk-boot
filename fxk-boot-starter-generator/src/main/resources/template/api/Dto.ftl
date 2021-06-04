@@ -47,7 +47,6 @@ public class ${className}DTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         </#if>
     private ${column.fieldType} ${column.fieldName};
-
     </#list>
 </#if>
 }

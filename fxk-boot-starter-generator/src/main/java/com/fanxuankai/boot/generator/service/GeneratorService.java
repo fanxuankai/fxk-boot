@@ -6,7 +6,6 @@ package com.fanxuankai.boot.generator.service;
  * @author fanxuankai
  */
 public interface GeneratorService {
-
     /**
      * 初始化表配置
      *

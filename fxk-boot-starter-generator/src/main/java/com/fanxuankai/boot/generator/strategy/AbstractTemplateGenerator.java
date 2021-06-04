@@ -17,6 +17,7 @@ import com.fanxuankai.boot.generator.model.GenConfig;
 import com.fanxuankai.boot.generator.strategy.annotation.TemplateFileAnnotation;
 import com.fanxuankai.boot.generator.strategy.model.ColumnData;
 import com.fanxuankai.boot.generator.strategy.model.TemplateData;
+import com.fanxuankai.boot.generator.utils.JavaTypeUtils;
 import com.fanxuankai.boot.generator.utils.StringUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -84,7 +85,7 @@ public abstract class AbstractTemplateGenerator<D extends TemplateData> implemen
         data.setChangeClassName(getChangeClassName(genConfig));
         for (ColumnInfo columnInfo : genConfig.getColumnInfos()) {
             if (columnInfo.isPrimaryKey()) {
-                data.setPkCapitalFieldType(properties.getColumnTypeMapping().get(columnInfo.getColumnType()));
+                data.setPkCapitalFieldType(JavaTypeUtils.getJavaType(properties, columnInfo.getColumnType(), true));
                 if (StrUtil.isBlank(columnInfo.getFieldName())) {
                     // 列名转驼峰
                     data.setPkFieldName(StringUtils.toCamelCase(columnInfo.getColumnName()));
@@ -103,7 +104,7 @@ public abstract class AbstractTemplateGenerator<D extends TemplateData> implemen
             }
             // 列名转驼峰且首字母大写
             columnData.setCapitalFieldName(StringUtils.toCapitalizeCamelCase(columnInfo.getColumnName()));
-            String fieldType = properties.getColumnTypeMapping().get(columnInfo.getColumnType());
+            String fieldType = JavaTypeUtils.getJavaType(properties, columnInfo.getColumnType(), true);
             columnData.setFieldType(fieldType);
             columns.add(columnData);
             if (Constants.TIMESTAMP.equals(fieldType)) {

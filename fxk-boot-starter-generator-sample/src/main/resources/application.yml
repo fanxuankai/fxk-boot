@@ -1,22 +1,13 @@
 spring:
   datasource:
-    url: jdbc:mysql://${code-generator.ip}:${code-generator.port}/${code-generator.schema}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
-    username: ${code-generator.username}
-    password: ${code-generator.password}
+    url: jdbc:mysql://localhost:3306/${code-generator.schema}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-
 # 代码生成配置
 code-generator:
-  # 数据库 IP
-  ip: localhost
-  # 数据库端口
-  port: 3306
   # 数据库
   schema: code_generator
-  # 账号
-  username: root
-  # 密码
-  password: 123456
   # 需要生成的表
   tables: t_user
   # 作者
@@ -48,24 +39,3 @@ code-generator:
   list-exclude-columns: deleted
   # 父类字段
   inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
-  # 数据库类型转 Java 类型
-  column-type-mapping:
-    bigint: Long
-    bit: Boolean
-    char: String
-    date: Date
-    datetime: Date
-    decimal: BigDecimal
-    double: Double
-    float: Float
-    int: Integer
-    integer: Integer
-    longtext: String
-    mediumint: Integer
-    mediumtext: String
-    smallint: Integer
-    text: String
-    timestamp: Timestamp
-    tinyint: Integer
-    tinytext: String
-    varchar: String

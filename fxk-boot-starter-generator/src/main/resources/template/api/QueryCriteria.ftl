@@ -54,7 +54,6 @@ public class ${className}QueryCriteria {
         <#else>
     private ${column.fieldType} ${column.fieldName}${column.capitalQueryType};
         </#if>
-
     </#list>
 </#if>
 }

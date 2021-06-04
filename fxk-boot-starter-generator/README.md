@@ -23,52 +23,45 @@
 
 ## 配置
 ```yml
-# 表名
-tableName: t_user
-# 表注释
-comment: 用户
-# 作者
-author: fanxuankai
-# 去表前缀
-prefix: t_
-# 项目路径
-projectDir: "/Users/fanxuankai/Java/Workspace/runlion/ehm-app/ehm-business"
-# API 路径
-apiPath: ehm-business-api
-# WEB 路径
-webPath: ehm-business-web
-# 服务名
-serviceName: ehm-business
-# 包名
-packageName: com.runlion.ehm.business
-# 是否覆盖已有文件
-cover: true
-# 需要生成代码的模板, 默认生成所有代码
-templates: []
-# 字段配置
-columnInfos:
-    # 列名
-  - columnName: id
-    # 列类型
-    columnType: bigint
-    # 对应的字段名, 默认为列名转驼峰
-    fieldName:
-    # 是否主键
-    primaryKey: true
-    # 是否唯一, 如果是 DAO 接口会生成相应的方法
-    unique: false
-    # 字段额外的参数 auto_increment 代表自增
-    extra:
-    # 列描述
-    remark: ID
-    # 是否必填
-    notNull: true
-    # 查询方式, 多个以逗号隔开 EQ | GE | LE | LIKE | NOT_LIKE | LIKE_LEFT | LIKE_RIGHT | GT | LT | IN | NOT_IN | NE | BETWEEN | NOT_BETWEEN | NOT_NULL | IS_NULL | ORDER_BY_ASC | ORDER_BY_DESC
-    queryType: EQ
-    # 自动填值 INSERT | UPDATE | INSERT_UPDATE
-    fill: INSERT
-    # 表单是否显示(dto)
-    formShow: true
-    # 列表是否显示(vo)
-    listShow: true
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/${code-generator.schema}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# 代码生成配置
+code-generator:
+  # 数据库
+  schema: code_generator
+  # 需要生成的表
+  tables: t_user
+  # 作者
+  author: fanxuankai
+  # 去表前缀
+  prefix: t_
+  # 项目绝对路径
+  project-dir: /Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-starter-generator-sample
+  # API 相对路径
+  api-path:
+  # WEB 相对路径
+  web-path:
+  # 服务名
+  service-name: user-service
+  # 包名
+  package-name: com.fanxuankai.boot.generator
+  # 是否覆盖
+  cover: true
+  # 自动填值 { 列名: INSERT|UPDATE|INSERT_UPDATE }
+  auto-fill:
+    create_user_id: INSERT
+    create_date: INSERT
+    modified_user_id: UPDATE
+    last_modified_date: UPDATE
+    deleted: INSERT
+  # dto 不显示的字段
+  form-exclude-columns: create_user_id,create_date,modified_user_id,last_modified_date,deleted
+  # vo 不显示的字段
+  list-exclude-columns: deleted
+  # 父类字段
+  inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
 ```

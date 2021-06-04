@@ -1,0 +1,109 @@
+---
+tableName: "role"
+comment: "角色"
+author: "fanxuankai"
+prefix: "t_"
+projectDir: "/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-starter-admin"
+apiPath: ""
+webPath: ""
+serviceName: "admin-service"
+packageName: "com.fanxuankai.boot.admin"
+cover: true
+templates: ["api/Dto", "api/QueryCriteria", "api/Vo", "web/Controller", "web/Dao", "web/DaoImpl", "web/Entity", "web/Mapper", "web/MapStructMapper", "web/Service", "web/ServiceImpl"]
+columnInfos:
+- columnName: "id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: true
+  unique: false
+  extra: ""
+  remark: "主键"
+  notNull: true
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "code"
+  columnType: "varchar"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "编码"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "name"
+  columnType: "varchar"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "名称"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "create_user_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "创建人"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: true
+- columnName: "modified_user_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "修改人"
+  notNull: false
+  queryType: "EQ"
+  fill: "UPDATE"
+  formShow: false
+  listShow: true
+- columnName: "create_date"
+  columnType: "datetime"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "创建时间"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: true
+- columnName: "last_modified_date"
+  columnType: "datetime"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "修改时间"
+  notNull: false
+  queryType: "EQ"
+  fill: "UPDATE"
+  formShow: false
+  listShow: true
+- columnName: "deleted"
+  columnType: "bit"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "是否删除"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: false

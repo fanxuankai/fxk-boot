@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 用户 数据传输对象
  *
  * @author fanxuankai
- * @date 2021-05-21
+ * @date 2021-06-04
  */
 @Data
 @Accessors(chain = true)

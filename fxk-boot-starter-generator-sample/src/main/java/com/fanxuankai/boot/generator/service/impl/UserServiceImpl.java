@@ -2,7 +2,6 @@ package com.fanxuankai.boot.generator.service.impl;
 
 import com.fanxuankai.boot.generator.dao.UserDao;
 import com.fanxuankai.boot.generator.dto.UserDTO;
-import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
 import com.fanxuankai.boot.generator.model.User;
 import com.fanxuankai.boot.generator.service.UserService;
 import com.fanxuankai.boot.generator.service.mapstruct.UserConverter;
@@ -22,10 +21,10 @@ import java.util.Map;
  * 用户 服务实现类
  *
  * @author fanxuankai
- * @date 2021-05-21
+ * @date 2021-06-04
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserQueryCriteria, UserConverter, UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserConverter, UserDao> implements UserService {
     @Override
     public void download(List<UserVO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

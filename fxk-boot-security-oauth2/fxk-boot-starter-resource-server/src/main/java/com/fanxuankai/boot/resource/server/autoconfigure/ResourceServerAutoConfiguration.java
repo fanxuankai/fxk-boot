@@ -3,6 +3,7 @@ package com.fanxuankai.boot.resource.server.autoconfigure;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,6 +35,8 @@ public class ResourceServerAutoConfiguration {
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
         @Resource
         private TokenStore tokenStore;
+        @Resource
+        private Environment environment;
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
@@ -47,9 +50,8 @@ public class ResourceServerAutoConfiguration {
 
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
-            resources.resourceId("order")
-                    .tokenStore(tokenStore)
-                    .stateless(true);
+            String resourceId = environment.getProperty("spring.application.name");
+            resources.resourceId(resourceId).tokenStore(tokenStore);
         }
     }
 

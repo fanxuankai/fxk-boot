@@ -1,10 +1,11 @@
 package com.fanxuankai.boot.authorization.server.autoconfigure;
 
-import com.fanxuankai.boot.authorization.server.Oauth2ExceptionTranslator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -91,7 +93,7 @@ public class AuthorizationServerAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean
         public WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator() {
-            return new Oauth2ExceptionTranslator();
+            return new WebExceptionTranslator();
         }
     }
 
@@ -168,6 +170,20 @@ public class AuthorizationServerAutoConfiguration {
         @ConditionalOnMissingBean
         public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
             return new RedisTokenStore(redisConnectionFactory);
+        }
+    }
+
+    /**
+     * 自定义登录或者鉴权失败时的返回信息
+     */
+    static class WebExceptionTranslator extends DefaultWebResponseExceptionTranslator {
+        @Override
+        public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+            ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+            OAuth2Exception body = responseEntity.getBody();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+            return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
         }
     }
 }

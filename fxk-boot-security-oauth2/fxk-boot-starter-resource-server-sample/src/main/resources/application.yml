@@ -1,3 +1,6 @@
+spring:
+  application:
+    name: order
 server:
   port: 8081
 logging:

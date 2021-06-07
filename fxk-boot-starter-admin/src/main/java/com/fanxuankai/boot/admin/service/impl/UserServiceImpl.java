@@ -49,9 +49,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, User
             map.put("头像存储路径", user.getAvatarPath());
             map.put("部门 id", user.getDeptId());
             map.put("是否为管理员", user.getAdmin());
-            map.put("账号未过期", user.getAccountNonExpired());
-            map.put("账号未被锁定", user.getAccountNonLocked());
-            map.put("密码未过期", user.getCredentialsNonExpired());
+            map.put("账号过期", user.getAccountExpired());
+            map.put("账号被锁定", user.getAccountLocked());
+            map.put("密码过期", user.getCredentialsExpired());
             map.put("是否激活", user.getEnabled());
             map.put("创建人", user.getCreateUserId());
             map.put("修改人", user.getModifiedUserId());

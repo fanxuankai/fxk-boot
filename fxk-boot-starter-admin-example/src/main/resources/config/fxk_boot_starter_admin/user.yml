@@ -263,37 +263,37 @@ columnInfos:
   fill: null
   formShow: true
   listShow: true
-- columnName: "account_non_expired"
+- columnName: "account_expired"
   columnType: "bit"
   fieldName: null
   primaryKey: false
   unique: false
   extra: ""
-  remark: "账号未过期"
+  remark: "账号过期"
   notNull: false
   queryType: "EQ"
   fill: null
   formShow: true
   listShow: true
-- columnName: "account_non_locked"
+- columnName: "account_locked"
   columnType: "bit"
   fieldName: null
   primaryKey: false
   unique: false
   extra: ""
-  remark: "账号未被锁定"
+  remark: "账号被锁定"
   notNull: false
   queryType: "EQ"
   fill: null
   formShow: true
   listShow: true
-- columnName: "credentials_non_expired"
+- columnName: "credentials_expired"
   columnType: "bit"
   fieldName: null
   primaryKey: false
   unique: false
   extra: ""
-  remark: "密码未过期"
+  remark: "密码过期"
   notNull: false
   queryType: "EQ"
   fill: null

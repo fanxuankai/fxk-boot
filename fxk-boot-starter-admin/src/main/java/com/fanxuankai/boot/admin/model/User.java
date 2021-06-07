@@ -121,17 +121,17 @@ public class User extends BaseModel {
     @TableField(value = "admin")
     private Boolean admin;
     /**
-     * 账号未过期
+     * 账号过期
      */
     @TableField(value = "account_expired")
     private Boolean accountExpired;
     /**
-     * 账号未被锁定
+     * 账号被锁定
      */
     @TableField(value = "account_locked")
     private Boolean accountLocked;
     /**
-     * 密码未过期
+     * 密码过期
      */
     @TableField(value = "credentials_expired")
     private Boolean credentialsExpired;

@@ -105,17 +105,17 @@ public class UserVO implements Serializable {
      */
     private Boolean admin;
     /**
-     * 账号未过期
+     * 账号过期
      */
-    private Boolean accountNonExpired;
+    private Boolean accountExpired;
     /**
-     * 账号未被锁定
+     * 账号被锁定
      */
-    private Boolean accountNonLocked;
+    private Boolean accountLocked;
     /**
-     * 密码未过期
+     * 密码过期
      */
-    private Boolean credentialsNonExpired;
+    private Boolean credentialsExpired;
     /**
      * 是否激活
      */

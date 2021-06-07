@@ -126,20 +126,20 @@ public class UserQueryCriteria {
     @Query(field = "admin", type = Query.Type.EQ)
     private Boolean adminEq;
     /**
-     * 账号未过期 EQ
+     * 账号过期 EQ
      */
-    @Query(field = "accountNonExpired", type = Query.Type.EQ)
-    private Boolean accountNonExpiredEq;
+    @Query(field = "accountExpired", type = Query.Type.EQ)
+    private Boolean accountExpiredEq;
     /**
-     * 账号未被锁定 EQ
+     * 账号被锁定 EQ
      */
-    @Query(field = "accountNonLocked", type = Query.Type.EQ)
-    private Boolean accountNonLockedEq;
+    @Query(field = "accountLocked", type = Query.Type.EQ)
+    private Boolean accountLockedEq;
     /**
-     * 密码未过期 EQ
+     * 密码过期 EQ
      */
-    @Query(field = "credentialsNonExpired", type = Query.Type.EQ)
-    private Boolean credentialsNonExpiredEq;
+    @Query(field = "credentialsExpired", type = Query.Type.EQ)
+    private Boolean credentialsExpiredEq;
     /**
      * 是否激活 EQ
      */

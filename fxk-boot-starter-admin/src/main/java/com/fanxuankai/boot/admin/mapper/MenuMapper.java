@@ -23,6 +23,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
             "LEFT JOIN role r on r.id = rp.role_id " +
             "LEFT JOIN user_role ur on ur.role_id = r.id " +
             "LEFT JOIN user u on u.id = ur.user_id " +
-            "WHERE u.id = #{userId}")
+            "WHERE u.id = #{userId} AND u.deleted = 0 " +
+            "AND r.deleted = 0 AND m.deleted = 0")
     List<String> listPermissions(Long userId);
 }

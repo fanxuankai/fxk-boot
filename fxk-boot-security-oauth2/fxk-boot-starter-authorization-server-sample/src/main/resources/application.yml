@@ -4,3 +4,22 @@ spring:
     url: jdbc:mysql://localhost:3306/oauth2_jwt?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          oauth2: debug
+fxk:
+  security:
+    oauth2:
+      authorization:
+        token-store: Jdbc
+#security:
+#  oauth2:
+#    authorization:
+#      jwt:
+#        key-store: classpath:mytest.jks
+#        key-alias: mytest
+#        key-password: mypass
+#        key-store-password: mypass

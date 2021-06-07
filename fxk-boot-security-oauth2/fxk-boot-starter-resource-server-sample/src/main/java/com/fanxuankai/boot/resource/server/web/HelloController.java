@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/api")
 public class HelloController {
     @PostMapping("/api/hi")
-    @PreAuthorize("hasAuthority('API')")
+    @PreAuthorize("hasAuthority('user')")
     public String say(String name) {
         return "hi , " + name;
     }

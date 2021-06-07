@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
  * ${comment} 数据访问实现类
  *
  * @author ${author}
- * @date ${date}
  */
 @Service
 public class ${className}DaoImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Dao {

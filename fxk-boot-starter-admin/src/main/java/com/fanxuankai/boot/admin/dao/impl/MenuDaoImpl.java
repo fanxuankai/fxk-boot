@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
  * 菜单 数据访问实现类
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Service
 public class MenuDaoImpl extends ServiceImpl<MenuMapper, Menu> implements MenuDao {

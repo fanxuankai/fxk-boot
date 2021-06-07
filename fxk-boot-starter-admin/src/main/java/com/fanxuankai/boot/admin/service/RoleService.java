@@ -8,7 +8,6 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  * 角色 服务接口
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 public interface RoleService extends BaseService<RoleDTO, RoleVO> {
 }

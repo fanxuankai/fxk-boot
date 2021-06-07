@@ -24,7 +24,6 @@ import java.math.BigDecimal;
  * ${comment} 数据传输对象
  *
  * @author ${author}
- * @date ${date}
  */
 @Data
 @Accessors(chain = true)

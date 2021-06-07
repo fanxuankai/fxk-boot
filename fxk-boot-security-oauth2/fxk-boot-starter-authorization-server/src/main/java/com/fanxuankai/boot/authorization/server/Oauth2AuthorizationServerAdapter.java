@@ -2,10 +2,12 @@ package com.fanxuankai.boot.authorization.server;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
@@ -34,6 +36,8 @@ public class Oauth2AuthorizationServerAdapter extends AuthorizationServerConfigu
     private TokenStore tokenStore;
     @Resource
     private AccessTokenConverter accessTokenConverter;
+    @Resource
+    private WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -61,7 +65,7 @@ public class Oauth2AuthorizationServerAdapter extends AuthorizationServerConfigu
                 // 对Jwt签名时，增加一个密钥，JwtAccessTokenConverter：对Jwt来进行编码以及解码的类
                 .accessTokenConverter(accessTokenConverter)
                 // 鉴权失败时的返回信息
-                .exceptionTranslator(new Oauth2ExceptionTranslator())
+                .exceptionTranslator(webResponseExceptionTranslator)
                 // 要使用refresh_token的话，需要额外配置userDetailsService
                 .userDetailsService(userDetailsService);
     }

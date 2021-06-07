@@ -11,7 +11,6 @@ import java.sql.Timestamp;
  * 角色 视图对象
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Data
 @Accessors(chain = true)

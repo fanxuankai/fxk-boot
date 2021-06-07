@@ -1,15 +1,13 @@
 server:
   port: 8081
-
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-value: test-secret
-
 logging:
   level:
     org:
       springframework:
         security:
           oauth2: debug
+fxk:
+  security:
+    oauth2:
+      resource:
+        token-store: Jwt

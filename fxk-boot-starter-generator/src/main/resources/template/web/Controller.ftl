@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  * ${comment} 管理
  *
  * @author ${author}
- * @date ${date}
  */
 @RestController
 @RequestMapping("/${changeClassName}")

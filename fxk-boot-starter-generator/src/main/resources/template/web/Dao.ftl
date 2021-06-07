@@ -10,7 +10,6 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
  * ${comment} 数据访问接口
  *
  * @author ${author}
- * @date ${date}
  */
 public interface ${className}Dao extends BaseDao<${className}> {
 <#if columns??>

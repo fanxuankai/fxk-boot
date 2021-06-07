@@ -21,7 +21,6 @@ import java.util.Map;
  * ${comment} 服务实现类
  *
  * @author ${author}
- * @date ${date}
  */
 @Service
 public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${className}DTO, ${className}VO, ${className}Converter, ${className}Dao> implements ${className}Service {

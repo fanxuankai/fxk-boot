@@ -21,7 +21,6 @@ import java.util.Map;
  * 角色 服务实现类
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<Role, RoleDTO, RoleVO, RoleConverter, RoleDao> implements RoleService {

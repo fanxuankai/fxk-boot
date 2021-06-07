@@ -14,7 +14,6 @@ import java.util.Date;
  * 用户 实体类
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -124,18 +123,18 @@ public class User extends BaseModel {
     /**
      * 账号未过期
      */
-    @TableField(value = "account_non_expired")
-    private Boolean accountNonExpired;
+    @TableField(value = "account_expired")
+    private Boolean accountExpired;
     /**
      * 账号未被锁定
      */
-    @TableField(value = "account_non_locked")
-    private Boolean accountNonLocked;
+    @TableField(value = "account_locked")
+    private Boolean accountLocked;
     /**
      * 密码未过期
      */
-    @TableField(value = "credentials_non_expired")
-    private Boolean credentialsNonExpired;
+    @TableField(value = "credentials_expired")
+    private Boolean credentialsExpired;
     /**
      * 是否激活
      */

@@ -9,10 +9,16 @@
         <version>${revision}</version>
     </parent>
     <artifactId>fxk-boot-starter-authorization-server-sample</artifactId>
+    <name>FXK Boot Starter Authorization Server Example</name>
+    <description>FXK Boot Starter Authorization Server Example</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
             <artifactId>fxk-boot-starter-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-admin</artifactId>
         </dependency>
     </dependencies>
 </project>

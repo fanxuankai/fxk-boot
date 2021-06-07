@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 @Configuration
 @EnableWebSecurity
-public class Oauth2WebSecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
 

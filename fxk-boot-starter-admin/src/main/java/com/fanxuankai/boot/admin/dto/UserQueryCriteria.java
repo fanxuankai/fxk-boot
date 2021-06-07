@@ -12,7 +12,6 @@ import java.util.Date;
  * 用户 查询条件
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Data
 @Accessors(chain = true)

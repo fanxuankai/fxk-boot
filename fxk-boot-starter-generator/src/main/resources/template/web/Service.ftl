@@ -8,7 +8,6 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  * ${comment} 服务接口
  *
  * @author ${author}
- * @date ${date}
  */
 public interface ${className}Service extends BaseService<${className}DTO, ${className}VO> {
 }

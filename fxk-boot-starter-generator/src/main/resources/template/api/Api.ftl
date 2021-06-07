@@ -13,7 +13,6 @@ import java.util.List;
  * ${comment} API
  *
  * @author ${author}
- * @date ${date}
  */
 @FeignClient("${serviceName}")
 public interface ${className}Api {

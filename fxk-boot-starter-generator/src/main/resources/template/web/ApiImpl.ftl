@@ -12,7 +12,6 @@ import java.util.List;
  * ${comment} API 实现类
  *
  * @author ${author}
- * @date ${date}
  */
 @RestController
 @RequiredArgsConstructor

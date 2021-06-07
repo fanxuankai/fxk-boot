@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  * 菜单 管理
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @RestController
 @RequestMapping("/menu")

@@ -24,7 +24,6 @@ import java.math.BigDecimal;
  * ${comment} 实体类
  *
  * @author ${author}
- * @date ${date}
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

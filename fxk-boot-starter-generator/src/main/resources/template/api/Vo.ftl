@@ -21,7 +21,6 @@ import java.math.BigDecimal;
  * ${comment} 视图对象
  *
  * @author ${author}
- * @date ${date}
  */
 @Data
 @Accessors(chain = true)

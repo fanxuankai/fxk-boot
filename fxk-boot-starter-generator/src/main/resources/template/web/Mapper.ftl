@@ -7,7 +7,6 @@ import ${packageName}.model.${className};
  * ${comment} Mapper 接口
  *
  * @author ${author}
- * @date ${date}
  */
 public interface ${className}Mapper extends BaseMapper<${className}> {
 }

@@ -26,7 +26,6 @@ import java.util.List;
  * ${comment} 查询条件
  *
  * @author ${author}
- * @date ${date}
  */
 @Data
 @Accessors(chain = true)

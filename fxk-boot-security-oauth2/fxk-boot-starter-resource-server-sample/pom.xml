@@ -2,13 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>fxk-boot-security-oauth2</artifactId>
         <groupId>com.fanxuankai.boot</groupId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>fxk-boot-starter-resource-server-sample</artifactId>
+    <name>FXK Boot Starter Oauth2 Resource Example</name>
+    <description>FXK Boot Starter Oauth2 Resource Example</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>

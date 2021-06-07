@@ -10,16 +10,11 @@ logging:
       springframework:
         security:
           oauth2: debug
-fxk:
-  security:
-    oauth2:
-      authorization:
-        token-store: Jdbc
-#security:
-#  oauth2:
-#    authorization:
-#      jwt:
-#        key-store: classpath:mytest.jks
-#        key-alias: mytest
-#        key-password: mypass
-#        key-store-password: mypass
+security:
+  oauth2:
+    authorization:
+      jwt:
+        key-store: classpath:mytest.jks
+        key-alias: mytest
+        key-password: mypass
+        key-store-password: mypass

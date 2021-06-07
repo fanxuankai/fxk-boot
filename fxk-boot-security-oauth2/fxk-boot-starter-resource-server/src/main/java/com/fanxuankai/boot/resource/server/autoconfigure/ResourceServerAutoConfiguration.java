@@ -1,57 +1,82 @@
 package com.fanxuankai.boot.resource.server.autoconfigure;
 
-import com.fanxuankai.boot.resource.server.Oauth2ResourceServerConfigurerAdapter;
-import com.fanxuankai.boot.resource.server.Oauth2WebSecurityConfigurerAdapter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import java.security.KeyPair;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 /**
  * @author fanxuankai
  */
-@EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@EnableConfigurationProperties(ResourceServerProperties.class)
-@Import({ResourceServerTokenServicesConfiguration.class})
+@Configuration
 public class ResourceServerAutoConfiguration {
-    @Bean
-    @ConditionalOnMissingBean
-    public ResourceServerConfigurerAdapter resourceServerConfigurerAdapter() {
-        return new Oauth2ResourceServerConfigurerAdapter();
+    /**
+     * 资源服务器
+     *
+     * @author fanxuankai
+     */
+    @Configuration
+    @EnableResourceServer
+    @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+    protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+        @Resource
+        private TokenStore tokenStore;
+
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        }
+
+        @Override
+        public void configure(ResourceServerSecurityConfigurer resources) {
+            resources.resourceId("order")
+                    .tokenStore(tokenStore)
+                    .stateless(true);
+        }
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter() {
-        return new Oauth2WebSecurityConfigurerAdapter();
+    @Configuration
+    protected static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated();
+        }
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
-        return new JwtTokenStore(jwtAccessTokenConverter);
+    static class JdbcTokenServiceConfiguration {
+        @Bean
+        @ConditionalOnMissingBean
+        public TokenStore tokenStore(DataSource dataSource) {
+            return new JdbcTokenStore(dataSource);
+        }
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyPair keyPair =
-                new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray()).getKeyPair(
-                        "mytest", "mypass".toCharArray());
-        converter.setKeyPair(keyPair);
-        return converter;
+    static class RedisTokenServiceConfiguration {
+        @Bean
+        @ConditionalOnMissingBean
+        public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
+            return new RedisTokenStore(redisConnectionFactory);
+        }
     }
 }

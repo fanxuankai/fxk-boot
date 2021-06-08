@@ -3,6 +3,7 @@ package com.fanxuankai.boot.authorization.server.autoconfigure;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ import java.util.Objects;
  * @author fanxuankai
  */
 @Configuration
+@Import({LogoutEndpoint.class})
 public class AuthorizationServerAutoConfiguration {
     /**
      * 认证服务器配置
@@ -131,11 +133,8 @@ public class AuthorizationServerAutoConfiguration {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
-                    .requestMatchers()
-                    .antMatchers("/oauth/**", "/login", "/login-error")
-                    .and()
                     .authorizeRequests()
-                    .antMatchers("/oauth/**").authenticated()
+                    .antMatchers("/oauth/**", "/login", "/logout", "/login-error").permitAll()
                     .and()
                     .formLogin();
         }

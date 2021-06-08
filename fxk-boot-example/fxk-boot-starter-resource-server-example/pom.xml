@@ -5,24 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
-        <artifactId>fxk-boot-parent</artifactId>
+        <artifactId>fxk-boot-example</artifactId>
         <version>${revision}</version>
-        <relativePath>../fxk-boot-parent</relativePath>
     </parent>
-    <artifactId>fxk-boot-starter-enum-sample</artifactId>
-    <name>FXK Boot Starter Enum Sample</name>
-    <description>FXK Boot Starter Enum Sample</description>
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+    <artifactId>fxk-boot-starter-resource-server-example</artifactId>
+    <name>FXK Boot Starter Oauth2 Resource Example</name>
+    <description>FXK Boot Starter Oauth2 Resource Example</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-enum</artifactId>
+            <artifactId>fxk-boot-starter-resource-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-redis</artifactId>
         </dependency>
     </dependencies>
 </project>

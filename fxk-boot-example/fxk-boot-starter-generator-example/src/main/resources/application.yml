@@ -15,7 +15,7 @@ code-generator:
   # 去表前缀
   prefix: t_
   # 项目绝对路径
-  project-dir: /Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-starter-generator-sample
+  project-dir: /Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/fxk-boot-starter-generator-sample
   # API 相对路径
   api-path:
   # WEB 相对路径

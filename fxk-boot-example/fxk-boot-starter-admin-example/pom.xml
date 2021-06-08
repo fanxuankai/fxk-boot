@@ -5,16 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
-        <artifactId>fxk-boot-parent</artifactId>
+        <artifactId>fxk-boot-example</artifactId>
         <version>${revision}</version>
-        <relativePath>../fxk-boot-parent</relativePath>
     </parent>
     <artifactId>fxk-boot-starter-admin-example</artifactId>
     <name>FXK Boot Starter Admin Example</name>
     <description>FXK Boot Starter Admin Example</description>
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>

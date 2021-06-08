@@ -5,28 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
-        <artifactId>fxk-boot-security-oauth2</artifactId>
+        <artifactId>fxk-boot-example</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>fxk-boot-starter-authorization-server-sample</artifactId>
-    <name>FXK Boot Starter Authorization Server Example</name>
-    <description>FXK Boot Starter Authorization Server Example</description>
+    <artifactId>fxk-boot-starter-data-tree-example</artifactId>
+    <name>FXK Boot Starter Data Tree Example</name>
+    <description>FXK Boot Starter Data Tree Example</description>
+
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-authorization-server</artifactId>
+            <artifactId>fxk-boot-starter-mybatis-plus</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-admin</artifactId>
+            <groupId>com.fanxuankai</groupId>
+            <artifactId>commons</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-redis</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
 </project>

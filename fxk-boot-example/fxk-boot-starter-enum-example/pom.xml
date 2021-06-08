@@ -5,24 +5,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
-        <artifactId>fxk-boot-distributed-lock</artifactId>
+        <artifactId>fxk-boot-example</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>fxk-boot-test-redis-lock</artifactId>
-    <name>FXK Boot Test Redis Lock</name>
-    <description>FXK Boot Test Redis Lock</description>
+    <artifactId>fxk-boot-starter-enum-example</artifactId>
+    <name>FXK Boot Starter Enum Example</name>
+    <description>FXK Boot Starter Enum Example</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-redis-lock</artifactId>
-            <version>${project.version}</version>
+            <artifactId>fxk-boot-starter-enum</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 </project>

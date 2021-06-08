@@ -18,6 +18,5 @@
         <module>fxk-boot-distributed-lock-core</module>
         <module>fxk-boot-redis-lock-autoconfigure</module>
         <module>fxk-boot-starter-redis-lock</module>
-        <module>fxk-boot-test-redis-lock</module>
     </modules>
 </project>

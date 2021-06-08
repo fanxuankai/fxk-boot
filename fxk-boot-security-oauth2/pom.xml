@@ -16,7 +16,5 @@
     <modules>
         <module>fxk-boot-starter-authorization-server</module>
         <module>fxk-boot-starter-resource-server</module>
-        <module>fxk-boot-starter-authorization-server-sample</module>
-        <module>fxk-boot-starter-resource-server-sample</module>
     </modules>
 </project>

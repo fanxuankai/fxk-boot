@@ -4,21 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>fxk-boot-security-oauth2</artifactId>
         <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-example</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>fxk-boot-starter-resource-server-sample</artifactId>
-    <name>FXK Boot Starter Oauth2 Resource Example</name>
-    <description>FXK Boot Starter Oauth2 Resource Example</description>
+    <artifactId>fxk-boot-starter-redis-lock-example</artifactId>
+    <name>FXK Boot Starter Redis Lock Example</name>
+    <description>FXK Boot Starter Redis Lock Example</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-resource-server</artifactId>
+            <artifactId>fxk-boot-starter-redis-lock</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fanxuankai.boot</groupId>
-            <artifactId>fxk-boot-starter-redis</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
 </project>

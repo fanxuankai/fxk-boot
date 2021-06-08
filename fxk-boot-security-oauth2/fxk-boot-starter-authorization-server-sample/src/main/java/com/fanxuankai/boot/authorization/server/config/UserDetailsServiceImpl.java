@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .authorities(authorityList)
                 .accountExpired(user.getAccountExpired())
                 .accountLocked(user.getAccountLocked())
-                .accountExpired(user.getAccountExpired())
+                .credentialsExpired(user.getCredentialsExpired())
                 .build();
     }
 }

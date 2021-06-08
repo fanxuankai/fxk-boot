@@ -135,9 +135,4 @@ public class User extends BaseModel {
      */
     @TableField(value = "credentials_expired")
     private Boolean credentialsExpired;
-    /**
-     * 是否激活
-     */
-    @TableField(value = "enabled")
-    private Boolean enabled;
 }

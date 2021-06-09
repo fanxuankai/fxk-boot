@@ -10,7 +10,6 @@ import com.fanxuankai.boot.enums.domain.EnumType;
 import com.fanxuankai.boot.enums.mapper.EnumMapper;
 import com.fanxuankai.boot.enums.service.EnumService;
 import com.fanxuankai.boot.enums.service.EnumTypeService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -44,6 +43,14 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
     @Override
     public List<EnumVO> list(List<String> typeNames) {
         return listByEnumTypes(enumTypeService.list(typeNames));
+    }
+
+    @Override
+    public List<EnumVO> list(List<String> typeNames, boolean generateDataOnly) {
+        return listByEnumTypes(enumTypeService.list(Wrappers.lambdaQuery(EnumType.class)
+                .in(EnumType::getName, typeNames)
+                .eq(EnumType::isGenerateDataOnly, generateDataOnly)
+        ));
     }
 
     @Override
@@ -87,54 +94,33 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void add(EnumDTO dto) {
-        saveBatch(enumList(dto.getEnumList(), enumTypeService.addAndGet(dto.getEnumType())));
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public void add(List<EnumDTO> dtoList) {
         if (CollectionUtils.isEmpty(dtoList)) {
             return;
         }
-        List<EnumDTO.EnumType> enumTypes = dtoList.stream()
+        List<EnumType> enumTypes = dtoList.stream()
                 .map(EnumDTO::getEnumType)
                 .collect(Collectors.toList());
         enumTypeService.batchAdd(enumTypes);
         Map<String, Long> enumTypeMap = enumTypeService.list(Wrappers.lambdaQuery(EnumType.class)
                 .in(EnumType::getName, enumTypes.stream()
-                        .map(EnumDTO.EnumType::getName)
+                        .map(EnumType::getName)
                         .collect(Collectors.toList())))
                 .stream()
                 .collect(Collectors.toMap(EnumType::getName, EnumType::getId));
         List<Enum> enumList = dtoList.stream()
-                .map(enumDTO -> enumList(enumDTO.getEnumList(),
-                        enumTypeMap.get(enumDTO.getEnumType().getName())))
+                .peek(o -> {
+                    Long typeId = enumTypeMap.get(o.getEnumType().getName());
+                    o.getEnumList().forEach(anEnum -> anEnum.setTypeId(typeId));
+                })
+                .map(EnumDTO::getEnumList)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         saveBatch(enumList);
     }
 
     @Override
-    public List<EnumDTO> addIncrement(List<EnumDTO> dtoList) {
-        if (CollectionUtils.isEmpty(dtoList)) {
-            return Collections.emptyList();
-        }
-        List<String> enumTypeNames = dtoList.stream()
-                .map(EnumDTO::getEnumType)
-                .map(EnumDTO.EnumType::getName)
-                .distinct().collect(Collectors.toList());
-        Set<String> existsEnumTypeNames =
-                enumTypeService.list(enumTypeNames).stream().map(EnumType::getName).collect(Collectors.toSet());
-        List<EnumDTO> incrementList =
-                dtoList.stream().filter(enumDTO -> !existsEnumTypeNames.contains(enumDTO.getEnumType().getName()))
-                        .collect(Collectors.toList());
-        add(incrementList);
-        return incrementList;
-    }
-
-    @Override
-    public void add(String typeName, EnumDTO.Enum anEnum) {
+    public void add(String typeName, Enum anEnum) {
         Optional<EnumVO> optional = find(typeName);
         if (!optional.isPresent()) {
             return;
@@ -164,19 +150,19 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
                 });
     }
 
-    private List<Enum> enumList(List<EnumDTO.Enum> dtoEnumList, Long typeId) {
-        List<Enum> enumList = new ArrayList<>(dtoEnumList.size());
-        int lastCode = 0;
-        for (EnumDTO.Enum value : dtoEnumList) {
-            Enum anEnum = new Enum();
-            BeanUtils.copyProperties(value, anEnum);
-            anEnum.setTypeId(typeId);
-            if (anEnum.getCode() == null) {
-                anEnum.setCode(lastCode + 1);
-            }
-            lastCode = anEnum.getCode();
-            enumList.add(anEnum);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<String> typeNames) {
+        if (CollectionUtils.isEmpty(typeNames)) {
+            return;
         }
-        return enumList;
+        List<EnumType> types = enumTypeService.list(Wrappers.lambdaQuery(EnumType.class).in(EnumType::getName,
+                typeNames));
+        if (types.isEmpty()) {
+            return;
+        }
+        List<Long> typeIds = types.stream().map(EnumType::getId).collect(Collectors.toList());
+        enumTypeService.removeByIds(typeIds);
+        remove(Wrappers.lambdaQuery(Enum.class).in(Enum::getTypeId, typeIds));
     }
 }

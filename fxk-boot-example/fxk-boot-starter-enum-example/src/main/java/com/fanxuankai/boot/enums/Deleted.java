@@ -13,7 +13,7 @@ public enum Deleted implements EnumProtocol {
     /**
      * 已删除
      */
-    YES(15, "已删除"),
+    YES(17, "已删除"),
     ;
     private final int code;
     private final String value;

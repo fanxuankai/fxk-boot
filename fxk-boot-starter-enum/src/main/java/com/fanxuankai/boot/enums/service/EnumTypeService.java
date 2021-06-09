@@ -3,7 +3,6 @@ package com.fanxuankai.boot.enums.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fanxuankai.boot.enums.EnumDTO;
 import com.fanxuankai.boot.enums.domain.EnumType;
 import org.springframework.util.CollectionUtils;
 
@@ -40,7 +39,7 @@ public interface EnumTypeService extends IService<EnumType> {
      *
      * @param enumType 枚举类型
      */
-    default void add(EnumDTO.EnumType enumType) {
+    default void add(EnumType enumType) {
         EnumType entity = new EnumType();
         entity.setName(enumType.getName());
         entity.setDescription(enumType.getDescription());
@@ -52,7 +51,7 @@ public interface EnumTypeService extends IService<EnumType> {
      *
      * @param enumTypes 枚举类型
      */
-    default void batchAdd(List<EnumDTO.EnumType> enumTypes) {
+    default void batchAdd(List<EnumType> enumTypes) {
         if (CollectionUtils.isEmpty(enumTypes)) {
             return;
         }
@@ -67,7 +66,7 @@ public interface EnumTypeService extends IService<EnumType> {
      * @param enumType 枚举描述
      * @return 返回枚举类型 id
      */
-    default Long addAndGet(EnumDTO.EnumType enumType) {
+    default Long addAndGet(EnumType enumType) {
         add(enumType);
         return get(enumType.getName()).getId();
     }

@@ -2,11 +2,9 @@ package com.fanxuankai.boot.enums;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fanxuankai.boot.enums.domain.Enum;
 import com.fanxuankai.boot.enums.domain.EnumType;
 import com.fanxuankai.boot.enums.service.EnumService;
-import com.fanxuankai.boot.enums.service.EnumTypeService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -23,6 +21,7 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -31,8 +30,6 @@ import java.util.stream.Collectors;
 @Service
 public class EnumGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnumGenerator.class);
-    @Resource
-    private EnumTypeService enumTypeService;
     @Resource
     private EnumService enumService;
 
@@ -43,46 +40,36 @@ public class EnumGenerator {
      */
     @Transactional(rollbackFor = Exception.class)
     public void generate(GenerateModel generateModel) {
-        List<EnumType> enumTypes;
-        if (generateModel.isIncrement()) {
-            List<EnumDTO> incrementEnumDtoList = enumService.addIncrement(getEnumFromJson());
-            if (incrementEnumDtoList.isEmpty()) {
-                return;
-            }
-            enumTypes = enumTypeService.list(incrementEnumDtoList.stream()
-                    .map(EnumDTO::getEnumType)
-                    .map(EnumDTO.EnumType::getName).collect(Collectors.toList()));
-        } else {
-            // 清空枚举数据
-            enumService.removeByIds(enumService.list().stream().map(Enum::getId)
-                    .collect(Collectors.toList()));
-            enumTypeService.removeByIds(enumTypeService.list().stream().map(EnumType::getId)
-                    .collect(Collectors.toList()));
-            // 插入枚举数据
-            enumService.add(getEnumFromJson());
-            enumTypes = enumTypeService.list();
-        }
-        enumTypes.removeIf(EnumType::isGenerateDataOnly);
-        if (generateModel.isGenerateDataOnly() || enumTypes.isEmpty()) {
+        List<EnumDTO> dtoList = JSONUtil.toList(getEnumJsonString(), EnumDTO.class);
+        check(dtoList);
+        enumService.setupCode(dtoList);
+        dtoList = filter(dtoList);
+        if (dtoList.isEmpty()) {
             return;
         }
-        Map<Long, List<Enum>> map = map(enumTypes.stream().map(EnumType::getId).collect(Collectors.toList()));
-        List<EnumVO> enumList = enumTypes.stream()
-                .filter(enumType -> map.get(enumType.getId()) != null)
-                .sorted(Comparator.comparing(EnumType::getId))
-                .map(enumType -> {
-                    List<Enum> enumDomainList = map.get(enumType.getId());
-                    enumDomainList.sort(Comparator.comparing(Enum::getCode));
-                    enumDomainList.forEach(anEnum ->
-                            anEnum.setName(StrUtil.toUnderlineCase(anEnum.getName()).toUpperCase()));
-                    EnumType anEnumType = new EnumType();
-                    anEnumType.setName(StringUtils.capitalize(enumType.getName()));
-                    anEnumType.setDescription(enumType.getDescription());
-                    EnumVO enumVO = new EnumVO();
-                    enumVO.setEnumType(anEnumType);
-                    enumVO.setEnumList(enumDomainList);
-                    return enumVO;
-                }).collect(Collectors.toList());
+        // 先删除如果存在的数据
+        List<String> typeNames = dtoList.stream().map(o -> o.getEnumType().getName()).collect(Collectors.toList());
+        enumService.delete(typeNames);
+        // 插入枚举数据
+        enumService.add(dtoList);
+        // 取出保存的枚举数据,用于生成代码
+        List<EnumVO> list;
+        if (generateModel.isGenerateDataOnly() || (list = enumService.list(typeNames, false)).isEmpty()) {
+            return;
+        }
+        List<EnumVO> enumList = list.stream().map(vo -> {
+            List<Enum> enumDomainList = vo.getEnumList();
+            enumDomainList.sort(Comparator.comparing(Enum::getCode));
+            enumDomainList.forEach(anEnum ->
+                    anEnum.setName(StrUtil.toUnderlineCase(anEnum.getName()).toUpperCase()));
+            EnumType anEnumType = new EnumType();
+            anEnumType.setName(StringUtils.capitalize(vo.getEnumType().getName()));
+            anEnumType.setDescription(vo.getEnumType().getDescription());
+            EnumVO enumVO = new EnumVO();
+            enumVO.setEnumType(anEnumType);
+            enumVO.setEnumList(enumDomainList);
+            return enumVO;
+        }).collect(Collectors.toList());
         Configuration cfg = new Configuration(Configuration.getVersion());
         cfg.setClassLoaderForTemplateLoading(getClass().getClassLoader(), "templates");
         cfg.setDefaultEncoding("UTF-8");
@@ -107,12 +94,44 @@ public class EnumGenerator {
             }
         } catch (IOException | TemplateException e) {
             LOGGER.error(String.format("生成枚举 %s 失败", name), e);
+            throw new RuntimeException(e);
         }
     }
 
-    private List<EnumDTO> getEnumFromJson() {
-        List<EnumDTO> list = JSONUtil.toList(getEnumJsonString(), EnumDTO.class);
-        list.stream().collect(Collectors.groupingBy(o -> o.getEnumType().getName()))
+    /**
+     * 过滤发生变化的枚举数据
+     *
+     * @param dtoList 枚举列表
+     * @return /
+     */
+    private List<EnumDTO> filter(List<EnumDTO> dtoList) {
+        if (dtoList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        // 数据库的枚举数据
+        // key: 枚举类名 value: EnumVO
+        Map<String, EnumVO> map = enumService.all()
+                .stream()
+                .collect(Collectors.toMap(o -> o.getEnumType().getName(), Function.identity()));
+        return dtoList.stream().filter(o -> {
+            EnumVO enumVO = map.get(o.getEnumType().getName());
+            if (enumVO == null) {
+                // 数据库不存在,则为新枚举
+                return true;
+            }
+            return !Objects.equals(enumVO.getEnumType(), o.getEnumType())
+                    || !Objects.equals(enumVO.getEnumList(), o.getEnumList());
+        }).collect(Collectors.toList());
+
+    }
+
+    /**
+     * 枚举数据合法校验
+     *
+     * @param dtoList 枚举列表
+     */
+    private void check(List<EnumDTO> dtoList) {
+        dtoList.stream().collect(Collectors.groupingBy(o -> o.getEnumType().getName()))
                 .forEach((s, enums) -> {
                     if (enums.size() > 1) {
                         throw new IllegalArgumentException("枚举类型名重复: " + s);
@@ -120,7 +139,7 @@ public class EnumGenerator {
                     EnumDTO enumDTO = enums.get(0);
                     Set<Integer> codes = new HashSet<>();
                     Set<String> names = new HashSet<>();
-                    for (EnumDTO.Enum anEnum : enumDTO.getEnumList()) {
+                    for (Enum anEnum : enumDTO.getEnumList()) {
                         if (anEnum.getCode() != null && codes.contains(anEnum.getCode())) {
                             throw new IllegalArgumentException("枚举类型: " + s + ", code 重复: " + anEnum.getCode());
                         } else {
@@ -132,8 +151,15 @@ public class EnumGenerator {
                             names.add(anEnum.getName());
                         }
                     }
+                    // 清空不能手动赋值的字段
+                    enums.forEach(o -> {
+                        o.getEnumType().setId(null);
+                        o.getEnumList().forEach(anEnum -> {
+                            anEnum.setId(null);
+                            anEnum.setTypeId(null);
+                        });
+                    });
                 });
-        return list;
     }
 
     private String getEnumJsonString() {
@@ -150,12 +176,5 @@ public class EnumGenerator {
         } catch (Exception e) {
             throw new RuntimeException("找不到枚举 JSON 文件", e);
         }
-    }
-
-    private Map<Long, List<Enum>> map(List<Long> typeIds) {
-        return enumService.list(new QueryWrapper<Enum>().lambda()
-                .in(Enum::getTypeId, typeIds))
-                .stream()
-                .collect(Collectors.groupingBy(Enum::getTypeId));
     }
 }

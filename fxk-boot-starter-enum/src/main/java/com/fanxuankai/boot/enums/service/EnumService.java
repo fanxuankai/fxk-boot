@@ -12,14 +12,6 @@ import java.util.Optional;
  * @author fanxuankai
  */
 public interface EnumService extends IService<Enum> {
-
-    /**
-     * 新增枚举类型
-     *
-     * @param dto 枚举数据
-     */
-    void add(EnumDTO dto);
-
     /**
      * 批量新增枚举类型
      *
@@ -28,20 +20,12 @@ public interface EnumService extends IService<Enum> {
     void add(List<EnumDTO> dtoList);
 
     /**
-     * 批量新增枚举类型,增量模式
-     *
-     * @param dtoList 枚举数据
-     * @return List 增量的数据
-     */
-    List<EnumDTO> addIncrement(List<EnumDTO> dtoList);
-
-    /**
      * 增加枚举
      *
      * @param typeName 枚举类名
      * @param anEnum   枚举
      */
-    void add(String typeName, EnumDTO.Enum anEnum);
+    void add(String typeName, Enum anEnum);
 
     /**
      * 查枚举
@@ -58,6 +42,15 @@ public interface EnumService extends IService<Enum> {
      * @return list
      */
     List<EnumVO> list(List<String> typeNames);
+
+    /**
+     * 批量查枚举
+     *
+     * @param typeNames        枚举类名
+     * @param generateDataOnly 只生成数据
+     * @return list
+     */
+    List<EnumVO> list(List<String> typeNames, boolean generateDataOnly);
 
     /**
      * 查所有枚举
@@ -80,4 +73,28 @@ public interface EnumService extends IService<Enum> {
      * @param typeName 枚举类名
      */
     void delete(String typeName);
+
+    /**
+     * 删除枚举类型
+     *
+     * @param typeNames 枚举类名
+     */
+    void delete(List<String> typeNames);
+
+    /**
+     * 设置 code
+     *
+     * @param dtoList 枚举数据
+     */
+    default void setupCode(List<EnumDTO> dtoList) {
+        for (EnumDTO enumDTO : dtoList) {
+            int lastCode = 0;
+            for (Enum value : enumDTO.getEnumList()) {
+                if (value.getCode() == null) {
+                    value.setCode(lastCode + 1);
+                }
+                lastCode = value.getCode();
+            }
+        }
+    }
 }

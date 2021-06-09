@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Objects;
+
 /**
  * 枚举
  *
@@ -83,5 +85,25 @@ public class Enum {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Enum anEnum = (Enum) o;
+        return disabled == anEnum.disabled &&
+                name.equals(anEnum.name) &&
+                code.equals(anEnum.code) &&
+                value.equals(anEnum.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, code, value, disabled);
     }
 }

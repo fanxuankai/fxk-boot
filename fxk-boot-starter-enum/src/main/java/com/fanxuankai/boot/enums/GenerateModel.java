@@ -19,10 +19,6 @@ public class GenerateModel {
      */
     private String path;
     /**
-     * 增量模式,默认为全量模式
-     */
-    private boolean increment;
-    /**
      * 只生成数据
      */
     private boolean generateDataOnly;
@@ -49,14 +45,6 @@ public class GenerateModel {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public boolean isIncrement() {
-        return increment;
-    }
-
-    public void setIncrement(boolean increment) {
-        this.increment = increment;
     }
 
     public boolean isGenerateDataOnly() {

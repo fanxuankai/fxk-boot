@@ -1,5 +1,7 @@
 package com.fanxuankai.boot.enums;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.fanxuankai.boot.enums.domain.Enum;
@@ -42,6 +44,7 @@ public class EnumGenerator {
     public void generate(GenerateModel generateModel) {
         List<EnumDTO> dtoList = JSONUtil.toList(getEnumJsonString(), EnumDTO.class);
         check(dtoList);
+        // 先初始化 code
         enumService.setupCode(dtoList);
         dtoList = filter(dtoList);
         if (dtoList.isEmpty()) {
@@ -77,18 +80,19 @@ public class EnumGenerator {
         String name = "";
         try {
             Template template = cfg.getTemplate("enum.ftl");
+            String packageResourcePath = ClassUtils.convertClassNameToResourcePath(generateModel.getPackageName());
+            String dir = generateModel.getPath() + StrPool.SLASH + packageResourcePath;
+            FileUtil.mkdir(dir);
             for (EnumVO enumVO : enumList) {
                 EnumModel model = new EnumModel();
                 model.setPackageName(generateModel.getPackageName());
                 model.setAuth(generateModel.getAuth());
                 model.setEnumVO(enumVO);
                 String shortName = enumVO.getEnumType().getName();
-                String fileName = ClassUtils.convertClassNameToResourcePath(generateModel.getPackageName())
-                        + "/" + shortName;
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(
-                        generateModel.getPath() + "/" + fileName + ".java"))));
+                BufferedWriter writer =
+                        new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + StrPool.SLASH + shortName + ".java")));
                 template.process(model, writer);
-                name = generateModel.getPackageName() + "." + shortName;
+                name = generateModel.getPackageName() + StrPool.DOT + shortName;
                 LOGGER.info("生成枚举 {} 成功", name);
                 writer.close();
             }
@@ -99,7 +103,7 @@ public class EnumGenerator {
     }
 
     /**
-     * 过滤发生变化的枚举数据
+     * 过滤发生变化的枚举数据,以及删除去掉的枚举数据
      *
      * @param dtoList 枚举列表
      * @return /
@@ -108,11 +112,12 @@ public class EnumGenerator {
         if (dtoList.isEmpty()) {
             return Collections.emptyList();
         }
+        Set<String> typeNames = dtoList.stream().map(o -> o.getEnumType().getName()).collect(Collectors.toSet());
         // 数据库的枚举数据
         // key: 枚举类名 value: EnumVO
-        Map<String, EnumVO> map = enumService.all()
-                .stream()
+        Map<String, EnumVO> map = enumService.all().stream()
                 .collect(Collectors.toMap(o -> o.getEnumType().getName(), Function.identity()));
+        enumService.delete(map.keySet().stream().filter(s -> !typeNames.contains(s)).collect(Collectors.toList()));
         return dtoList.stream().filter(o -> {
             EnumVO enumVO = map.get(o.getEnumType().getName());
             if (enumVO == null) {

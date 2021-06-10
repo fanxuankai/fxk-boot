@@ -19,7 +19,7 @@ public class EnumUtils {
      * @param <E>       枚举泛型
      * @return 可能为 Optional.empty()
      */
-    public static <E extends EnumProtocol> Optional<E> find(Class<E> enumClass, @Nullable Integer code) {
+    public static <E extends Entry> Optional<E> find(Class<E> enumClass, @Nullable Integer code) {
         for (E e : enumClass.getEnumConstants()) {
             if (Objects.equals(e.getCode(), code)) {
                 return Optional.of(e);
@@ -36,7 +36,7 @@ public class EnumUtils {
      * @param <E>       枚举泛型
      * @return 可能为 Optional.empty()
      */
-    public static <E extends EnumProtocol> Optional<E> findByValue(Class<E> enumClass, @Nullable String value) {
+    public static <E extends Entry> Optional<E> findByValue(Class<E> enumClass, @Nullable String value) {
         for (E e : enumClass.getEnumConstants()) {
             if (Objects.equals(e.getValue(), value)) {
                 return Optional.of(e);
@@ -70,7 +70,7 @@ public class EnumUtils {
      * @param <E>       枚举泛型
      * @return 可能为 null
      */
-    public static <E extends EnumProtocol> E get(Class<E> enumClass, @Nullable Integer code) {
+    public static <E extends Entry> E get(Class<E> enumClass, @Nullable Integer code) {
         return find(enumClass, code).orElse(null);
     }
 
@@ -82,8 +82,8 @@ public class EnumUtils {
      * @param <E>       枚举泛型
      * @return 可能为 null
      */
-    public static <E extends EnumProtocol> String getValue(Class<E> enumClass, @Nullable Integer code) {
-        return find(enumClass, code).map(EnumProtocol::getValue).orElse(null);
+    public static <E extends Entry> String getValue(Class<E> enumClass, @Nullable Integer code) {
+        return find(enumClass, code).map(Entry::getValue).orElse(null);
     }
 
     /**
@@ -94,8 +94,8 @@ public class EnumUtils {
      * @param <E>       枚举泛型
      * @return 可能为 null
      */
-    public static <E extends EnumProtocol> Integer getCode(Class<E> enumClass, @Nullable String value) {
-        return findByValue(enumClass, value).map(EnumProtocol::getCode).orElse(null);
+    public static <E extends Entry> Integer getCode(Class<E> enumClass, @Nullable String value) {
+        return findByValue(enumClass, value).map(Entry::getCode).orElse(null);
     }
 
     /**
@@ -118,7 +118,7 @@ public class EnumUtils {
      * @param <E>    枚举泛型
      * @return code 相同返回 true
      */
-    public static <E extends EnumProtocol> boolean equals(E anEnum, Integer code) {
+    public static <E extends Entry> boolean equals(E anEnum, Integer code) {
         return Objects.equals(anEnum.getCode(), code);
     }
 }

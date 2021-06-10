@@ -1,20 +1,20 @@
 package com.fanxuankai.boot.enums;
 
 /**
- * 枚举协议
+ * An Enum entry (code-value pair).
  *
  * @author fanxuankai
  */
-public interface EnumProtocol {
+public interface Entry {
     /**
-     * 枚举代码
+     * 编码
      *
      * @return /
      */
     int getCode();
 
     /**
-     * 枚举值
+     * 值
      *
      * @return /
      */

@@ -1,11 +1,13 @@
 package ${packageName};
 
+import com.fanxuankai.boot.enums.Entry;
+
 /**
  * ${enumVO.enumType.description}
  *
  * @author ${auth}
  */
-public enum ${enumVO.enumType.name} implements EnumProtocol {
+public enum ${enumVO.enumType.name} implements Entry {
     <#list enumVO.enumList as anEnum>
     /**
      * ${anEnum.value}

@@ -3,10 +3,7 @@ package com.fanxuankai.boot.log.autoconfigure;
 import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.log.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionMessage;
-import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ConditionContext;
@@ -14,6 +11,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.sql.DataSource;
 
@@ -30,9 +28,29 @@ public class LogAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public LogMethodInterceptor logMethodInterceptor(@Autowired(required = false) LogStore logStore,
-                                                     @Autowired(required = false) UsernameService usernameService) {
-        return new LogMethodInterceptor(logStore, usernameService);
+    public LogMethodInterceptor logMethodInterceptor(LogStore logStore,
+                                                     LogDetailService logDetailService,
+                                                     @Autowired(required = false) BrowserSupplier browserSupplier) {
+        return new LogMethodInterceptor(logStore, logDetailService, browserSupplier);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LogStore logStore() {
+        return new LoggerLogStore();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LogDetailService logDetailService() {
+        return new DefaultLogDetailServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnClass({RequestContextHolder.class})
+    public BrowserSupplier browserSupplier() {
+        return new RequestBrowserSupplier();
     }
 
     @Configuration

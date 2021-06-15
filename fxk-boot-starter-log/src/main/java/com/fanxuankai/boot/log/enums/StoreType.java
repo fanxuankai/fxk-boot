@@ -3,7 +3,7 @@ package com.fanxuankai.boot.log.enums;
 /**
  * @author fanxuankai
  */
-public enum LogStore {
+public enum StoreType {
     /**
      * Logger 方式
      */

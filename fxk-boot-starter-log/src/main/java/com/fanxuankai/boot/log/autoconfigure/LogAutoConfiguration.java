@@ -2,6 +2,7 @@ package com.fanxuankai.boot.log.autoconfigure;
 
 import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.log.*;
+import com.fanxuankai.boot.log.enums.StoreType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -58,8 +59,8 @@ public class LogAutoConfiguration {
     protected static class JdbcLogStoreConfiguration {
         @Bean
         @ConditionalOnMissingBean
-        public JdbcLogStore jdbcLogStore(DataSource dataSource) {
-            return new JdbcLogStore(dataSource);
+        public JdbcLogStore jdbcLogStore(LogProperties logProperties, DataSource dataSource) {
+            return new JdbcLogStore(logProperties, dataSource);
         }
     }
 
@@ -78,8 +79,8 @@ public class LogAutoConfiguration {
         public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
             ConditionMessage.Builder message = ConditionMessage.forCondition("Log Store Jdbc Condition");
             Environment environment = context.getEnvironment();
-            String keyValue = environment.getProperty("log.log-store");
-            if (StrUtil.equals(keyValue, com.fanxuankai.boot.log.enums.LogStore.JDBC.name(), true)) {
+            String keyValue = environment.getProperty("log.store-type");
+            if (StrUtil.equals(keyValue, StoreType.JDBC.name(), true)) {
                 return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
             }
             return ConditionOutcome.noMatch(message.didNotFind("provided private or symmetric key").atAll());
@@ -91,8 +92,8 @@ public class LogAutoConfiguration {
         public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
             ConditionMessage.Builder message = ConditionMessage.forCondition("Log Store Logger Condition");
             Environment environment = context.getEnvironment();
-            String keyValue = environment.getProperty("log.log-store");
-            if (StrUtil.equals(keyValue, com.fanxuankai.boot.log.enums.LogStore.LOGGER.name(), true)) {
+            String keyValue = environment.getProperty("log.store-type");
+            if (StrUtil.equals(keyValue, StoreType.LOGGER.name(), true)) {
                 return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
             }
             return ConditionOutcome.noMatch(message.didNotFind("provided private or symmetric key").atAll());

@@ -38,14 +38,14 @@ public class Log {
     private String logType;
 
     /**
-     * 请求ip
+     * 客户端 IP
      */
-    private String requestIp;
+    private String clientIp;
 
     /**
-     * 地址
+     * 客户端地址
      */
-    private String address;
+    private String clientAddress;
 
     /**
      * 浏览器
@@ -123,20 +123,20 @@ public class Log {
         this.logType = logType;
     }
 
-    public String getRequestIp() {
-        return requestIp;
+    public String getClientIp() {
+        return clientIp;
     }
 
-    public void setRequestIp(String requestIp) {
-        this.requestIp = requestIp;
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 
-    public String getAddress() {
-        return address;
+    public String getClientAddress() {
+        return clientAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
     }
 
     public String getBrowser() {
@@ -173,7 +173,7 @@ public class Log {
 
     @Override
     public String toString() {
-        return "日志信息{" +
+        return "Log{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", description='" + description + '\'' +
@@ -181,8 +181,8 @@ public class Log {
                 ", methodName='" + methodName + '\'' +
                 ", params='" + params + '\'' +
                 ", logType='" + logType + '\'' +
-                ", requestIp='" + requestIp + '\'' +
-                ", address='" + address + '\'' +
+                ", clientIp='" + clientIp + '\'' +
+                ", clientAddress='" + clientAddress + '\'' +
                 ", browser='" + browser + '\'' +
                 ", time=" + time +
                 ", exceptionDetail='" + exceptionDetail + '\'' +

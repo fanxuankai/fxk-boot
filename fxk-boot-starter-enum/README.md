@@ -44,7 +44,7 @@ CREATE TABLE `sys_enum` (
 <dependency>
     <groupId>com.fanxuankai.boot</groupId>
     <artifactId>fxk-boot-starter-enum</artifactId>
-    <version>${enum.manager.spring.boot.version}</version>
+    <version>${latestVersion}</version>
 </dependency>
 ```
 

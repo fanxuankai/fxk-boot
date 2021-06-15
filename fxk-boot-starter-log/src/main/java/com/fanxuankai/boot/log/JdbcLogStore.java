@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 public class JdbcLogStore implements LogStore {
     private final JdbcTemplate jdbcTemplate;
     private static final String DEFAULT_INSERT_STATEMENT = "INSERT INTO sys_log(`description`, " +
-            "`log_type`, `class_name`, `method_name`, `params`, `request_ip`, `time`, `username`, `address`, " +
+            "`log_level`, `class_name`, `method_name`, `params`, `client_ip`, `client_address`, `time`, `username`, " +
             "`browser`, `exception_detail`, `create_time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private String insertSql = DEFAULT_INSERT_STATEMENT;
 
@@ -22,8 +22,8 @@ public class JdbcLogStore implements LogStore {
     @Override
     public void store(Log log) {
         jdbcTemplate.update(insertSql, log.getDescription(), log.getLogType(), log.getClassName(),
-                log.getMethodName(), log.getParams(), log.getRequestIp(), log.getTime(), log.getUsername(),
-                log.getAddress(), log.getBrowser(), log.getExceptionDetail(), log.getCreateTime());
+                log.getMethodName(), log.getParams(), log.getClientIp(), log.getClientAddress(), log.getTime(),
+                log.getUsername(), log.getBrowser(), log.getExceptionDetail(), log.getCreateTime());
     }
 
     public void setInsertSql(String insertSql) {

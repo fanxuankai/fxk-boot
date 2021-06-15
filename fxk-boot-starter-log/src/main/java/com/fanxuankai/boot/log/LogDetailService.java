@@ -17,7 +17,7 @@ public interface LogDetailService {
     String getUsername();
 
     /**
-     * 获取 IP 地址
+     * 获取 IP 对应的地址
      *
      * @param ip ip
      * @return /

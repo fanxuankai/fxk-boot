@@ -10,3 +10,4 @@
 - redis starter [fxk-boot-starter-redis](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-starter-redis)
 - spring fox starter [fxk-boot-starter-springfox](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-starter-springfox)
 - xxl-mq starter [fxk-boot-starter-xxl-mq](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-starter-xxl-mq)
+- 日志工具 [fxk-boot-starter-log](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-starter-log)

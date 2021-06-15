@@ -39,8 +39,8 @@ public class LogMethodInterceptor implements MethodInterceptor {
         log.setDescription(logAnnotation.value());
         log.setUsername(logDetailService.getUsername());
         String ip = NetUtil.getLocalhostStr();
-        log.setRequestIp(ip);
-        log.setAddress(logDetailService.getAddress(ip));
+        log.setClientIp(ip);
+        log.setClientAddress(logDetailService.getAddress(ip));
         Method method = methodInvocation.getMethod();
         log.setClassName(method.getDeclaringClass().getName());
         log.setMethodName(method.getName());

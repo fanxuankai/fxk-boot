@@ -11,9 +11,10 @@ import javax.sql.DataSource;
  */
 public class JdbcLogStore implements LogStore {
     private static final String DEFAULT_TABLE_NAME = "sys_log";
-    private static final String INSERT_STATEMENT = "INSERT INTO %s(`description`, " +
-            "`log_level`, `class_name`, `method_name`, `params`, `client_ip`, `client_address`, `time`, `username`, " +
-            "`browser`, `exception_detail`, `create_time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_STATEMENT = "INSERT INTO %s(`resource`, `url`, `safety_level`, " +
+            "`class_name`, `method_name`, `params`, `server_ip`, `client_ip`, `client_address`, `browser`, `time`, " +
+            "`username`, `operation_exception`, `exception_detail`, `create_time`) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final LogProperties logProperties;
     private final JdbcTemplate jdbcTemplate;
 
@@ -24,9 +25,10 @@ public class JdbcLogStore implements LogStore {
 
     @Override
     public void store(Log log) {
-        jdbcTemplate.update(String.format(INSERT_STATEMENT, getTableName()), log.getDescription(), log.getLogType(),
-                log.getClassName(), log.getMethodName(), log.getParams(), log.getClientIp(), log.getClientAddress(),
-                log.getTime(), log.getUsername(), log.getBrowser(), log.getExceptionDetail(), log.getCreateTime());
+        jdbcTemplate.update(String.format(INSERT_STATEMENT, getTableName()), log.getResource(), log.getUrl(),
+                log.getSafetyLevel(), log.getClassName(), log.getMethodName(), log.getParams(), log.getServerIp(),
+                log.getClientIp(), log.getClientAddress(), log.getBrowser(), log.getTime(), log.getUsername(),
+                log.getOperationException(), log.getExceptionDetail(), log.getCreateTime());
     }
 
     private String getTableName() {

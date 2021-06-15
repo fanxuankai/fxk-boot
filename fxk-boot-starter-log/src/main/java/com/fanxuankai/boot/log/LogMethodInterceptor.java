@@ -19,12 +19,13 @@ import java.util.Map;
 public class LogMethodInterceptor implements MethodInterceptor {
     private final LogStore logStore;
     private final LogDetailService logDetailService;
-    private final BrowserSupplier browserSupplier;
+    private final ClientInfoSupplier clientInfoSupplier;
 
-    public LogMethodInterceptor(LogStore logStore, LogDetailService logDetailService, BrowserSupplier browserSupplier) {
+    public LogMethodInterceptor(LogStore logStore, LogDetailService logDetailService,
+                                ClientInfoSupplier clientInfoSupplier) {
         this.logStore = logStore;
         this.logDetailService = logDetailService;
-        this.browserSupplier = browserSupplier;
+        this.clientInfoSupplier = clientInfoSupplier;
     }
 
     @Override
@@ -36,11 +37,16 @@ public class LogMethodInterceptor implements MethodInterceptor {
 
     private Object proceed(MethodInvocation methodInvocation, Log logAnnotation) throws Throwable {
         com.fanxuankai.boot.log.domain.Log log = new com.fanxuankai.boot.log.domain.Log();
-        log.setDescription(logAnnotation.value());
         log.setUsername(logDetailService.getUsername());
-        String ip = NetUtil.getLocalhostStr();
-        log.setClientIp(ip);
-        log.setClientAddress(logDetailService.getAddress(ip));
+        log.setResource(logAnnotation.value());
+        log.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
+        log.setServerIp(NetUtil.getLocalhostStr());
+        if (clientInfoSupplier != null) {
+            log.setUrl(clientInfoSupplier.getUrl());
+            log.setClientIp(clientInfoSupplier.getIp());
+            log.setClientAddress(logDetailService.getAddress(log.getClientIp()));
+            log.setBrowser(clientInfoSupplier.getBrowser());
+        }
         Method method = methodInvocation.getMethod();
         log.setClassName(method.getDeclaringClass().getName());
         log.setMethodName(method.getName());
@@ -55,18 +61,15 @@ public class LogMethodInterceptor implements MethodInterceptor {
             }
         }
         log.setParams(JSONUtil.toJsonStr(params));
-        if (browserSupplier != null) {
-            log.setBrowser(browserSupplier.get());
-        }
         log.setCreateTime(new Date());
         Object proceed;
         long start = 0;
         try {
             start = System.currentTimeMillis();
             proceed = methodInvocation.proceed();
-            log.setLogType("INFO");
+            log.setOperationException(false);
         } catch (Throwable throwable) {
-            log.setLogType("ERROR");
+            log.setOperationException(true);
             log.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
             throw throwable;
         } finally {

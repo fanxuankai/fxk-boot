@@ -31,8 +31,8 @@ public class LogAutoConfiguration {
     @ConditionalOnMissingBean
     public LogMethodInterceptor logMethodInterceptor(LogStore logStore,
                                                      LogDetailService logDetailService,
-                                                     @Autowired(required = false) BrowserSupplier browserSupplier) {
-        return new LogMethodInterceptor(logStore, logDetailService, browserSupplier);
+                                                     @Autowired(required = false) ClientInfoSupplier clientInfoSupplier) {
+        return new LogMethodInterceptor(logStore, logDetailService, clientInfoSupplier);
     }
 
     @Bean
@@ -50,8 +50,8 @@ public class LogAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnClass({RequestContextHolder.class})
-    public BrowserSupplier browserSupplier() {
-        return new RequestBrowserSupplier();
+    public ClientInfoSupplier clientInfoSupplier() {
+        return new RequestClientInfoSupplier();
     }
 
     @Configuration

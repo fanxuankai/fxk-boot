@@ -13,9 +13,19 @@ public class Log {
     private String username;
 
     /**
-     * 描述
+     * 资源名称
      */
-    private String description;
+    private String resource;
+
+    /**
+     * url
+     */
+    private String url;
+
+    /**
+     * 安全等级(0: 普通 1: 中等 2: 高风险)
+     */
+    private Integer safetyLevel;
 
     /**
      * 类名
@@ -33,9 +43,9 @@ public class Log {
     private String params;
 
     /**
-     * 日志类型, INFO|ERROR
+     * 服务器 IP
      */
-    private String logType;
+    private String serverIp;
 
     /**
      * 客户端 IP
@@ -56,6 +66,11 @@ public class Log {
      * 请求耗时
      */
     private Long time;
+
+    /**
+     * 操作是否异常
+     */
+    private Boolean operationException;
 
     /**
      * 异常详细
@@ -83,12 +98,28 @@ public class Log {
         this.username = username;
     }
 
-    public String getDescription() {
-        return description;
+    public String getResource() {
+        return resource;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getSafetyLevel() {
+        return safetyLevel;
+    }
+
+    public void setSafetyLevel(Integer safetyLevel) {
+        this.safetyLevel = safetyLevel;
     }
 
     public String getClassName() {
@@ -115,12 +146,12 @@ public class Log {
         this.params = params;
     }
 
-    public String getLogType() {
-        return logType;
+    public String getServerIp() {
+        return serverIp;
     }
 
-    public void setLogType(String logType) {
-        this.logType = logType;
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
     }
 
     public String getClientIp() {
@@ -155,6 +186,14 @@ public class Log {
         this.time = time;
     }
 
+    public Boolean getOperationException() {
+        return operationException;
+    }
+
+    public void setOperationException(Boolean operationException) {
+        this.operationException = operationException;
+    }
+
     public String getExceptionDetail() {
         return exceptionDetail;
     }
@@ -176,15 +215,18 @@ public class Log {
         return "Log{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", description='" + description + '\'' +
+                ", resource='" + resource + '\'' +
+                ", url='" + url + '\'' +
+                ", safetyLevel=" + safetyLevel +
                 ", className='" + className + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", params='" + params + '\'' +
-                ", logType='" + logType + '\'' +
+                ", serverIp='" + serverIp + '\'' +
                 ", clientIp='" + clientIp + '\'' +
                 ", clientAddress='" + clientAddress + '\'' +
                 ", browser='" + browser + '\'' +
                 ", time=" + time +
+                ", operationException=" + operationException +
                 ", exceptionDetail='" + exceptionDetail + '\'' +
                 ", createTime=" + createTime +
                 '}';

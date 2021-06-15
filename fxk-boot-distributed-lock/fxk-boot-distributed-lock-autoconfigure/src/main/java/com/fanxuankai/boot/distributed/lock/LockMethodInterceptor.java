@@ -3,6 +3,7 @@ package com.fanxuankai.boot.distributed.lock;
 import com.fanxuankai.boot.distributed.lock.annotation.Lock;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.standard.SpelExpression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -10,7 +11,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -66,11 +66,12 @@ public class LockMethodInterceptor implements MethodInterceptor {
         }
         Method method = methodInvocation.getMethod();
         Object[] arguments = methodInvocation.getArguments();
-        Parameter[] parameters = method.getParameters();
+        DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
+        String[] parameters = discover.getParameterNames(method);
         EvaluationContext context = new StandardEvaluationContext();
-        if (arguments != null && arguments.length > 0) {
+        if (parameters != null && arguments != null && arguments.length > 0) {
             for (int i = 0; i < parameters.length; i++) {
-                context.setVariable(parameters[i].getName(), arguments[i]);
+                context.setVariable(parameters[i], arguments[i]);
             }
         }
         return Arrays.stream(expressions).map(expression -> {

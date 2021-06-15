@@ -24,5 +24,6 @@
         <module>fxk-boot-starter-authorization-server-example</module>
         <module>fxk-boot-starter-resource-server-example</module>
         <module>fxk-boot-starter-redis-lock-example</module>
+        <module>fxk-boot-starter-log-example</module>
     </modules>
 </project>

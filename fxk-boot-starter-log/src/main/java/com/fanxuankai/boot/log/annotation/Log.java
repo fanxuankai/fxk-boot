@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 自动打印日志的注解
+ * 日志注解
  *
  * @author fanxuankai
  */

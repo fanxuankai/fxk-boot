@@ -18,9 +18,9 @@ public class Log {
     private String resource;
 
     /**
-     * url
+     * 统一资源标识符
      */
-    private String url;
+    private String uri;
 
     /**
      * 安全等级(0: 普通 1: 中等 2: 高风险)
@@ -41,6 +41,11 @@ public class Log {
      * 参数
      */
     private String params;
+
+    /**
+     * 返回值
+     */
+    private String returnValue;
 
     /**
      * 服务器 IP
@@ -106,12 +111,12 @@ public class Log {
         this.resource = resource;
     }
 
-    public String getUrl() {
-        return url;
+    public String getUri() {
+        return uri;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public Integer getSafetyLevel() {
@@ -144,6 +149,14 @@ public class Log {
 
     public void setParams(String params) {
         this.params = params;
+    }
+
+    public String getReturnValue() {
+        return returnValue;
+    }
+
+    public void setReturnValue(String returnValue) {
+        this.returnValue = returnValue;
     }
 
     public String getServerIp() {
@@ -216,11 +229,12 @@ public class Log {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", resource='" + resource + '\'' +
-                ", url='" + url + '\'' +
+                ", uri='" + uri + '\'' +
                 ", safetyLevel=" + safetyLevel +
                 ", className='" + className + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", params='" + params + '\'' +
+                ", returnValue='" + returnValue + '\'' +
                 ", serverIp='" + serverIp + '\'' +
                 ", clientIp='" + clientIp + '\'' +
                 ", clientAddress='" + clientAddress + '\'' +

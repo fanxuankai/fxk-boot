@@ -28,4 +28,18 @@ public @interface Log {
      * @return /
      */
     SafetyLevel safetyLevel() default SafetyLevel.NORMAL;
+
+    /**
+     * 记录参数
+     *
+     * @return flag
+     */
+    boolean params() default true;
+
+    /**
+     * 记录返回值
+     *
+     * @return flag
+     */
+    boolean returnValue() default false;
 }

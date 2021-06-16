@@ -4,15 +4,14 @@ import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.log.*;
 import com.fanxuankai.boot.log.enums.StoreType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.autoconfigure.condition.ConditionMessage;
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ConditionContext;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.sql.DataSource;
 
@@ -20,6 +19,7 @@ import javax.sql.DataSource;
  * @author fanxuankai
  */
 @EnableConfigurationProperties({LogProperties.class})
+@Import({ClientInfoServiceConfiguration.class})
 public class LogAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
@@ -31,8 +31,8 @@ public class LogAutoConfiguration {
     @ConditionalOnMissingBean
     public LogMethodInterceptor logMethodInterceptor(LogStore logStore,
                                                      LogDetailService logDetailService,
-                                                     @Autowired(required = false) ClientInfoSupplier clientInfoSupplier) {
-        return new LogMethodInterceptor(logStore, logDetailService, clientInfoSupplier);
+                                                     @Autowired(required = false) ClientInfoService clientInfoService) {
+        return new LogMethodInterceptor(logStore, logDetailService, clientInfoService);
     }
 
     @Bean
@@ -45,13 +45,6 @@ public class LogAutoConfiguration {
     @ConditionalOnMissingBean
     public LogDetailService logDetailService() {
         return new DefaultLogDetailServiceImpl();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnClass({RequestContextHolder.class})
-    public ClientInfoSupplier clientInfoSupplier() {
-        return new RequestClientInfoSupplier();
     }
 
     @Configuration

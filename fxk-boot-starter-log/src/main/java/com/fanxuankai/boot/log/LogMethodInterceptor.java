@@ -19,13 +19,13 @@ import java.util.Map;
 public class LogMethodInterceptor implements MethodInterceptor {
     private final LogStore logStore;
     private final LogDetailService logDetailService;
-    private final ClientInfoSupplier clientInfoSupplier;
+    private final ClientInfoService clientInfoService;
 
     public LogMethodInterceptor(LogStore logStore, LogDetailService logDetailService,
-                                ClientInfoSupplier clientInfoSupplier) {
+                                ClientInfoService clientInfoService) {
         this.logStore = logStore;
         this.logDetailService = logDetailService;
-        this.clientInfoSupplier = clientInfoSupplier;
+        this.clientInfoService = clientInfoService;
     }
 
     @Override
@@ -36,31 +36,18 @@ public class LogMethodInterceptor implements MethodInterceptor {
     }
 
     private Object proceed(MethodInvocation methodInvocation, Log logAnnotation) throws Throwable {
+        Method method = methodInvocation.getMethod();
         com.fanxuankai.boot.log.domain.Log log = new com.fanxuankai.boot.log.domain.Log();
         log.setUsername(logDetailService.getUsername());
         log.setResource(logAnnotation.value());
         log.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
-        log.setServerIp(NetUtil.getLocalhostStr());
-        if (clientInfoSupplier != null) {
-            log.setUrl(clientInfoSupplier.getUrl());
-            log.setClientIp(clientInfoSupplier.getIp());
-            log.setClientAddress(logDetailService.getAddress(log.getClientIp()));
-            log.setBrowser(clientInfoSupplier.getBrowser());
-        }
-        Method method = methodInvocation.getMethod();
         log.setClassName(method.getDeclaringClass().getName());
         log.setMethodName(method.getName());
-        Map<String, Object> params = new HashMap<>(16);
-        Object[] arguments = methodInvocation.getArguments();
-        DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
-        String[] parameters = discover.getParameterNames(method);
-        if (parameters != null && arguments != null && arguments.length > 0) {
-            params = new HashMap<>(arguments.length);
-            for (int i = 0; i < parameters.length; i++) {
-                params.put(parameters[i], arguments[i]);
-            }
+        log.setServerIp(NetUtil.getLocalhostStr());
+        if (logAnnotation.params()) {
+            setupParams(log, methodInvocation, method);
         }
-        log.setParams(JSONUtil.toJsonStr(params));
+        setupClientInfo(log);
         log.setCreateTime(new Date());
         Object proceed;
         long start = 0;
@@ -68,6 +55,9 @@ public class LogMethodInterceptor implements MethodInterceptor {
             start = System.currentTimeMillis();
             proceed = methodInvocation.proceed();
             log.setOperationException(false);
+            if (logAnnotation.returnValue()) {
+                log.setReturnValue(JSONUtil.toJsonStr(proceed));
+            }
         } catch (Throwable throwable) {
             log.setOperationException(true);
             log.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
@@ -77,5 +67,29 @@ public class LogMethodInterceptor implements MethodInterceptor {
             logStore.store(log);
         }
         return proceed;
+    }
+
+    private void setupClientInfo(com.fanxuankai.boot.log.domain.Log log) {
+        if (clientInfoService == null) {
+            return;
+        }
+        log.setUri(clientInfoService.getUrl());
+        log.setClientIp(clientInfoService.getIp());
+        log.setClientAddress(logDetailService.getAddress(log.getClientIp()));
+        log.setBrowser(clientInfoService.getBrowser());
+    }
+
+    private void setupParams(com.fanxuankai.boot.log.domain.Log log,
+                             MethodInvocation methodInvocation, Method method) {
+        Object[] arguments = methodInvocation.getArguments();
+        DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
+        String[] parameters = discover.getParameterNames(method);
+        if (parameters != null && arguments != null && arguments.length > 0) {
+            Map<String, Object> params = new HashMap<>(arguments.length);
+            for (int i = 0; i < parameters.length; i++) {
+                params.put(parameters[i], arguments[i]);
+            }
+            log.setParams(JSONUtil.toJsonStr(params));
+        }
     }
 }

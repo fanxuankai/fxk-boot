@@ -1,9 +1,9 @@
 package com.fanxuankai.boot.log;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentInfo;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.fanxuankai.commons.util.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +14,7 @@ public class RequestClientInfoSupplier implements ClientInfoSupplier {
     @Override
     public String getIp() {
         return currentRequest()
-                .map(RequestUtils::getIp)
+                .map(ServletUtil::getClientIP)
                 .orElse(null);
     }
 

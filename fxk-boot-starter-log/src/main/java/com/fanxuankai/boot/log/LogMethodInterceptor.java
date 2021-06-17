@@ -8,7 +8,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
-import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,45 +29,68 @@ public class LogMethodInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        Method method = methodInvocation.getMethod();
-        Log logAnnotation = method.getAnnotation(Log.class);
-        return proceed(methodInvocation, logAnnotation);
+        return enhanceProceed(methodInvocation);
     }
 
-    private Object proceed(MethodInvocation methodInvocation, Log logAnnotation) throws Throwable {
-        Method method = methodInvocation.getMethod();
-        com.fanxuankai.boot.log.domain.Log log = new com.fanxuankai.boot.log.domain.Log();
-        log.setUsername(logDetailService.getUsername());
-        log.setResource(logAnnotation.value());
-        log.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
-        log.setClassName(method.getDeclaringClass().getName());
-        log.setMethodName(method.getName());
-        log.setServerIp(NetUtil.getLocalhostStr());
-        if (logAnnotation.params()) {
-            setupParams(log, methodInvocation, method);
-        }
-        setupClientInfo(log);
-        log.setCreateTime(new Date());
+    /**
+     * 增强处理
+     *
+     * @param methodInvocation /
+     * @return /
+     * @throws Throwable /
+     */
+    private Object enhanceProceed(MethodInvocation methodInvocation) throws Throwable {
+        Log logAnnotation = methodInvocation.getMethod().getAnnotation(Log.class);
+        com.fanxuankai.boot.log.domain.Log log = createLog(logAnnotation, methodInvocation);
         Object proceed;
+        boolean operationException = false;
         long start = 0;
         try {
             start = System.currentTimeMillis();
             proceed = methodInvocation.proceed();
-            log.setOperationException(false);
             if (logAnnotation.returnValue()) {
                 log.setReturnValue(JSONUtil.toJsonStr(proceed));
             }
         } catch (Throwable throwable) {
-            log.setOperationException(true);
+            operationException = true;
             log.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
             throw throwable;
         } finally {
             log.setTime(System.currentTimeMillis() - start);
+            log.setOperationException(operationException);
             logStore.store(log);
         }
         return proceed;
     }
 
+    /**
+     * 创建 log 对象
+     *
+     * @param logAnnotation    /
+     * @param methodInvocation /
+     * @return /
+     */
+    private com.fanxuankai.boot.log.domain.Log createLog(Log logAnnotation, MethodInvocation methodInvocation) {
+        com.fanxuankai.boot.log.domain.Log log = new com.fanxuankai.boot.log.domain.Log();
+        log.setUsername(logDetailService.getUsername());
+        log.setResource(logAnnotation.value());
+        log.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
+        log.setClassName(methodInvocation.getMethod().getDeclaringClass().getName());
+        log.setMethodName(methodInvocation.getMethod().getName());
+        log.setServerIp(NetUtil.getLocalhostStr());
+        if (logAnnotation.params()) {
+            setupParams(log, methodInvocation);
+        }
+        setupClientInfo(log);
+        log.setCreateTime(new Date());
+        return log;
+    }
+
+    /**
+     * 客户端信息赋值
+     *
+     * @param log /
+     */
     private void setupClientInfo(com.fanxuankai.boot.log.domain.Log log) {
         if (clientInfoService == null) {
             return;
@@ -79,11 +101,16 @@ public class LogMethodInterceptor implements MethodInterceptor {
         log.setBrowser(clientInfoService.getBrowser());
     }
 
-    private void setupParams(com.fanxuankai.boot.log.domain.Log log,
-                             MethodInvocation methodInvocation, Method method) {
+    /**
+     * 参数赋值
+     *
+     * @param log              /
+     * @param methodInvocation /
+     */
+    private void setupParams(com.fanxuankai.boot.log.domain.Log log, MethodInvocation methodInvocation) {
         Object[] arguments = methodInvocation.getArguments();
         DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
-        String[] parameters = discover.getParameterNames(method);
+        String[] parameters = discover.getParameterNames(methodInvocation.getMethod());
         if (parameters != null && arguments != null && arguments.length > 0) {
             Map<String, Object> params = new HashMap<>(arguments.length);
             for (int i = 0; i < parameters.length; i++) {

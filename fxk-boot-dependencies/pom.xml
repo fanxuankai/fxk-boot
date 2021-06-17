@@ -247,22 +247,7 @@
             </dependency>
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-distributed-lock-autoconfigure</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-distributed-lock-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-redis-lock-autoconfigure</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fanxuankai.boot</groupId>
-                <artifactId>fxk-boot-starter-redis-lock</artifactId>
+                <artifactId>fxk-boot-starter-distributed-lock</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

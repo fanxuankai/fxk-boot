@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 /**
  * @author fanxuankai
  */
+@Configuration
 @EnableConfigurationProperties({LogProperties.class})
 @Import({ClientInfoServiceConfiguration.class})
 public class LogAutoConfiguration {

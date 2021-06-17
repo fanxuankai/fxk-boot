@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 public class LockKeyMaker {
+    /**
+     * key 前缀
+     */
+    public static final String DEFAULT_LOCK_KEY_PREFIX = "lock";
 
     /**
      * 生成 key
@@ -24,7 +28,7 @@ public class LockKeyMaker {
      */
     public static String makeKey(String prefix, String business, List<Object> resources) {
         if (prefix == null || prefix.length() == 0) {
-            prefix = CommonConstants.DEFAULT_LOCK_KEY_PREFIX;
+            prefix = DEFAULT_LOCK_KEY_PREFIX;
         }
         String suffix = Optional.ofNullable(resources)
                 .orElse(Collections.emptyList())
@@ -33,5 +37,4 @@ public class LockKeyMaker {
                 .collect(Collectors.joining(StringPool.COLON, StringPool.COLON, StringPool.EMPTY));
         return prefix + StringPool.COLON + business + suffix;
     }
-
 }

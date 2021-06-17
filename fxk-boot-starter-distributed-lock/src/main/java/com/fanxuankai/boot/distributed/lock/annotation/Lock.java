@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.distributed.lock.annotation;
 
-import com.fanxuankai.boot.distributed.lock.CommonConstants;
 import com.fanxuankai.boot.distributed.lock.DistributedLocker;
+import com.fanxuankai.boot.distributed.lock.LockKeyMaker;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,13 +17,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Lock {
-
     /**
      * 前缀
      *
      * @return 默认为 lock
      */
-    String prefix() default CommonConstants.DEFAULT_LOCK_KEY_PREFIX;
+    String prefix() default LockKeyMaker.DEFAULT_LOCK_KEY_PREFIX;
 
     /**
      * 业务名
@@ -52,5 +51,4 @@ public @interface Lock {
      * @return ms
      */
     long releaseTimeMillis() default DistributedLocker.RELEASE_TIME_MILLIS;
-
 }

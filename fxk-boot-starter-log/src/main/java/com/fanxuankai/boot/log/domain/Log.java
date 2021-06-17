@@ -68,9 +68,9 @@ public class Log {
     private String browser;
 
     /**
-     * 请求耗时
+     * 总时间毫秒数
      */
-    private Long time;
+    private Long totalTimeMillis;
 
     /**
      * 操作是否异常
@@ -191,12 +191,12 @@ public class Log {
         this.browser = browser;
     }
 
-    public Long getTime() {
-        return time;
+    public Long getTotalTimeMillis() {
+        return totalTimeMillis;
     }
 
-    public void setTime(Long time) {
-        this.time = time;
+    public void setTotalTimeMillis(Long totalTimeMillis) {
+        this.totalTimeMillis = totalTimeMillis;
     }
 
     public Boolean getOperationException() {
@@ -239,7 +239,7 @@ public class Log {
                 ", clientIp='" + clientIp + '\'' +
                 ", clientAddress='" + clientAddress + '\'' +
                 ", browser='" + browser + '\'' +
-                ", time=" + time +
+                ", totalTimeMillis=" + totalTimeMillis +
                 ", operationException=" + operationException +
                 ", exceptionDetail='" + exceptionDetail + '\'' +
                 ", createTime=" + createTime +

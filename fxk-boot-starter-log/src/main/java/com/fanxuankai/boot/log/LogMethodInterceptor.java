@@ -56,7 +56,7 @@ public class LogMethodInterceptor implements MethodInterceptor {
             log.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
             throw throwable;
         } finally {
-            log.setTime(System.currentTimeMillis() - start);
+            log.setTotalTimeMillis(System.currentTimeMillis() - start);
             log.setOperationException(operationException);
             logStore.store(log);
         }

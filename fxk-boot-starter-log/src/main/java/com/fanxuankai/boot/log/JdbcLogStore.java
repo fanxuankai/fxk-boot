@@ -13,7 +13,7 @@ public class JdbcLogStore implements LogStore {
     private static final String DEFAULT_TABLE_NAME = "sys_log";
     private static final String DEFAULT_INSERT_STATEMENT = "INSERT INTO %s(`resource`, `uri`, `safety_level`, " +
             "`class_name`, `method_name`, `params`, `return_value`, `server_ip`, `client_ip`, `client_address`, " +
-            "`browser`, `time`, `username`, `operation_exception`, `exception_detail`, `create_time`) " +
+            "`browser`, `total_time_millis`, `username`, `operation_exception`, `exception_detail`, `create_time`) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final String insertStatement;
     private final LogProperties logProperties;
@@ -30,7 +30,7 @@ public class JdbcLogStore implements LogStore {
         jdbcTemplate.update(insertStatement, log.getResource(), log.getUri(),
                 log.getSafetyLevel(), log.getClassName(), log.getMethodName(), log.getParams(),
                 log.getReturnValue(), log.getServerIp(), log.getClientIp(), log.getClientAddress(), log.getBrowser(),
-                log.getTime(), log.getUsername(), log.getOperationException(), log.getExceptionDetail(),
+                log.getTotalTimeMillis(), log.getUsername(), log.getOperationException(), log.getExceptionDetail(),
                 log.getCreateTime());
     }
 

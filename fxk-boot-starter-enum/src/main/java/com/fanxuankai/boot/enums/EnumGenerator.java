@@ -48,6 +48,7 @@ public class EnumGenerator {
         enumService.setupCode(dtoList);
         dtoList = filter(dtoList);
         if (dtoList.isEmpty()) {
+            LOGGER.info("枚举配置无修改");
             return;
         }
         // 先删除如果存在的数据

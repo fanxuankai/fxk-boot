@@ -10,6 +10,7 @@ public class StringUtils {
     /**
      * 驼峰命名法工具
      *
+     * @param s /
      * @return toCamelCase(" hello_world ") == "helloWorld"
      * toCapitalizeCamelCase("hello_world") == "HelloWorld"
      */
@@ -41,6 +42,7 @@ public class StringUtils {
     /**
      * 驼峰命名法工具
      *
+     * @param s /
      * @return toCamelCase(" hello_world ") == "helloWorld"
      * toCapitalizeCamelCase("hello_world") == "HelloWorld"
      */

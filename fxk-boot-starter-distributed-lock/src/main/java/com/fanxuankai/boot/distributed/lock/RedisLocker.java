@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.distributed.lock;
 
-import com.fanxuankai.boot.distributed.lock.exception.LockException;
+import com.fanxuankai.commons.exception.LockException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 

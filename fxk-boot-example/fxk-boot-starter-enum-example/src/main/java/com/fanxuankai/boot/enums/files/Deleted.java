@@ -1,13 +1,13 @@
 package com.fanxuankai.boot.enums.files;
 
-import com.fanxuankai.boot.enums.Entry;
+import com.fanxuankai.commons.util.EnumProtocol;
 
 /**
  * 是否删除
  *
  * @author fanxuankai
  */
-public enum Deleted implements Entry {
+public enum Deleted implements EnumProtocol {
     /**
      * 未删除
      */

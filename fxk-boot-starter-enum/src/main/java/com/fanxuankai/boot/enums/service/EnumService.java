@@ -88,7 +88,7 @@ public interface EnumService extends IService<Enum> {
      */
     default void setupCode(List<EnumDTO> dtoList) {
         for (EnumDTO enumDTO : dtoList) {
-            int lastCode = 0;
+            int lastCode = -1;
             for (Enum value : enumDTO.getEnumList()) {
                 if (value.getCode() == null) {
                     value.setCode(lastCode + 1);

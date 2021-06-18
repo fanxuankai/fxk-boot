@@ -20,7 +20,7 @@ public @interface Log {
      *
      * @return /
      */
-    String value();
+    String value() default "";
 
     /**
      * 安全等级,指该资源的安全等级

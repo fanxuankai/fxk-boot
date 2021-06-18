@@ -17,16 +17,16 @@ public enum Deleted implements EnumProtocol {
      */
     YES(17, "已删除"),
     ;
-    private final int code;
+    private final Integer code;
     private final String value;
 
-    Deleted(int code, String value) {
+    Deleted(Integer code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return this.code;
     }
 

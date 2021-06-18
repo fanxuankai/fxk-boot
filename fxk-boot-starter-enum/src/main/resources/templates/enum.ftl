@@ -15,16 +15,16 @@ public enum ${enumVO.enumType.name} implements EnumProtocol {
     ${anEnum.name}(${anEnum.code}, "${anEnum.value}"),
     </#list>
     ;
-    private final int code;
+    private final Integer code;
     private final String value;
 
-    ${enumVO.enumType.name}(int code, String value) {
+    ${enumVO.enumType.name}(Integer code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return this.code;
     }
 

@@ -56,7 +56,7 @@ public class EnumGenerator {
         enumService.delete(typeNames);
         // 插入枚举数据
         enumService.add(dtoList);
-        // 取出保存的枚举数据,用于生成代码
+        // 如果只生成数据不需要生成代码,则直接退出
         if (generateModel.isGenerateDataOnly()) {
             return;
         }

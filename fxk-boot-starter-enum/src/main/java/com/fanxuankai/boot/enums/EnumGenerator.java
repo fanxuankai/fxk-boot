@@ -57,11 +57,10 @@ public class EnumGenerator {
         // 插入枚举数据
         enumService.add(dtoList);
         // 取出保存的枚举数据,用于生成代码
-        List<EnumVO> list;
-        if (generateModel.isGenerateDataOnly() || (list = enumService.list(typeNames, false)).isEmpty()) {
+        if (generateModel.isGenerateDataOnly()) {
             return;
         }
-        List<EnumVO> enumList = list.stream().map(vo -> {
+        List<EnumVO> enumList = dtoList.stream().map(vo -> {
             List<Enum> enumDomainList = vo.getEnumList();
             enumDomainList.sort(Comparator.comparing(Enum::getCode));
             enumDomainList.forEach(anEnum ->

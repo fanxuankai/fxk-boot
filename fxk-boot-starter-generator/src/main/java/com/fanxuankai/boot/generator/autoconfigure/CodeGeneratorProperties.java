@@ -9,8 +9,10 @@ import java.util.Map;
 /**
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "code-generator")
+@ConfigurationProperties(prefix = CodeGeneratorProperties.PREFIX)
 public class CodeGeneratorProperties {
+    public static final String PREFIX = "code-generator";
+    private boolean enabled;
     private String schema;
     private String tables;
     private String author;
@@ -26,6 +28,14 @@ public class CodeGeneratorProperties {
     private List<String> listExcludeColumns = Collections.emptyList();
     private List<String> inheritedColumns = Collections.emptyList();
     private Map<String, String> columnTypeMapping = Collections.emptyMap();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getSchema() {
         return schema;

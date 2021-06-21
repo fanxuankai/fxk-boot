@@ -22,4 +22,4 @@ canal:
 mybatis-plus:
   meta-object:
     create-date-field-type: java.time.LocalDateTime
-    modified-date-field-name: java.time.LocalDateTime
+    modified-date-field-type: java.time.LocalDateTime

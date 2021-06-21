@@ -76,8 +76,10 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
                 msgReceiveService.consume(msg, true, true);
             }
         } catch (Throwable throwable) {
-            ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 

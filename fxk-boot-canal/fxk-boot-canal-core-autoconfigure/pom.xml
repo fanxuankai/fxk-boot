@@ -16,5 +16,9 @@
             <groupId>com.fanxuankai.canal</groupId>
             <artifactId>canal-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-redis</artifactId>
+        </dependency>
     </dependencies>
 </project>

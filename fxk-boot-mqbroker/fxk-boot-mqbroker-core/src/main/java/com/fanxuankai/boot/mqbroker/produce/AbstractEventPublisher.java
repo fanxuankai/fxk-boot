@@ -120,8 +120,10 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
                 produce(msgSend);
             }
         } catch (Throwable throwable) {
-            ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 
@@ -132,8 +134,10 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
                 msgSends.forEach(this::produce);
             }
         } catch (Throwable throwable) {
-            ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 

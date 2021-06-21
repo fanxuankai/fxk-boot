@@ -26,10 +26,6 @@ public class UserVO implements Serializable {
      */
     private String username;
     /**
-     * 密码
-     */
-    private String password;
-    /**
      * 编号
      */
     private String no;

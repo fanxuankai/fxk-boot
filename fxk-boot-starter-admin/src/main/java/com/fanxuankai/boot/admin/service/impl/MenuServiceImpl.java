@@ -23,7 +23,8 @@ import java.util.Map;
  * @author fanxuankai
  */
 @Service
-public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, MenuVO, MenuConverter, MenuDao> implements MenuService {
+public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, MenuVO, MenuConverter, MenuDao>
+        implements MenuService {
     @Override
     public void download(List<MenuVO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

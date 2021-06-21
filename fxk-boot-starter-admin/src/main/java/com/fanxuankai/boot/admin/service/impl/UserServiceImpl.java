@@ -1,5 +1,9 @@
 package com.fanxuankai.boot.admin.service.impl;
 
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
+import com.fanxuankai.boot.admin.autoconfigure.AdminProperties;
 import com.fanxuankai.boot.admin.dao.UserDao;
 import com.fanxuankai.boot.admin.dto.UserDTO;
 import com.fanxuankai.boot.admin.model.User;
@@ -8,8 +12,9 @@ import com.fanxuankai.boot.admin.service.mapstruct.UserConverter;
 import com.fanxuankai.boot.admin.vo.UserVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
 import com.fanxuankai.commons.util.ExcelDownloadUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,15 +27,40 @@ import java.util.Map;
  *
  * @author fanxuankai
  */
-@Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserConverter, UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserConverter, UserDao>
+        implements UserService {
+    @Resource
+    private AdminProperties properties;
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public void create(UserDTO dto) {
+        dto.setPassword(encryptPassword(dto.getPassword()));
+        super.create(dto);
+    }
+
+    @Override
+    public void update(Long id, UserDTO dto) {
+        dto.setPassword(encryptPassword(dto.getPassword()));
+        super.update(id, dto);
+    }
+
+    private String encryptPassword(String password) {
+        if (properties.getRsa() != null) {
+            RSA rsa = SecureUtil.rsa(properties.getRsa().getPrivateKey(), properties.getRsa().getPublicKey());
+            password = rsa.decryptStr(password, KeyType.PrivateKey);
+        }
+        password = passwordEncoder.encode(password);
+        return password;
+    }
+
     @Override
     public void download(List<UserVO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (UserVO user : all) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("账号", user.getUsername());
-            map.put("密码", user.getPassword());
             map.put("编号", user.getNo());
             map.put("姓名", user.getFullName());
             map.put("性别(男:M 女:F)", user.getGender());

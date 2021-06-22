@@ -1,11 +1,9 @@
 package com.fanxuankai.boot.redis;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -15,24 +13,21 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @SuppressWarnings({"unchecked", "unused"})
-public class RedisUtils implements InitializingBean {
-    private static RedisTemplate<String, Object> rt;
+public class RedisUtils {
+    private static DefaultTypingRedisTemplate template;
     private static ValueOperations<String, Object> valueOps;
     private static ListOperations<String, Object> listOps;
     private static HashOperations<String, String, Object> hashOps;
     private static ZSetOperations<String, Object> zSetOps;
     private static SetOperations<String, Object> setOps;
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
 
-    @Override
-    public void afterPropertiesSet() {
-        RedisUtils.rt = redisTemplate;
-        valueOps = redisTemplate.opsForValue();
-        listOps = redisTemplate.opsForList();
-        hashOps = redisTemplate.opsForHash();
-        zSetOps = redisTemplate.opsForZSet();
-        setOps = redisTemplate.opsForSet();
+    public RedisUtils(DefaultTypingRedisTemplate defaultTypingRedisTemplate) {
+        RedisUtils.template = defaultTypingRedisTemplate;
+        valueOps = defaultTypingRedisTemplate.opsForValue();
+        listOps = defaultTypingRedisTemplate.opsForList();
+        hashOps = defaultTypingRedisTemplate.opsForHash();
+        zSetOps = defaultTypingRedisTemplate.opsForZSet();
+        setOps = defaultTypingRedisTemplate.opsForSet();
     }
 
     /* ------------------- key 相关操作--------------------- */
@@ -44,7 +39,7 @@ public class RedisUtils implements InitializingBean {
          * @param key /
          */
         public static void delete(String key) {
-            rt.delete(key);
+            template.delete(key);
         }
 
         /**
@@ -53,7 +48,7 @@ public class RedisUtils implements InitializingBean {
          * @param keys /
          */
         public static void delete(Collection<String> keys) {
-            rt.delete(keys);
+            template.delete(keys);
         }
 
         /**
@@ -63,7 +58,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static byte[] dump(String key) {
-            return rt.dump(key);
+            return template.dump(key);
         }
 
         /**
@@ -73,7 +68,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean hasKey(String key) {
-            return rt.hasKey(key);
+            return template.hasKey(key);
         }
 
         /**
@@ -85,7 +80,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean expire(String key, long timeout, TimeUnit unit) {
-            return rt.expire(key, timeout, unit);
+            return template.expire(key, timeout, unit);
         }
 
         /**
@@ -96,7 +91,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean expireAt(String key, Date date) {
-            return rt.expireAt(key, date);
+            return template.expireAt(key, date);
         }
 
         /**
@@ -106,7 +101,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Set<String> keys(String pattern) {
-            return rt.keys(pattern);
+            return template.keys(pattern);
         }
 
         /**
@@ -117,7 +112,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean move(String key, int dbIndex) {
-            return rt.move(key, dbIndex);
+            return template.move(key, dbIndex);
         }
 
         /**
@@ -127,7 +122,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean persist(String key) {
-            return rt.persist(key);
+            return template.persist(key);
         }
 
         /**
@@ -138,7 +133,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Long getExpire(String key, TimeUnit unit) {
-            return rt.getExpire(key, unit);
+            return template.getExpire(key, unit);
         }
 
         /**
@@ -148,7 +143,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Long getExpire(String key) {
-            return rt.getExpire(key);
+            return template.getExpire(key);
         }
 
         /**
@@ -157,7 +152,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static String randomKey() {
-            return rt.randomKey();
+            return template.randomKey();
         }
 
         /**
@@ -167,7 +162,7 @@ public class RedisUtils implements InitializingBean {
          * @param newKey /
          */
         public static void rename(String oldKey, String newKey) {
-            rt.rename(oldKey, newKey);
+            template.rename(oldKey, newKey);
         }
 
         /**
@@ -178,7 +173,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static Boolean renameIfAbsent(String oldKey, String newKey) {
-            return rt.renameIfAbsent(oldKey, newKey);
+            return template.renameIfAbsent(oldKey, newKey);
         }
 
         /**
@@ -188,7 +183,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static DataType type(String key) {
-            return rt.type(key);
+            return template.type(key);
         }
     }
 
@@ -415,7 +410,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static <T> T get(String key, String field) {
-            HashOperations<String, String, T> hashOps = rt.opsForHash();
+            HashOperations<String, String, T> hashOps = template.opsForHash();
             return hashOps.get(key, field);
         }
 
@@ -427,7 +422,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static <T> Map<String, T> entries(String key) {
-            HashOperations<String, String, T> hashOps = rt.opsForHash();
+            HashOperations<String, String, T> hashOps = template.opsForHash();
             return hashOps.entries(key);
         }
 
@@ -440,7 +435,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static <T> List<T> multiGet(String key, Collection<String> fields) {
-            HashOperations<String, String, T> hashOps = rt.opsForHash();
+            HashOperations<String, String, T> hashOps = template.opsForHash();
             return hashOps.multiGet(key, fields);
         }
 
@@ -554,7 +549,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static <T> List<T> values(String key) {
-            HashOperations<String, String, T> hashOps = rt.opsForHash();
+            HashOperations<String, String, T> hashOps = template.opsForHash();
             return hashOps.values(key);
         }
 
@@ -567,7 +562,7 @@ public class RedisUtils implements InitializingBean {
          * @return /
          */
         public static <T> Cursor<Map.Entry<String, T>> scan(String key, ScanOptions options) {
-            HashOperations<String, String, T> hashOps = rt.opsForHash();
+            HashOperations<String, String, T> hashOps = template.opsForHash();
             return hashOps.scan(key, options);
         }
     }

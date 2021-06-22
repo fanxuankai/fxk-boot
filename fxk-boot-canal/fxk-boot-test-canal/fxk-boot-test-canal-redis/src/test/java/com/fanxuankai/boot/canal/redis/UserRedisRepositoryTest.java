@@ -30,6 +30,12 @@ public class UserRedisRepositoryTest {
     private UserRedisRepository userRedisRepository;
 
     @Test
+    public void findById() {
+        userRedisRepository.findAll();
+        userRedisRepository.findById(1L).ifPresent(System.out::print);
+    }
+
+    @Test
     public void findAllById() {
         log(userRedisRepository.findAllById(Arrays.asList(472546446994836472L, 472546446994836473L)));
     }

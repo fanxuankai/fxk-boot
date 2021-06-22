@@ -1,32 +1,32 @@
 cd fxk-boot-dependencies
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-parent
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-redis
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-mybatis-plus
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-security-oauth2
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-admin
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-distributed-lock
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-elasticsearch
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-enum
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-generator
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-log
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-springfox
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-websocket
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-starter-xxl-mq
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-mqbroker
-mvn clean
+mvn clean deploy
 cd ../fxk-boot-canal
-mvn clean
+mvn clean deploy

@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -298,6 +299,33 @@ public class RedisUtils implements InitializingBean {
          */
         public static <T> Boolean setIfAbsent(String key, T value) {
             return valueOps.setIfAbsent(key, value);
+        }
+
+        /**
+         * 只有在 key 不存在时设置 key 的值
+         *
+         * @param key     /
+         * @param value   /
+         * @param timeout /
+         * @param <T>     /
+         * @return / 之前已经存在返回false, 不存在返回true
+         */
+        public static <T> Boolean setIfAbsent(String key, T value, Duration timeout) {
+            return valueOps.setIfAbsent(key, value, timeout);
+        }
+
+        /**
+         * 只有在 key 不存在时设置 key 的值
+         *
+         * @param key     /
+         * @param value   /
+         * @param timeout /
+         * @param unit    /
+         * @param <T>     /
+         * @return / 之前已经存在返回false, 不存在返回true
+         */
+        public static <T> Boolean setIfAbsent(String key, T value, long timeout, TimeUnit unit) {
+            return valueOps.setIfAbsent(key, value, timeout, unit);
         }
 
         /**

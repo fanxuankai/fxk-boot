@@ -26,20 +26,20 @@ public class RedisAutoConfiguration {
     @Bean
     public DefaultTypingRedisTemplate defaultTypingRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         DefaultTypingRedisTemplate redisTemplate = new DefaultTypingRedisTemplate();
-        Jackson2JsonRedisSerializer<?> jsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        Jackson2JsonRedisSerializer<?> json = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // JSON 字符串包含类型信息,类信息作为一个属性
         om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL,
                 JsonTypeInfo.As.PROPERTY);
         RedisSerializer<String> string = RedisSerializer.string();
-        jsonRedisSerializer.setObjectMapper(om);
+        json.setObjectMapper(om);
         // key 和 hashKey 使用字符串序列化
         redisTemplate.setKeySerializer(string);
         redisTemplate.setHashKeySerializer(string);
         // value 和 hashValue 使用 JSON 序列化
-        redisTemplate.setValueSerializer(jsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(jsonRedisSerializer);
+        redisTemplate.setValueSerializer(json);
+        redisTemplate.setHashValueSerializer(json);
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

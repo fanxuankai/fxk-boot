@@ -14,7 +14,7 @@ import java.util.Map;
 @Configuration
 @ConfigurationProperties(prefix = MqBrokerProperties.PREFIX)
 public class MqBrokerProperties {
-    public static final String PREFIX = "mq-broker";
+    public static final String PREFIX = "fxk.mq-broker";
     /**
      * 消费失败时, 最大重试次数
      */

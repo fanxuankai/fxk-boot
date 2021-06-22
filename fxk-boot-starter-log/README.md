@@ -46,14 +46,15 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-log:
-  # 存储方式
-  store-type: jdbc
-  jdbc-store:
-    # 数据库表名
-    table-name: sys_log
 server:
   port: 80
+fxk:
+  log:
+    # 存储方式
+    store-type: jdbc
+    jdbc-store:
+      # 数据库表名
+      table-name: sys_log
 ```
 
 - 使用  

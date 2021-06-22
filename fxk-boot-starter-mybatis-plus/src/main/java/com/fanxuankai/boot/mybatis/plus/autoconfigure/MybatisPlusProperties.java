@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "mybatis-plus")
+@ConfigurationProperties(prefix = "fxk.mybatis-plus")
 public class MybatisPlusProperties {
     @NestedConfigurationProperty
     private PaginationInterceptor paginationInterceptor = new PaginationInterceptor();

@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 /**
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "log")
+@ConfigurationProperties(prefix = "fxk.log")
 public class LogProperties {
     private StoreType storeType;
     @NestedConfigurationProperty

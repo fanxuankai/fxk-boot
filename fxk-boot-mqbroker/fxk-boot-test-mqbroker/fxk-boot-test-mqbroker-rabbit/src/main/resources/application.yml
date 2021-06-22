@@ -16,12 +16,13 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-mq-broker:
-  ding-talk:
-    url: https://oapi.dingtalk.com/robot/send
-    access-token:
-    secret:
-    env: dev
-    enabled: false
-  enabled-delayed-message: true
-  manual-acknowledge: true
+fxk:
+  mq-broker:
+    ding-talk:
+      url: https://oapi.dingtalk.com/robot/send
+      access-token:
+      secret:
+      env: dev
+      enabled: false
+    enabled-delayed-message: true
+    manual-acknowledge: true

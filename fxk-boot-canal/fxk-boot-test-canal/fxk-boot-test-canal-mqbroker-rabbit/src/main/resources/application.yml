@@ -11,15 +11,16 @@ spring:
     password: guest
     host: localhost
     port: 5672
-canal:
-  mq:
-    enabled: true
-    configuration:
-      instance: canalMqExample
-      filter: canal_client_example.t_user
-      show-entry-log: true
-      show-event-log: true
-mybatis-plus:
-  meta-object:
-    create-date-field-type: java.time.LocalDateTime
-    modified-date-field-type: java.time.LocalDateTime
+fxk:
+  canal:
+    mq:
+      enabled: true
+      configuration:
+        instance: canalMqExample
+        filter: canal_client_example.t_user
+        show-entry-log: true
+        show-event-log: true
+  mybatis-plus:
+    meta-object:
+      create-date-field-type: java.time.LocalDateTime
+      modified-date-field-type: java.time.LocalDateTime

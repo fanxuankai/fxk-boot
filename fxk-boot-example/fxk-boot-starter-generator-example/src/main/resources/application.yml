@@ -4,40 +4,41 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-# 代码生成配置
-code-generator:
-  # 激活
-  enabled: true
-  # 数据库
-  schema: code_generator
-  # 需要生成的表
-  tables: t_user
-  # 作者
-  author: fanxuankai
-  # 去表前缀
-  prefix: t_
-  # 项目绝对路径
-  project-dir: /Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/fxk-boot-starter-generator-sample
-  # API 相对路径
-  api-path:
-  # WEB 相对路径
-  web-path:
-  # 服务名
-  service-name: user-service
-  # 包名
-  package-name: com.fanxuankai.boot.generator
-  # 是否覆盖
-  cover: true
-  # 自动填值 { 列名: INSERT|UPDATE|INSERT_UPDATE }
-  auto-fill:
-    create_user_id: INSERT
-    create_date: INSERT
-    modified_user_id: UPDATE
-    last_modified_date: UPDATE
-    deleted: INSERT
-  # dto 不显示的字段
-  form-exclude-columns: create_user_id,create_date,modified_user_id,last_modified_date,deleted
-  # vo 不显示的字段
-  list-exclude-columns: deleted
-  # 父类字段
-  inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
+fxk:
+  # 代码生成配置
+  code-generator:
+    # 激活
+    enabled: true
+    # 数据库
+    schema: code_generator
+    # 需要生成的表
+    tables: t_user
+    # 作者
+    author: fanxuankai
+    # 去表前缀
+    prefix: t_
+    # 项目绝对路径
+    project-dir: /Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/fxk-boot-starter-generator-sample
+    # API 相对路径
+    api-path:
+    # WEB 相对路径
+    web-path:
+    # 服务名
+    service-name: user-service
+    # 包名
+    package-name: com.fanxuankai.boot.generator
+    # 是否覆盖
+    cover: true
+    # 自动填值 { 列名: INSERT|UPDATE|INSERT_UPDATE }
+    auto-fill:
+      create_user_id: INSERT
+      create_date: INSERT
+      modified_user_id: UPDATE
+      last_modified_date: UPDATE
+      deleted: INSERT
+    # dto 不显示的字段
+    form-exclude-columns: create_user_id,create_date,modified_user_id,last_modified_date,deleted
+    # vo 不显示的字段
+    list-exclude-columns: deleted
+    # 父类字段
+    inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted

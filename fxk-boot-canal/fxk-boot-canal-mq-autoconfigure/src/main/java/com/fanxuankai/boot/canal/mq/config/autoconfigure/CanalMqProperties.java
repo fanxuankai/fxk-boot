@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalMqProperties.PREFIX)
 public class CanalMqProperties extends CanalMqConfiguration {
-    public static final String PREFIX = Constants.PREFIX + Constants.DOT + "mq";
+    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "mq";
     /**
      * 是否开启 canal 服务
      */

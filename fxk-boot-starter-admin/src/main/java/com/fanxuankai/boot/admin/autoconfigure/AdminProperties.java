@@ -6,11 +6,11 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 /**
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "admin")
+@ConfigurationProperties(prefix = "fxk.admin")
 public class AdminProperties {
     @NestedConfigurationProperty
     private Rsa rsa;
-    
+
     public Rsa getRsa() {
         return rsa;
     }

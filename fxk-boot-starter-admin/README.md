@@ -102,4 +102,8 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+fxk:
+  rsa:
+    public-key:
+    private-key:
 ```

@@ -4,13 +4,14 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-canal:
+fxk:
+  canal:
+    elasticsearch:
+      enabled: true
+      configuration:
+        instance: canalEsExample
+        filter: canal_client_example.t_product,canal_client_example.t_product_attribute,canal_client_example.t_attribute
+        show-event-log: true
+        show-entry-log: true
   elasticsearch:
-    enabled: true
-    configuration:
-      instance: canalEsExample
-      filter: canal_client_example.t_product,canal_client_example.t_product_attribute,canal_client_example.t_attribute
-      show-event-log: true
-      show-entry-log: true
-elasticsearch:
-  host-and-ports: 127.0.0.1:9200
+    host-and-ports: 127.0.0.1:9200

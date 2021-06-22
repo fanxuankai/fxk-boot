@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = CodeGeneratorProperties.PREFIX)
 public class CodeGeneratorProperties {
-    public static final String PREFIX = "code-generator";
+    public static final String PREFIX = "fxk.code-generator";
     private boolean enabled;
     private String schema;
     private String tables;

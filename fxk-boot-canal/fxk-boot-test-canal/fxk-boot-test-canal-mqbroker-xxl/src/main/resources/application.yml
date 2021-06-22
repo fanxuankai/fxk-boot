@@ -4,14 +4,15 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-canal:
-  mq:
-    enabled: true
-    configuration:
-      instance: canalMqExample
-      filter: canal_client_example.t_user
-      show-entry-log: true
-      show-event-log: true
+fxk:
+  canal:
+    mq:
+      enabled: true
+      configuration:
+        instance: canalMqExample
+        filter: canal_client_example.t_user
+        show-entry-log: true
+        show-event-log: true
 xxl:
   mq:
     admin:

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "elasticsearch")
+@ConfigurationProperties(prefix = "fxk.elasticsearch")
 public class ElasticsearchClientProperties {
     /**
      * ip:端口, 多个以逗号隔开, 端口为 http 端口

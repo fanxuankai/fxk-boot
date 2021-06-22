@@ -21,5 +21,9 @@
             <groupId>com.fanxuankai.canal</groupId>
             <artifactId>canal-xxlmq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-xxl-mq</artifactId>
+        </dependency>
     </dependencies>
 </project>

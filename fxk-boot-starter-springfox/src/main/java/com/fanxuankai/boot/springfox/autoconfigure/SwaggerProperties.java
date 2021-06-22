@@ -11,7 +11,7 @@ import java.util.List;
 @ConfigurationProperties(SwaggerProperties.PREFIX)
 public class SwaggerProperties {
 
-    public static final String PREFIX = "swagger";
+    public static final String PREFIX = "fxk.swagger";
 
     @NestedConfigurationProperty
     private Docket docket;

@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalEsProperties.PREFIX)
 public class CanalEsProperties extends CanalElasticsearchConfiguration {
-    public static final String PREFIX = Constants.PREFIX + Constants.DOT + "elasticsearch";
+    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "elasticsearch";
     /**
      * 是否开启 canal 服务
      */

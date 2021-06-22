@@ -104,32 +104,33 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-mq-broker:
-  # 最大重试次数
-  #max-retry: 3
-  # 发布回调超时
-  #publisher-callback-timeout: 300000
-  # 消费超时
-  #consume-timeout: 300000
-  # 手动确认
-  #manual-acknowledge: false
-  # 事件策略, 可以配置相同事件多个消费者
-  #event-strategy:
-    # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
-    #user: DEFAULT
-  # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
-  #msg-size: 100
-  # 补偿时, 拉取数据的间隔 ms
-  #interval-millis: 1000
-  # 钉钉推送配置(发送、消费失败)
-  #ding-talk:
-    #enabled:
-    #url:
-    #accessToken:
-    #secret:
-    #env:
-  # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
-  #enabledDelayedMessage: false
+fxk:
+  mq-broker:
+    # 最大重试次数
+    #max-retry: 3
+    # 发布回调超时
+    #publisher-callback-timeout: 300000
+    # 消费超时
+    #consume-timeout: 300000
+    # 手动确认
+    #manual-acknowledge: false
+    # 事件策略, 可以配置相同事件多个消费者
+    #event-strategy:
+      # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
+      #user: DEFAULT
+    # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+    #msg-size: 100
+    # 补偿时, 拉取数据的间隔 ms
+    #interval-millis: 1000
+    # 钉钉推送配置(发送、消费失败)
+    #ding-talk:
+      #enabled:
+      #url:
+      #accessToken:
+      #secret:
+      #env:
+    # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
+    #enabledDelayedMessage: false
 ```
 - 监听事件
 ```

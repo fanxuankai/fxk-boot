@@ -13,17 +13,18 @@ Spring Boot Starter Swagger
 ### Spring Boot 配置
 ```yml
 ## application.yml
-swagger:
-  docket:
-    enabled: true
-    host: http://localhost:${server.port}
-    api-info:
-      name: ${spring.application.name}
-      version: v1.0.2
-      description: Api Documentation
-    apis:
-      base-package: com.xxx.controller
-    headers: Authorization
+fxk:
+  swagger:
+    docket:
+      enabled: true
+      host: http://localhost:${server.port}
+      api-info:
+        name: ${spring.application.name}
+        version: v1.0.2
+        description: Api Documentation
+      apis:
+        base-package: com.xxx.controller
+      headers: Authorization
 ```
 
 ### 启动服务

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "xxl.mq")
+@ConfigurationProperties(prefix = "fxk.xxl.mq")
 public class XxlMqProperties {
     private Admin admin;
     private String accessToken;

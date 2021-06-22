@@ -13,10 +13,11 @@ Spring Boot Starter Elasticsearch
 ### Spring Boot 配置
 ```yml
 ## application.yml
-elasticsearch: 
-  host-and-ports: localhost:9200
-  user: 
-  password: 
-  connect-timeout: 
-  socket-timeout: 
+fxk:
+  elasticsearch:
+    host-and-ports: localhost:9200
+    user:
+    password:
+    connect-timeout:
+    socket-timeout:
 ```

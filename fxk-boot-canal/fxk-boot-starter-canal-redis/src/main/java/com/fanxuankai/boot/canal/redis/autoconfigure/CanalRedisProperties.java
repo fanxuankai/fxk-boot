@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalRedisProperties.PREFIX)
 public class CanalRedisProperties extends CanalRedisConfiguration {
-    public static final String PREFIX = Constants.PREFIX + Constants.DOT + "redis";
+    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "redis";
     /**
      * 是否开启 canal 服务
      */

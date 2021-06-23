@@ -1,6 +1,7 @@
-package com.fanxuankai.boot.generator.autoconfigure;
+package com.fanxuankai.boot.generator;
 
 import cn.hutool.core.text.StrPool;
+import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
 import com.fanxuankai.boot.generator.service.GeneratorService;
 import com.fanxuankai.commons.util.OptionalUtils;
 import org.springframework.boot.ApplicationArguments;

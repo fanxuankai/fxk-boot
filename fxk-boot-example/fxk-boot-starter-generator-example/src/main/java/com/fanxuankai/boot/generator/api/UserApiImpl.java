@@ -12,7 +12,6 @@ import java.util.List;
  * 用户 API 实现类
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @RestController
 @RequiredArgsConstructor

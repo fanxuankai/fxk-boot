@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  * 用户 实体类
  *
  * @author fanxuankai
- * @date 2021-06-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

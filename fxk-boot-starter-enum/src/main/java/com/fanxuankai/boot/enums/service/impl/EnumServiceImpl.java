@@ -156,8 +156,8 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
         if (CollectionUtils.isEmpty(typeNames)) {
             return;
         }
-        List<EnumType> types = enumTypeService.list(Wrappers.lambdaQuery(EnumType.class).in(EnumType::getName,
-                typeNames));
+        List<EnumType> types = enumTypeService.list(Wrappers.lambdaQuery(EnumType.class)
+                .in(EnumType::getName, typeNames));
         if (types.isEmpty()) {
             return;
         }

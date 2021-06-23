@@ -4,9 +4,11 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.enums.domain.Enum;
 import com.fanxuankai.boot.enums.domain.EnumType;
 import com.fanxuankai.boot.enums.service.EnumService;
+import com.fanxuankai.boot.enums.service.EnumTypeService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -34,6 +36,8 @@ public class EnumGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnumGenerator.class);
     @Resource
     private EnumService enumService;
+    @Resource
+    private EnumTypeService enumTypeService;
 
     /**
      * 生成枚举数据和枚举类
@@ -110,6 +114,9 @@ public class EnumGenerator {
      */
     private List<EnumDTO> filter(List<EnumDTO> dtoList) {
         if (dtoList.isEmpty()) {
+            // 无枚举数据,清空数据库枚举数据
+            enumTypeService.remove(Wrappers.emptyWrapper());
+            enumService.remove(Wrappers.emptyWrapper());
             return Collections.emptyList();
         }
         Set<String> typeNames = dtoList.stream().map(o -> o.getEnumType().getName()).collect(Collectors.toSet());

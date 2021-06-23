@@ -30,7 +30,7 @@ public class EnumController {
     @GetMapping("/get/{typeName}")
     public Result<EnumVO> get(@PathVariable String typeName) {
         EnumVO enumVO = enumService.find(typeName).orElse(null);
-        return ResultUtils.newResult(enumVO);
+        return ResultUtils.ok(enumVO);
     }
 
     /**
@@ -42,6 +42,6 @@ public class EnumController {
     @PostMapping("/list")
     public Result<List<EnumVO>> list(@RequestBody(required = false) List<String> typeNames) {
         List<EnumVO> list = CollectionUtils.isEmpty(typeNames) ? enumService.all() : enumService.list(typeNames);
-        return ResultUtils.newResult(list);
+        return ResultUtils.ok(list);
     }
 }

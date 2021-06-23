@@ -29,6 +29,9 @@ public class CodeGeneratorWorker implements ApplicationRunner {
      * 生成代码
      */
     private void generate() {
+        if (!generatorProperties.isEnabled()) {
+            return;
+        }
         OptionalUtils.of(generatorProperties.getTables())
                 .ifPresent(tables -> {
                     for (String file : tables.split(StrPool.COMMA)) {

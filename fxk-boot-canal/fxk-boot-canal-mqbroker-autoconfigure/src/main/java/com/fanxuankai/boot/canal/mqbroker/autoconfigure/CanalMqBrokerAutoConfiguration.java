@@ -31,6 +31,7 @@ public class CanalMqBrokerAutoConfiguration {
     }
 
     @Bean(name = "canalMqBrokerEventListenerContainer")
+    @ConditionalOnMissingBean
     public EventListenerContainer eventListenerContainer(ConsumerHelper consumerHelper) {
         SimpleEventListenerContainer container = new SimpleEventListenerContainer();
         List<EventListenerBean> listeners = new ArrayList<>();

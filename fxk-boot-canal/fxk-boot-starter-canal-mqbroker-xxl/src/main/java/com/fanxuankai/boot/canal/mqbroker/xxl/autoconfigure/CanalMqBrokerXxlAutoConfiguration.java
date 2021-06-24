@@ -19,7 +19,13 @@ import java.util.List;
  * @author fanxuankai
  */
 public class CanalMqBrokerXxlAutoConfiguration {
-    @Bean(name = "canalMqBrokerXxlEventListenerContainer")
+    /**
+     * 需要动态生成 IMqConsumer，所以覆盖掉 CanalMqBrokerAutoConfiguration#eventListenerContainer
+     *
+     * @param consumerHelper /
+     * @return /
+     */
+    @Bean(name = "canalMqBrokerEventListenerContainer")
     public EventListenerContainer eventListenerContainer(ConsumerHelper consumerHelper) {
         SimpleEventListenerContainer container = new SimpleEventListenerContainer();
         List<EventListenerBean> listeners = new ArrayList<>();

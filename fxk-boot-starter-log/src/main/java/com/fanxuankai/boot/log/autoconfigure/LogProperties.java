@@ -9,8 +9,10 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  *
  * @author fanxuankai
  */
-@ConfigurationProperties(prefix = "fxk.log")
+@ConfigurationProperties(prefix = LogProperties.PREFIX)
 public class LogProperties {
+    public static final String PREFIX = "fxk.log";
+    public static final String STORE_TYPE = PREFIX + ".store-type";
     private StoreType storeType;
     @NestedConfigurationProperty
     private JdbcStore jdbcStore;

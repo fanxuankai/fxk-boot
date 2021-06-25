@@ -81,7 +81,7 @@ public class LogAutoConfiguration {
         public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
             ConditionMessage.Builder message = ConditionMessage.forCondition("Log Store Jdbc Condition");
             Environment environment = context.getEnvironment();
-            String keyValue = environment.getProperty("fxk.log.store-type");
+            String keyValue = environment.getProperty(LogProperties.STORE_TYPE);
             if (StrUtil.equals(keyValue, StoreType.JDBC.name(), true)) {
                 return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
             }
@@ -94,7 +94,7 @@ public class LogAutoConfiguration {
         public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
             ConditionMessage.Builder message = ConditionMessage.forCondition("Log Store Logger Condition");
             Environment environment = context.getEnvironment();
-            String keyValue = environment.getProperty("fxk.log.store-type");
+            String keyValue = environment.getProperty(LogProperties.STORE_TYPE);
             if (StrUtil.equals(keyValue, StoreType.LOGGER.name(), true)) {
                 return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
             }

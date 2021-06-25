@@ -1,13 +1,13 @@
-package com.fanxuankai.boot.log.domain;
+package com.fanxuankai.boot.log;
 
 import java.util.Date;
 
 /**
- * 日志实体类
+ * 日志信息
  *
  * @author fanxuankai
  */
-public class Log {
+public class LogInfo {
     private Long id;
     /**
      * 操作用户

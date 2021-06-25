@@ -1,7 +1,6 @@
 package com.fanxuankai.boot.log;
 
 import com.fanxuankai.boot.log.autoconfigure.LogProperties;
-import com.fanxuankai.boot.log.domain.Log;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -28,12 +27,12 @@ public class JdbcLogStore implements LogStore {
     }
 
     @Override
-    public void store(Log log) {
-        jdbcTemplate.update(insertStatement, log.getResource(), log.getUri(),
-                log.getSafetyLevel(), log.getClassName(), log.getMethodName(), log.getParams(),
-                log.getReturnValue(), log.getServerIp(), log.getClientIp(), log.getClientAddress(), log.getBrowser(),
-                log.getTotalTimeMillis(), log.getUsername(), log.getOperationException(), log.getExceptionDetail(),
-                log.getCreateTime());
+    public void store(LogInfo logInfo) {
+        jdbcTemplate.update(insertStatement, logInfo.getResource(), logInfo.getUri(),
+                logInfo.getSafetyLevel(), logInfo.getClassName(), logInfo.getMethodName(), logInfo.getParams(),
+                logInfo.getReturnValue(), logInfo.getServerIp(), logInfo.getClientIp(), logInfo.getClientAddress(), logInfo.getBrowser(),
+                logInfo.getTotalTimeMillis(), logInfo.getUsername(), logInfo.getOperationException(), logInfo.getExceptionDetail(),
+                logInfo.getCreateTime());
     }
 
     private String getTableName() {

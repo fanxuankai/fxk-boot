@@ -43,26 +43,36 @@ public class LogMethodInterceptor implements MethodInterceptor {
      */
     private Object enhanceProceed(MethodInvocation methodInvocation) throws Throwable {
         Log logAnnotation = methodInvocation.getMethod().getAnnotation(Log.class);
-        com.fanxuankai.boot.log.domain.Log log = createLog(logAnnotation, methodInvocation);
+        LogInfo logInfo = createLog(logAnnotation, methodInvocation);
         Object proceed;
         boolean operationException = false;
         long start = 0;
         try {
             start = System.currentTimeMillis();
             proceed = methodInvocation.proceed();
-            if (logAnnotation.returnValue()) {
-                log.setReturnValue(JSONUtil.toJsonStr(proceed));
-            }
+            setupReturnValue(logAnnotation, logInfo, proceed);
         } catch (Throwable throwable) {
             operationException = true;
-            log.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
+            logInfo.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
             throw throwable;
         } finally {
-            log.setTotalTimeMillis(System.currentTimeMillis() - start);
-            log.setOperationException(operationException);
-            logStore.store(log);
+            logInfo.setTotalTimeMillis(System.currentTimeMillis() - start);
+            logInfo.setOperationException(operationException);
+            logStore.store(logInfo);
         }
         return proceed;
+    }
+
+    private void setupReturnValue(Log logAnnotation, LogInfo logInfo, Object proceed) {
+        if (logAnnotation.returnValue()) {
+            String returnValue;
+            try {
+                returnValue = JSONUtil.toJsonStr(proceed);
+            } catch (Exception e) {
+                returnValue = proceed.toString();
+            }
+            logInfo.setReturnValue(returnValue);
+        }
     }
 
     /**
@@ -72,44 +82,44 @@ public class LogMethodInterceptor implements MethodInterceptor {
      * @param methodInvocation /
      * @return /
      */
-    private com.fanxuankai.boot.log.domain.Log createLog(Log logAnnotation, MethodInvocation methodInvocation) {
-        com.fanxuankai.boot.log.domain.Log log = new com.fanxuankai.boot.log.domain.Log();
-        log.setUsername(logDetailService.getUsername());
-        log.setResource(logAnnotation.value());
-        log.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
-        log.setClassName(methodInvocation.getMethod().getDeclaringClass().getName());
-        log.setMethodName(methodInvocation.getMethod().getName());
-        log.setServerIp(NetUtil.getLocalhostStr());
+    private LogInfo createLog(Log logAnnotation, MethodInvocation methodInvocation) {
+        LogInfo logInfo = new LogInfo();
+        logInfo.setUsername(logDetailService.getUsername());
+        logInfo.setResource(logAnnotation.value());
+        logInfo.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
+        logInfo.setClassName(methodInvocation.getMethod().getDeclaringClass().getName());
+        logInfo.setMethodName(methodInvocation.getMethod().getName());
+        logInfo.setServerIp(NetUtil.getLocalhostStr());
         if (logAnnotation.params()) {
-            setupParams(log, methodInvocation);
+            setupParams(logInfo, methodInvocation);
         }
-        setupClientInfo(log);
-        log.setCreateTime(new Date());
-        return log;
+        setupClientInfo(logInfo);
+        logInfo.setCreateTime(new Date());
+        return logInfo;
     }
 
     /**
      * 客户端信息赋值
      *
-     * @param log /
+     * @param logInfo /
      */
-    private void setupClientInfo(com.fanxuankai.boot.log.domain.Log log) {
+    private void setupClientInfo(LogInfo logInfo) {
         if (clientInfoService == null) {
             return;
         }
-        log.setUri(clientInfoService.getUrl());
-        log.setClientIp(clientInfoService.getIp());
-        log.setClientAddress(logDetailService.getAddress(log.getClientIp()));
-        log.setBrowser(clientInfoService.getBrowser());
+        logInfo.setUri(clientInfoService.getUrl());
+        logInfo.setClientIp(clientInfoService.getIp());
+        logInfo.setClientAddress(logDetailService.getAddress(logInfo.getClientIp()));
+        logInfo.setBrowser(clientInfoService.getBrowser());
     }
 
     /**
      * 参数赋值
      *
-     * @param log              /
+     * @param logInfo              /
      * @param methodInvocation /
      */
-    private void setupParams(com.fanxuankai.boot.log.domain.Log log, MethodInvocation methodInvocation) {
+    private void setupParams(LogInfo logInfo, MethodInvocation methodInvocation) {
         Object[] arguments = methodInvocation.getArguments();
         DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
         String[] parameters = discover.getParameterNames(methodInvocation.getMethod());
@@ -118,7 +128,7 @@ public class LogMethodInterceptor implements MethodInterceptor {
             for (int i = 0; i < parameters.length; i++) {
                 params.put(parameters[i], arguments[i]);
             }
-            log.setParams(JSONUtil.toJsonStr(params));
+            logInfo.setParams(JSONUtil.toJsonStr(params));
         }
     }
 }

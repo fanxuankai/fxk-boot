@@ -11,11 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = "fxk.log")
 public class LogProperties {
-    /**
-     * 存储方式
-     */
     private StoreType storeType;
-
     @NestedConfigurationProperty
     private JdbcStore jdbcStore;
 

@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.log;
 
+import cn.hutool.json.JSONUtil;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -10,6 +11,6 @@ import org.slf4j.LoggerFactory;
 public class LoggerLogStore implements LogStore {
     @Override
     public void store(LogInfo logInfo) {
-        LoggerFactory.getLogger(logInfo.getClassName()).info(logInfo.toString());
+        LoggerFactory.getLogger(logInfo.getClassName()).info(JSONUtil.toJsonStr(logInfo));
     }
 }

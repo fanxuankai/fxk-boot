@@ -224,27 +224,4 @@ public class LogInfo {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-    @Override
-    public String toString() {
-        return "Log{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", resource='" + resource + '\'' +
-                ", uri='" + uri + '\'' +
-                ", safetyLevel=" + safetyLevel +
-                ", className='" + className + '\'' +
-                ", methodName='" + methodName + '\'' +
-                ", params='" + params + '\'' +
-                ", returnValue='" + returnValue + '\'' +
-                ", serverIp='" + serverIp + '\'' +
-                ", clientIp='" + clientIp + '\'' +
-                ", clientAddress='" + clientAddress + '\'' +
-                ", browser='" + browser + '\'' +
-                ", totalTimeMillis=" + totalTimeMillis +
-                ", operationException=" + operationException +
-                ", exceptionDetail='" + exceptionDetail + '\'' +
-                ", createTime=" + createTime +
-                '}';
-    }
 }

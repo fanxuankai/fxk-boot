@@ -3,6 +3,8 @@ package com.fanxuankai.boot.log.domain;
 import java.util.Date;
 
 /**
+ * 日志实体类
+ *
  * @author fanxuankai
  */
 public class Log {

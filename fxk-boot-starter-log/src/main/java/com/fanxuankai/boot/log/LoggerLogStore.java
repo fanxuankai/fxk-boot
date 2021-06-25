@@ -4,6 +4,8 @@ import com.fanxuankai.boot.log.domain.Log;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Logger 记录日志
+ *
  * @author fanxuankai
  */
 public class LoggerLogStore implements LogStore {

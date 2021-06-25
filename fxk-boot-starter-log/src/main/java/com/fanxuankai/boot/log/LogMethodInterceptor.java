@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 方法增强具体实现
+ *
  * @author fanxuankai
  */
 public class LogMethodInterceptor implements MethodInterceptor {

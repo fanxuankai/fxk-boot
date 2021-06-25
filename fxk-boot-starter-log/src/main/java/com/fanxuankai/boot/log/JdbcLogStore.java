@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 /**
+ * JDBC 存储日志
+ *
  * @author fanxuankai
  */
 public class JdbcLogStore implements LogStore {

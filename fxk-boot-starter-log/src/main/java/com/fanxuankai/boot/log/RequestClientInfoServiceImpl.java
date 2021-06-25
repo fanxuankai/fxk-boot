@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
+ * 客户端信息默认实现
+ *
  * @author fanxuankai
  */
 public class RequestClientInfoServiceImpl implements ClientInfoService {

@@ -1,6 +1,8 @@
 package com.fanxuankai.boot.log.enums;
 
 /**
+ * 安全等级
+ *
  * @author fanxuankai
  */
 public enum SafetyLevel {

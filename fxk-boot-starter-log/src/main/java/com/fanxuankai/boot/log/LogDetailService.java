@@ -6,6 +6,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
 /**
+ * 获取详细信息
+ *
  * @author fanxuankai
  */
 public interface LogDetailService {

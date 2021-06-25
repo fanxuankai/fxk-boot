@@ -1,6 +1,8 @@
 package com.fanxuankai.boot.log.enums;
 
 /**
+ * 存储方式
+ *
  * @author fanxuankai
  */
 public enum StoreType {

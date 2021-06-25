@@ -6,6 +6,8 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 
 /**
+ * Log 注解切点
+ *
  * @author fanxuankai
  */
 public class LogPointcutAdvisor extends DefaultPointcutAdvisor {

@@ -56,13 +56,14 @@ public class LogMethodInterceptor implements MethodInterceptor {
         try {
             start = System.currentTimeMillis();
             proceed = methodInvocation.proceed();
+            logInfo.setTotalTimeMillis(System.currentTimeMillis() - start);
             setupReturnValue(logAnnotation, logInfo, proceed);
         } catch (Throwable throwable) {
+            logInfo.setTotalTimeMillis(System.currentTimeMillis() - start);
             operationException = true;
             logInfo.setExceptionDetail(ExceptionUtil.stacktraceToString(throwable));
             throw throwable;
         } finally {
-            logInfo.setTotalTimeMillis(System.currentTimeMillis() - start);
             logInfo.setOperationException(operationException);
             logStore.store(logInfo);
         }
@@ -106,7 +107,7 @@ public class LogMethodInterceptor implements MethodInterceptor {
         if (clientInfoService == null) {
             return;
         }
-        logInfo.setUri(clientInfoService.getUrl());
+        logInfo.setUrl(clientInfoService.getUrl());
         logInfo.setClientIp(clientInfoService.getIp());
         logInfo.setClientAddress(logDetailService.getAddress(logInfo.getClientIp()));
         logInfo.setBrowser(clientInfoService.getBrowser());

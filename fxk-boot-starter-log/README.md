@@ -6,13 +6,11 @@
 ### Getting started
 - 建表(Jdbc 方式)
 ```sql
-DROP TABLE
-IF
-	EXISTS sys_log;
+DROP TABLE IF EXISTS sys_log;
 CREATE TABLE `sys_log` (
 	`id` BIGINT ( 20 ) NOT NULL AUTO_INCREMENT COMMENT 'ID',
 	`resource` VARCHAR ( 255 ) DEFAULT NULL COMMENT '资源名称',
-	`uri` VARCHAR ( 255 ) DEFAULT NULL COMMENT '统一资源标识符',
+	`url` VARCHAR ( 255 ) DEFAULT NULL COMMENT 'url 地址',
 	`safety_level` INT ( 11 ) DEFAULT NULL COMMENT '安全等级(0: 普通 1: 中等 2: 高风险)',
 	`class_name` VARCHAR ( 255 ) DEFAULT NULL COMMENT '类名',
 	`method_name` VARCHAR ( 255 ) DEFAULT NULL COMMENT '方法名',

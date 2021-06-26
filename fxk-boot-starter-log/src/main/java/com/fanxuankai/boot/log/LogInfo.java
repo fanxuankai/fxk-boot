@@ -20,9 +20,9 @@ public class LogInfo {
     private String resource;
 
     /**
-     * 统一资源标识符
+     * url 地址
      */
-    private String uri;
+    private String url;
 
     /**
      * 安全等级(0: 普通 1: 中等 2: 高风险)
@@ -113,12 +113,12 @@ public class LogInfo {
         this.resource = resource;
     }
 
-    public String getUri() {
-        return uri;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Integer getSafetyLevel() {

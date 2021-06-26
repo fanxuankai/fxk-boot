@@ -13,7 +13,7 @@ import javax.sql.DataSource;
  */
 public class JdbcLogStore implements LogStore {
     private static final String DEFAULT_TABLE_NAME = "sys_log";
-    private static final String DEFAULT_INSERT_STATEMENT = "INSERT INTO %s(`resource`, `uri`, `safety_level`, " +
+    private static final String DEFAULT_INSERT_STATEMENT = "INSERT INTO %s(`resource`, `url`, `safety_level`, " +
             "`class_name`, `method_name`, `params`, `return_value`, `server_ip`, `client_ip`, `client_address`, " +
             "`browser`, `total_time_millis`, `username`, `operation_exception`, `exception_detail`, `create_time`) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -29,11 +29,11 @@ public class JdbcLogStore implements LogStore {
 
     @Override
     public void store(LogInfo logInfo) {
-        jdbcTemplate.update(insertStatement, logInfo.getResource(), logInfo.getUri(),
+        jdbcTemplate.update(insertStatement, logInfo.getResource(), logInfo.getUrl(),
                 logInfo.getSafetyLevel(), logInfo.getClassName(), logInfo.getMethodName(), logInfo.getParams(),
-                logInfo.getReturnValue(), logInfo.getServerIp(), logInfo.getClientIp(), logInfo.getClientAddress(), logInfo.getBrowser(),
-                logInfo.getTotalTimeMillis(), logInfo.getUsername(), logInfo.getOperationException(), logInfo.getExceptionDetail(),
-                logInfo.getCreateTime());
+                logInfo.getReturnValue(), logInfo.getServerIp(), logInfo.getClientIp(), logInfo.getClientAddress(),
+                logInfo.getBrowser(), logInfo.getTotalTimeMillis(), logInfo.getUsername(),
+                logInfo.getOperationException(), logInfo.getExceptionDetail(), logInfo.getCreateTime());
     }
 
     private String getTableName() {

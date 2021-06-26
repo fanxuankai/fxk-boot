@@ -1,7 +1,10 @@
 package com.fanxuankai.boot.log.autoconfigure;
 
 import cn.hutool.core.util.StrUtil;
-import com.fanxuankai.boot.log.*;
+import com.fanxuankai.boot.log.ClientInfoService;
+import com.fanxuankai.boot.log.DefaultLogDetailServiceImpl;
+import com.fanxuankai.boot.log.LogDetailService;
+import com.fanxuankai.boot.log.RequestClientInfoServiceImpl;
 import com.fanxuankai.boot.log.annotation.Log;
 import com.fanxuankai.boot.log.enums.StoreType;
 import com.fanxuankai.boot.log.interceptor.LogMethodInterceptor;
@@ -50,7 +53,7 @@ public class LogAutoConfiguration {
     protected static class JdbcLogStoreConfiguration {
         @Bean
         @ConditionalOnMissingBean
-        public JdbcLogStore jdbcLogStore(LogProperties logProperties, DataSource dataSource) {
+        public LogStore logStore(LogProperties logProperties, DataSource dataSource) {
             return new JdbcLogStore(logProperties, dataSource);
         }
     }
@@ -60,7 +63,7 @@ public class LogAutoConfiguration {
     protected static class LoggerLogStoreConfiguration {
         @Bean
         @ConditionalOnMissingBean
-        public LoggerLogStore loggerLogStore() {
+        public LogStore logStore() {
             return new LoggerLogStore();
         }
     }

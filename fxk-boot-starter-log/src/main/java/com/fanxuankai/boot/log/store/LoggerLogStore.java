@@ -1,6 +1,7 @@
-package com.fanxuankai.boot.log;
+package com.fanxuankai.boot.log.store;
 
 import cn.hutool.json.JSONUtil;
+import com.fanxuankai.boot.log.LogInfo;
 import org.slf4j.LoggerFactory;
 
 /**

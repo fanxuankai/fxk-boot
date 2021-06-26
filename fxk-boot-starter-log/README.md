@@ -1,6 +1,7 @@
 ### 简介
 日志工具, 自动记录系统日志  
-实现原理: 自定义注解, 基于 Spring AOP 实现方法拦截, 支持 Logger、Jdbc 方式记录日志信息, 默认为 Logger 方式
+实现原理: 基于 Spring AOP 实现方法拦截, 支持 Logger、Jdbc 方式记录日志信息, 默认为 Logger 方式  
+目前支持注解、表达式两种形式 
 
 ### Getting started
 - 建表(Jdbc 方式)

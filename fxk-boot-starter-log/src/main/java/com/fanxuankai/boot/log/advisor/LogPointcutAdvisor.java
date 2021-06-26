@@ -1,4 +1,4 @@
-package com.fanxuankai.boot.log;
+package com.fanxuankai.boot.log.advisor;
 
 import com.fanxuankai.boot.log.annotation.Log;
 import org.aopalliance.aop.Advice;

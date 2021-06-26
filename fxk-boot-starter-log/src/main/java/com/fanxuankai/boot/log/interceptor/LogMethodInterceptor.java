@@ -1,9 +1,14 @@
-package com.fanxuankai.boot.log;
+package com.fanxuankai.boot.log.interceptor;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.json.JSONUtil;
+import com.fanxuankai.boot.log.ClientInfoService;
+import com.fanxuankai.boot.log.LogDetailService;
+import com.fanxuankai.boot.log.LogInfo;
 import com.fanxuankai.boot.log.annotation.Log;
+import com.fanxuankai.boot.log.enums.SafetyLevel;
+import com.fanxuankai.boot.log.store.LogStore;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -42,6 +47,7 @@ public class LogMethodInterceptor implements MethodInterceptor {
      * @throws Throwable /
      */
     private Object enhanceProceed(MethodInvocation methodInvocation) throws Throwable {
+        // 表达式形式注解为空
         Log logAnnotation = methodInvocation.getMethod().getAnnotation(Log.class);
         LogInfo logInfo = createLog(logAnnotation, methodInvocation);
         Object proceed;
@@ -63,18 +69,6 @@ public class LogMethodInterceptor implements MethodInterceptor {
         return proceed;
     }
 
-    private void setupReturnValue(Log logAnnotation, LogInfo logInfo, Object proceed) {
-        if (logAnnotation.returnValue()) {
-            String returnValue;
-            try {
-                returnValue = JSONUtil.toJsonStr(proceed);
-            } catch (Exception e) {
-                returnValue = proceed.toString();
-            }
-            logInfo.setReturnValue(returnValue);
-        }
-    }
-
     /**
      * 创建 log 对象
      *
@@ -85,16 +79,21 @@ public class LogMethodInterceptor implements MethodInterceptor {
     private LogInfo createLog(Log logAnnotation, MethodInvocation methodInvocation) {
         LogInfo logInfo = new LogInfo();
         logInfo.setUsername(logDetailService.getUsername());
-        logInfo.setResource(logAnnotation.value());
-        logInfo.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
         logInfo.setClassName(methodInvocation.getMethod().getDeclaringClass().getName());
         logInfo.setMethodName(methodInvocation.getMethod().getName());
         logInfo.setServerIp(NetUtil.getLocalhostStr());
-        if (logAnnotation.params()) {
-            setupParams(logInfo, methodInvocation);
-        }
         setupClientInfo(logInfo);
         logInfo.setCreateTime(new Date());
+        if (logAnnotation != null) {
+            logInfo.setResource(logAnnotation.value());
+            logInfo.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
+            if (logAnnotation.params()) {
+                setupParams(logInfo, methodInvocation);
+            }
+        } else {
+            logInfo.setSafetyLevel(SafetyLevel.NORMAL.ordinal());
+            setupParams(logInfo, methodInvocation);
+        }
         return logInfo;
     }
 
@@ -116,7 +115,7 @@ public class LogMethodInterceptor implements MethodInterceptor {
     /**
      * 参数赋值
      *
-     * @param logInfo              /
+     * @param logInfo          /
      * @param methodInvocation /
      */
     private void setupParams(LogInfo logInfo, MethodInvocation methodInvocation) {
@@ -130,5 +129,25 @@ public class LogMethodInterceptor implements MethodInterceptor {
             }
             logInfo.setParams(JSONUtil.toJsonStr(params));
         }
+    }
+
+    /**
+     * 返回值赋值
+     *
+     * @param logAnnotation /
+     * @param logInfo       /
+     * @param proceed       /
+     */
+    private void setupReturnValue(Log logAnnotation, LogInfo logInfo, Object proceed) {
+        if (logAnnotation != null && !logAnnotation.returnValue()) {
+            return;
+        }
+        String returnValue;
+        try {
+            returnValue = JSONUtil.toJsonStr(proceed);
+        } catch (Exception e) {
+            returnValue = proceed.toString();
+        }
+        logInfo.setReturnValue(returnValue);
     }
 }

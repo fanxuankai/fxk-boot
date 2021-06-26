@@ -1,5 +1,6 @@
-package com.fanxuankai.boot.log;
+package com.fanxuankai.boot.log.store;
 
+import com.fanxuankai.boot.log.LogInfo;
 import com.fanxuankai.boot.log.autoconfigure.LogProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
 

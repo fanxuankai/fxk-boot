@@ -20,10 +20,11 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void saveUser() {
-        userService.save(new User()
+    public void test() {
+        User user = new User()
                 .setId(IdUtils.nextId())
                 .setUsername(UUID.randomUUID().toString())
-                .setPassword(UUID.randomUUID().toString()));
+                .setPassword(UUID.randomUUID().toString());
+        userService.save(user);
     }
 }

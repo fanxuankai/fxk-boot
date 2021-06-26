@@ -8,8 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 fxk:
   log:
-    # 存储方式
     store-type: jdbc
     jdbc-store:
-      # 数据库表名
       table-name: sys_log
+    expressions: "execution(public * com.fanxuankai.boot..*.web..*(..)) || execution(public * com.fanxuankai.boot..*.service.impl..*(..))"

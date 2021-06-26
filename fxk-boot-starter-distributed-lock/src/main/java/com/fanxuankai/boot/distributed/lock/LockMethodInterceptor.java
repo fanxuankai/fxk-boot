@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.distributed.lock;
 
 import com.fanxuankai.boot.distributed.lock.annotation.Lock;
+import com.fanxuankai.commons.exception.LockException;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -12,7 +13,6 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -29,20 +29,16 @@ public class LockMethodInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         Lock lock = methodInvocation.getMethod().getAnnotation(Lock.class);
-        AtomicBoolean proceedError = new AtomicBoolean();
-        Object result = distributedLocker.lock(getKey(lock, methodInvocation), lock.waitTimeMillis(),
-                lock.releaseTimeMillis(), () -> {
-                    try {
-                        return methodInvocation.proceed();
-                    } catch (Throwable throwable) {
-                        proceedError.set(true);
-                        return throwable;
-                    }
-                });
-        if (proceedError.get() && result instanceof Throwable) {
-            throw (Throwable) result;
+        String key = getKey(lock, methodInvocation);
+        if (distributedLocker.lock(key, lock.waitTimeMillis(), lock.releaseTimeMillis())) {
+            try {
+                return methodInvocation.proceed();
+            } finally {
+                distributedLocker.unlock(key);
+            }
+        } else {
+            throw new LockException();
         }
-        return result;
     }
 
     private String getKey(Lock lock, MethodInvocation methodInvocation) {

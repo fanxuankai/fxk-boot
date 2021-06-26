@@ -1,4 +1,6 @@
-package com.fanxuankai.boot.log;
+package com.fanxuankai.boot.log.store;
+
+import com.fanxuankai.boot.log.LogInfo;
 
 /**
  * 日志存储接口

@@ -13,9 +13,29 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class LogProperties {
     public static final String PREFIX = "fxk.log";
     public static final String STORE_TYPE = PREFIX + ".store-type";
+    public static final String EXPRESSIONS = PREFIX + ".expressions";
+
+    /**
+     * 切入点表达式
+     */
+    private String expressions;
+    /**
+     * 存储方式
+     */
     private StoreType storeType;
+    /**
+     * Jdbc 存储配置
+     */
     @NestedConfigurationProperty
     private JdbcStore jdbcStore;
+
+    public String getExpressions() {
+        return expressions;
+    }
+
+    public void setExpressions(String expressions) {
+        this.expressions = expressions;
+    }
 
     public StoreType getStoreType() {
         return storeType;
@@ -34,6 +54,9 @@ public class LogProperties {
     }
 
     public static class JdbcStore {
+        /**
+         * 表名
+         */
         private String tableName;
 
         public String getTableName() {

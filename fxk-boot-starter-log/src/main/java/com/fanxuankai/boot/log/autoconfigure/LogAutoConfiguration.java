@@ -2,7 +2,16 @@ package com.fanxuankai.boot.log.autoconfigure;
 
 import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.log.*;
+import com.fanxuankai.boot.log.annotation.Log;
 import com.fanxuankai.boot.log.enums.StoreType;
+import com.fanxuankai.boot.log.interceptor.LogMethodInterceptor;
+import com.fanxuankai.boot.log.store.JdbcLogStore;
+import com.fanxuankai.boot.log.store.LogStore;
+import com.fanxuankai.boot.log.store.LoggerLogStore;
+import org.springframework.aop.Advisor;
+import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,26 +32,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableConfigurationProperties({LogProperties.class})
 public class LogAutoConfiguration {
-    @Bean
-    @ConditionalOnMissingBean
-    public LogPointcutAdvisor logPointcutAdvisor(LogMethodInterceptor logMethodInterceptor) {
-        return new LogPointcutAdvisor(logMethodInterceptor);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public LogMethodInterceptor logMethodInterceptor(LogStore logStore,
-                                                     LogDetailService logDetailService,
-                                                     @Autowired(required = false) ClientInfoService clientInfoService) {
-        return new LogMethodInterceptor(logStore, logDetailService, clientInfoService);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public LogStore logStore() {
-        return new LoggerLogStore();
-    }
-
     @Bean
     @ConditionalOnMissingBean
     public LogDetailService logDetailService() {
@@ -76,6 +65,35 @@ public class LogAutoConfiguration {
         }
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public LogStore logStore() {
+        return new LoggerLogStore();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LogMethodInterceptor logMethodInterceptor(LogStore logStore, LogDetailService logDetailService,
+                                                     @Autowired(required = false) ClientInfoService clientInfoService) {
+        return new LogMethodInterceptor(logStore, logDetailService, clientInfoService);
+    }
+
+    @Bean
+    public Advisor logAnnotationPointcutAdvisor(LogMethodInterceptor logMethodInterceptor) {
+        return new DefaultPointcutAdvisor(AnnotationMatchingPointcut.forMethodAnnotation(Log.class),
+                logMethodInterceptor);
+    }
+
+    @Bean
+    @Conditional(PointcutExpressionsCondition.class)
+    public Advisor logPointcutExpressionsCondition(LogMethodInterceptor logMethodInterceptor,
+                                                   LogProperties logProperties) {
+        AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
+        advisor.setAdvice(logMethodInterceptor);
+        advisor.setExpression(logProperties.getExpressions());
+        return advisor;
+    }
+
     private static class JdbcCondition extends SpringBootCondition {
         @Override
         public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
@@ -96,6 +114,18 @@ public class LogAutoConfiguration {
             Environment environment = context.getEnvironment();
             String keyValue = environment.getProperty(LogProperties.STORE_TYPE);
             if (StrUtil.equals(keyValue, StoreType.LOGGER.name(), true)) {
+                return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
+            }
+            return ConditionOutcome.noMatch(message.didNotFind("provided private or symmetric key").atAll());
+        }
+    }
+
+    private static class PointcutExpressionsCondition extends SpringBootCondition {
+        @Override
+        public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            ConditionMessage.Builder message = ConditionMessage.forCondition("Pointcut Expressions Condition");
+            Environment environment = context.getEnvironment();
+            if (StrUtil.isNotBlank(environment.getProperty(LogProperties.EXPRESSIONS))) {
                 return ConditionOutcome.match(message.foundExactly("provided private or symmetric key"));
             }
             return ConditionOutcome.noMatch(message.didNotFind("provided private or symmetric key").atAll());

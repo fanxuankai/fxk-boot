@@ -32,7 +32,7 @@ public class CodeGeneratorWorker implements ApplicationRunner {
         if (!generatorProperties.isEnabled()) {
             return;
         }
-        OptionalUtils.of(generatorProperties.getTables())
+        OptionalUtils.ofNullable(generatorProperties.getTables())
                 .ifPresent(tables -> {
                     for (String file : tables.split(StrPool.COMMA)) {
                         generatorService.generateCode(file);

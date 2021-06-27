@@ -25,6 +25,7 @@
         <module>fxk-boot-starter-resource-server-example</module>
         <module>fxk-boot-starter-distributed-lock-example</module>
         <module>fxk-boot-starter-log-example</module>
+        <module>fxk-boot-starter-web-example</module>
     </modules>
     <dependencies>
         <dependency>

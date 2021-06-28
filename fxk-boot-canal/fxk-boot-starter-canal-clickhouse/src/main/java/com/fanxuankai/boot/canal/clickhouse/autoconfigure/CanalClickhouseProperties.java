@@ -1,7 +1,6 @@
 package com.fanxuankai.boot.canal.clickhouse.autoconfigure;
 
 import com.fanxuankai.canal.core.config.CanalConfiguration;
-import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.db.core.config.CanalDbConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -11,7 +10,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalClickhouseProperties.PREFIX)
 public class CanalClickhouseProperties extends CanalDbConfiguration {
-    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "clickhouse";
+    public static final String PREFIX = "fxk.canal.clickhouse";
 
     /**
      * 是否开启 canal 服务

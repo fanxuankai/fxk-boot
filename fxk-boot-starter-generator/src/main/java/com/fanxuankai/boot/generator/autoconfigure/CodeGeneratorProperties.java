@@ -1,8 +1,8 @@
 package com.fanxuankai.boot.generator.autoconfigure;
 
+import com.fanxuankai.boot.generator.constants.Constants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +22,12 @@ public class CodeGeneratorProperties {
     private String webPath;
     private String serviceName;
     private String packageName;
-    private boolean cover;
-    private Map<String, String> autoFill = Collections.emptyMap();
-    private List<String> formExcludeColumns = Collections.emptyList();
-    private List<String> listExcludeColumns = Collections.emptyList();
-    private List<String> inheritedColumns = Collections.emptyList();
-    private Map<String, String> columnTypeMapping = Collections.emptyMap();
+    private boolean cover = true;
+    private Map<String, String> autoFill = Constants.AUTO_FILL;
+    private List<String> formExcludeColumns = Constants.FORM_EXCLUDE_COLUMNS;
+    private List<String> listExcludeColumns = Constants.LIST_EXCLUDE_COLUMNS;
+    private List<String> inheritedColumns = Constants.INHERITED_COLUMNS;
+    private Map<String, String> columnTypeMapping = Constants.COLUMN_TYPE_MAPPING;
 
     public boolean isEnabled() {
         return enabled;

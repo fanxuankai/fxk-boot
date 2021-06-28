@@ -1,7 +1,6 @@
 package com.fanxuankai.boot.canal.redis.autoconfigure;
 
 import com.fanxuankai.canal.core.config.CanalConfiguration;
-import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.redis.config.CanalRedisConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -11,7 +10,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalRedisProperties.PREFIX)
 public class CanalRedisProperties extends CanalRedisConfiguration {
-    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "redis";
+    public static final String PREFIX = "fxk.canal.redis";
     /**
      * 是否开启 canal 服务
      */

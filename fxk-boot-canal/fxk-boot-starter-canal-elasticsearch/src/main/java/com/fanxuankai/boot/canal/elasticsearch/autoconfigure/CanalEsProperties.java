@@ -1,7 +1,6 @@
 package com.fanxuankai.boot.canal.elasticsearch.autoconfigure;
 
 import com.fanxuankai.canal.core.config.CanalConfiguration;
-import com.fanxuankai.canal.core.constants.Constants;
 import com.fanxuankai.canal.elasticsearch.config.CanalElasticsearchConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -11,7 +10,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CanalEsProperties.PREFIX)
 public class CanalEsProperties extends CanalElasticsearchConfiguration {
-    public static final String PREFIX = "fxk." + Constants.PREFIX + Constants.DOT + "elasticsearch";
+    public static final String PREFIX = "fxk.canal.elasticsearch";
     /**
      * 是否开启 canal 服务
      */

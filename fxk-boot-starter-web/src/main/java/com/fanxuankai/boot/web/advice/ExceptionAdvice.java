@@ -6,6 +6,8 @@ import com.fanxuankai.commons.exception.BizException;
 import com.fanxuankai.commons.exception.LockException;
 import com.fanxuankai.commons.util.OptionalUtils;
 import com.fanxuankai.commons.util.ResultUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -18,12 +20,16 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 /**
  * 全局异常处理
  *
  * @author fanxuankai
  */
 public class ExceptionAdvice {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionAdvice.class);
+
     /**
      * 业务异常
      *
@@ -86,6 +92,7 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler({Exception.class})
     public Result<Void> exceptionHandler(Exception e) {
+        LOGGER.error("系统异常", e);
         Optional<Result<Void>> resultOptional = OptionalUtils.ofNullable(e.getMessage())
                 .map(message -> ResultUtils.fail(DefaultStatus.FAILED.getCode(), message));
         return resultOptional.orElse(ResultUtils.fail());
@@ -99,16 +106,16 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public Result<Void> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
-        return ResultUtils.fail("参数类型不匹配");
+        return ResultUtils.fail(BAD_REQUEST.value(), "参数类型不匹配: " + e.getPropertyName());
     }
 
     private Result<Void> bindResultHandler(BindingResult result) {
         if (result.hasErrors()) {
-            return ResultUtils.fail(HttpStatus.BAD_REQUEST.value(), result.getAllErrors()
+            return ResultUtils.fail(BAD_REQUEST.value(), result.getAllErrors()
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.joining("、")));
         }
-        return ResultUtils.fail(HttpStatus.BAD_REQUEST.value(), "参数校验失败, 请检查参数");
+        return ResultUtils.fail(BAD_REQUEST.value(), "参数校验失败, 请检查参数");
     }
 }

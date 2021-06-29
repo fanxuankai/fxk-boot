@@ -36,8 +36,8 @@ CREATE TABLE `user` (
   `credentials_expired` bit(1) DEFAULT NULL COMMENT '密码过期',
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建人',
   `modified_user_id` bigint(20) DEFAULT NULL COMMENT '修改人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modified_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
   `deleted` bit(1) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户';
@@ -47,8 +47,8 @@ CREATE TABLE `role` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建人',
   `modified_user_id` bigint(20) DEFAULT NULL COMMENT '修改人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modified_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
   `deleted` bit(1) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色';
@@ -67,8 +67,8 @@ CREATE TABLE `menu` (
   `hidden` bit(1) DEFAULT NULL COMMENT '是否隐藏',
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建人',
   `modified_user_id` bigint(20) DEFAULT NULL COMMENT '修改人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modified_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
   `deleted` bit(1) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='菜单';

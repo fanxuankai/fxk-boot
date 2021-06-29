@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
- * 全局异常处理
+ * 常用异常处理
  *
  * @author fanxuankai
  */
-public class ExceptionAdvice {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionAdvice.class);
+public class NormalExceptionAdvice {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NormalExceptionAdvice.class);
 
     /**
      * 业务异常

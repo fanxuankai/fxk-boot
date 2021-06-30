@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.web.advice;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.fanxuankai.commons.domain.DefaultStatus;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.exception.BizException;
@@ -91,7 +92,12 @@ public class NormalExceptionAdvice {
      * @return 响应体
      */
     @ExceptionHandler({Exception.class})
+    @SuppressWarnings("unchecked")
     public Result<Void> exceptionHandler(Exception e) {
+        Throwable causedBy = ExceptionUtil.getCausedBy(e, BizException.class);
+        if (causedBy != null) {
+            return bizExceptionHandler((BizException) causedBy);
+        }
         LOGGER.error("系统异常", e);
         Optional<Result<Void>> resultOptional = OptionalUtils.ofNullable(e.getMessage())
                 .map(message -> ResultUtils.fail(DefaultStatus.FAILED.getCode(), message));

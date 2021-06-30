@@ -1,7 +1,7 @@
 ### 简介
 分布式锁, 目前仅支持 Redis 分布式锁
 
-### Getting started
+### Getting Started
 - 添加依赖
 ```xml
 <dependency>

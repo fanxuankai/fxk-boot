@@ -1,7 +1,7 @@
 ### 简介
 基础管理服务
 
-### Getting started
+### Getting Started
 - 建表(Jdbc 方式)
 ```sql
 DROP TABLE IF EXISTS user;

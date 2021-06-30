@@ -3,7 +3,15 @@
 实现原理: 基于 Spring AOP 实现方法拦截, 支持 Logger、Jdbc 方式记录日志信息, 默认为 Logger 方式  
 目前支持注解、表达式两种形式 
 
-### Getting started
+### Getting Started
+- 添加依赖
+```xml
+<dependency>
+    <groupId>com.fanxuankai.boot</groupId>
+    <artifactId>fxk-boot-starter-log</artifactId>
+    <version>${latestVersion}</version>
+</dependency>
+```
 - 建表(Jdbc 方式)
 ```sql
 DROP TABLE IF EXISTS sys_log;
@@ -28,15 +36,6 @@ CREATE TABLE `sys_log` (
 	PRIMARY KEY ( `id` ) USING BTREE
 ) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COMMENT = '系统日志';
 ```
-- 添加依赖
-```xml
-<dependency>
-    <groupId>com.fanxuankai.boot</groupId>
-    <artifactId>fxk-boot-starter-log</artifactId>
-    <version>${latestVersion}</version>
-</dependency>
-```
-
 - 配置
 ```yml
 spring:

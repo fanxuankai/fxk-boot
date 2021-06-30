@@ -1,7 +1,7 @@
 ### 简介
 工程代码中枚举的统一自动化管理
 
-### Getting started
+### Getting Started
 - 建表
 ```sql
 CREATE TABLE `sys_enum_type` (

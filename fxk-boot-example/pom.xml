@@ -21,8 +21,8 @@
         <module>fxk-boot-starter-data-tree-example</module>
         <module>fxk-boot-starter-enum-example</module>
         <module>fxk-boot-starter-generator-example</module>
-        <module>fxk-boot-starter-authorization-server-example</module>
-        <module>fxk-boot-starter-resource-server-example</module>
+        <module>fxk-boot-starter-authorization-example</module>
+        <module>fxk-boot-starter-resource-example</module>
         <module>fxk-boot-starter-distributed-lock-example</module>
         <module>fxk-boot-starter-log-example</module>
         <module>fxk-boot-starter-web-example</module>

@@ -13,7 +13,7 @@
     <name>FXK Boot Security Oauth2</name>
     <description>FXK Boot Security Oauth2</description>
     <modules>
-        <module>fxk-boot-starter-authorization-server</module>
-        <module>fxk-boot-starter-resource-server</module>
+        <module>fxk-boot-starter-authorization</module>
+        <module>fxk-boot-starter-resource</module>
     </modules>
 </project>

@@ -3,7 +3,6 @@ package com.fanxuankai.boot.mqbroker.autoconfigure;
 import com.fanxuankai.boot.mqbroker.consume.EventStrategy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,7 +10,6 @@ import java.util.Map;
 /**
  * @author fanxuankai
  */
-@Configuration
 @ConfigurationProperties(prefix = MqBrokerProperties.PREFIX)
 public class MqBrokerProperties {
     public static final String PREFIX = "fxk.mq-broker";

@@ -32,7 +32,6 @@ import javax.sql.DataSource;
  *
  * @author fanxuankai
  */
-@Configuration
 @EnableConfigurationProperties({LogProperties.class})
 public class LogAutoConfiguration {
     @Bean

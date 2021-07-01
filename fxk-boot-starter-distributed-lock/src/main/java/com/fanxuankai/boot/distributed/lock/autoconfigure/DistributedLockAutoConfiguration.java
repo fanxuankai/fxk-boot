@@ -5,13 +5,11 @@ import com.fanxuankai.boot.distributed.lock.LockMethodInterceptor;
 import com.fanxuankai.boot.distributed.lock.LockPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
  * @author fanxuankai
  */
-@Configuration
 @Import({RedisDistributedLockAutoConfiguration.class})
 public class DistributedLockAutoConfiguration {
     @Bean

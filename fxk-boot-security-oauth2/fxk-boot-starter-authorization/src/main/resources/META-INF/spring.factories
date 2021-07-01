@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.boot.authorization.autoconfigure.AuthorizationServerAutoConfiguration
+  com.fanxuankai.boot.oauth2.authorization.autoconfigure.AuthorizationServerAutoConfiguration

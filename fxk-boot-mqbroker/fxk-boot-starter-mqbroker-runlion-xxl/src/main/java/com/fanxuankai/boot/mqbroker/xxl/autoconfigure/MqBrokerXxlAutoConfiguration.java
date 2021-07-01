@@ -14,7 +14,6 @@ import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.producer.XxlMqProducer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +23,6 @@ import java.util.Optional;
 /**
  * @author fanxuankai
  */
-@Configuration
 public class MqBrokerXxlAutoConfiguration {
     public MqBrokerXxlAutoConfiguration(List<EventListener<?>> eventListeners) {
         for (EventListener<?> eventListener : eventListeners) {

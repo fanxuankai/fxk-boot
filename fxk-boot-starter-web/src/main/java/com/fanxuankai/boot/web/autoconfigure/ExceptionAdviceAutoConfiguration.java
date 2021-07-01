@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author fanxuankai
  */
-@Configuration
 @ConditionalOnProperty(prefix = WebProperties.PREFIX, name = "enable-exception-advice", havingValue = "true",
         matchIfMissing = true)
 public class ExceptionAdviceAutoConfiguration {

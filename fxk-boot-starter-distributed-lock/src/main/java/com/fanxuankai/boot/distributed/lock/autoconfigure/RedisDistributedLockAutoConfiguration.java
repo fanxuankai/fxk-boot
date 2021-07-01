@@ -5,12 +5,10 @@ import com.fanxuankai.boot.distributed.lock.RedisLocker;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author fanxuankai
  */
-@Configuration
 public class RedisDistributedLockAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean

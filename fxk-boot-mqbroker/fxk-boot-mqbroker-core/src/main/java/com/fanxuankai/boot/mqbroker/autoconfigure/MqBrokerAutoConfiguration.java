@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -25,7 +24,6 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author fanxuankai
  */
-@Configuration
 @EnableConfigurationProperties(MqBrokerProperties.class)
 @MapperScan(basePackageClasses = MsgSendMapper.class)
 @ComponentScan(basePackageClasses = {AbstractMqConsumer.class, MqProducer.class, MsgSendService.class,

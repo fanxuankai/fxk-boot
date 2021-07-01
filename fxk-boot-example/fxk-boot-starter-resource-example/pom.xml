@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>
-            "<artifactId>fxk-boot-starter-resource</artifactId>
+            <artifactId>fxk-boot-starter-resource</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>

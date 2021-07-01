@@ -327,7 +327,7 @@
             </dependency>
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
-                "<artifactId>fxk-boot-starter-resource</artifactId>
+                <artifactId>fxk-boot-starter-resource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -343,6 +343,21 @@
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-oauth2-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-authorization</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-resource</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

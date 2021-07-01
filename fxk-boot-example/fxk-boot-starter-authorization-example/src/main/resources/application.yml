@@ -18,3 +18,6 @@ security:
         key-alias: mytest
         key-password: mypass
         key-store-password: mypass
+fxk:
+  oauth2:
+    token-store-type: redis

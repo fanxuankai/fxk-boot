@@ -15,5 +15,6 @@
     <modules>
         <module>fxk-boot-starter-authorization</module>
         <module>fxk-boot-starter-resource</module>
+        <module>fxk-boot-oauth2-core</module>
     </modules>
 </project>

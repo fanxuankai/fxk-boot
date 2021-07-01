@@ -5,12 +5,10 @@ import com.fanxuankai.boot.mqbroker.xxl.MqConsumerHelper;
 import com.fanxuankai.canal.mq.core.listener.ConsumerHelper;
 import com.xxl.mq.client.consumer.IMqConsumer;
 import com.xxl.mq.client.consumer.MqConsumerRegistry;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author fanxuankai
  */
-@Configuration
 public class CanalMqBrokerXxlAutoConfiguration {
     public CanalMqBrokerXxlAutoConfiguration(ConsumerHelper consumerHelper) {
         consumerHelper.accept((definition, s) -> {

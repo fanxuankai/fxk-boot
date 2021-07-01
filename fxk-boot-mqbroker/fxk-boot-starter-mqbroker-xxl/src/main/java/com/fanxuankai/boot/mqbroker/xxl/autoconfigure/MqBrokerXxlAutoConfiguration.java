@@ -11,14 +11,12 @@ import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.producer.XxlMqProducer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Optional;
 
 /**
  * @author fanxuankai
  */
-@Configuration
 public class MqBrokerXxlAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(MqProducer.class)

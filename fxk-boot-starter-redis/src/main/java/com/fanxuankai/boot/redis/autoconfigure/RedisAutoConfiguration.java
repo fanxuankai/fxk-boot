@@ -1,17 +1,14 @@
 package com.fanxuankai.boot.redis.autoconfigure;
 
+import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.fanxuankai.boot.redis.DefaultTypingRedisTemplate;
 import com.fanxuankai.boot.redis.RedisUtils;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fanxuankai.boot.redis.serializer.FastJson2JsonRedisSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
@@ -24,17 +21,10 @@ public class RedisAutoConfiguration {
     @Bean
     public DefaultTypingRedisTemplate defaultTypingRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         DefaultTypingRedisTemplate redisTemplate = new DefaultTypingRedisTemplate();
-        Jackson2JsonRedisSerializer<?> json = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // JSON 字符串包含类型信息,类信息作为一个属性
-        om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY);
-        RedisSerializer<String> string = RedisSerializer.string();
-        json.setObjectMapper(om);
+        GenericFastJsonRedisSerializer json = new GenericFastJsonRedisSerializer();
         // key 和 hashKey 使用字符串序列化
-        redisTemplate.setKeySerializer(string);
-        redisTemplate.setHashKeySerializer(string);
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
         // value 和 hashValue 使用 JSON 序列化
         redisTemplate.setValueSerializer(json);
         redisTemplate.setHashValueSerializer(json);
@@ -47,14 +37,9 @@ public class RedisAutoConfiguration {
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-        Jackson2JsonRedisSerializer<?> json = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.deactivateDefaultTyping();
-        json.setObjectMapper(om);
-        RedisSerializer<String> string = RedisSerializer.string();
-        redisTemplate.setKeySerializer(string);
-        redisTemplate.setHashKeySerializer(string);
+        RedisSerializer<Object> json = new FastJson2JsonRedisSerializer<>();
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
         redisTemplate.setValueSerializer(json);
         redisTemplate.setHashValueSerializer(json);
         redisTemplate.setConnectionFactory(redisConnectionFactory);

@@ -21,7 +21,7 @@ public class RedisAutoConfiguration {
     @Bean
     public DefaultTypingRedisTemplate defaultTypingRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         DefaultTypingRedisTemplate redisTemplate = new DefaultTypingRedisTemplate();
-        GenericFastJsonRedisSerializer json = new GenericFastJsonRedisSerializer();
+        RedisSerializer<Object> json = new GenericFastJsonRedisSerializer();
         // key 和 hashKey 使用字符串序列化
         redisTemplate.setKeySerializer(RedisSerializer.string());
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
@@ -37,7 +37,7 @@ public class RedisAutoConfiguration {
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-        RedisSerializer<Object> json = new FastJson2JsonRedisSerializer<>();
+        RedisSerializer<Object> json = new FastJson2JsonRedisSerializer();
         redisTemplate.setKeySerializer(RedisSerializer.string());
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
         redisTemplate.setValueSerializer(json);

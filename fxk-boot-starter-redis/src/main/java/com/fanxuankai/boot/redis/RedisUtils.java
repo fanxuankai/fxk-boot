@@ -9,8 +9,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Redis 工具类，支持类型自动转换，Json 字符串会写入类型字段
- * 默认的 RedisTemplate 不支持自动类型转换，使用时请不要混合使用
+ * Redis 工具类
  *
  * @author fanxuankai
  */

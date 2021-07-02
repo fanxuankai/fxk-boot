@@ -24,6 +24,6 @@ public class RedissonExceptionAdvice {
     @ExceptionHandler({RedisException.class})
     public Result<Void> redisExceptionHandler(RedisException e) {
         LOGGER.error("Redis 异常", e);
-        return ResultUtils.fail("Redis 网络异常或者超时");
+        return ResultUtils.fail("Redis 网络异常");
     }
 }

@@ -67,4 +67,6 @@ fxk:
     list-exclude-columns: deleted
     # 父类字段
     inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
+    # 要生成的类文件
+    files-to-create:
 ```

@@ -39,16 +39,18 @@ public class NormalExceptionAdvice {
      */
     @ExceptionHandler({BizException.class})
     public Result<Void> bizExceptionHandler(BizException e) {
+        LOGGER.error("业务异常", e);
         return ResultUtils.newResult(e.getStatus());
     }
 
     /**
-     * 分布式锁异常
+     * 分布式锁获取失败
      *
      * @return Result
      */
     @ExceptionHandler({LockException.class})
-    public Result<Void> lockExceptionHandler() {
+    public Result<Void> lockExceptionHandler(LockException e) {
+        LOGGER.error("分布式锁获取失败", e);
         return ResultUtils.fail(HttpStatus.LOCKED.value(), "当前资源被锁定，请稍后重试");
     }
 
@@ -60,6 +62,7 @@ public class NormalExceptionAdvice {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public Result<Void> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e) {
+        LOGGER.error("请求方法异常", e);
         return ResultUtils.fail(HttpStatus.METHOD_NOT_ALLOWED.value(), "不支持的方法：" + e.getMethod());
     }
 
@@ -71,6 +74,7 @@ public class NormalExceptionAdvice {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public Result<Void> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        LOGGER.error("请求方法异常", e);
         return bindResultHandler(e.getBindingResult());
     }
 
@@ -82,6 +86,7 @@ public class NormalExceptionAdvice {
      */
     @ExceptionHandler({BindException.class})
     public Result<Void> bindExceptionHandler(BindException e) {
+        LOGGER.error("hibernate valid 异常", e);
         return bindResultHandler(e);
     }
 
@@ -105,13 +110,14 @@ public class NormalExceptionAdvice {
     }
 
     /**
-     * 其它异常
+     * 参数类型不匹配
      *
      * @param e 异常
      * @return 响应体
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public Result<Void> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
+        LOGGER.error("参数类型不匹配", e);
         return ResultUtils.fail(BAD_REQUEST.value(), "参数类型不匹配: " + e.getPropertyName());
     }
 

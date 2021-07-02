@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 用户 查询条件
  *
- * @author fanxuankai
+ * @author admin
  */
 @Data
 @Accessors(chain = true)
@@ -84,9 +84,9 @@ public class UserQueryCriteria {
      * 创建时间 EQ
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
-    @Query(field = "createDate", type = Query.Type.EQ)
+    @Query(field = "gmtCreate", type = Query.Type.EQ)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp createDateEq;
+    private Date gmtCreateEq;
     /**
      * 修改人 EQ
      */
@@ -96,9 +96,9 @@ public class UserQueryCriteria {
      * 修改时间 EQ
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
-    @Query(field = "lastModifiedDate", type = Query.Type.EQ)
+    @Query(field = "gmtModified", type = Query.Type.EQ)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp lastModifiedDateEq;
+    private Date gmtModifiedEq;
     /**
      * 是否删除 枚举: yesOrNo EQ
      */

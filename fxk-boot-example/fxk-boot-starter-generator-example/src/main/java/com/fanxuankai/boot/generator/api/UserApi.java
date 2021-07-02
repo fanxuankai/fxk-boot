@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 用户 API
  *
- * @author fanxuankai
+ * @author admin
  */
 @FeignClient("user-service")
 public interface UserApi {

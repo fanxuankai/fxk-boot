@@ -1,7 +1,7 @@
 ---
 tableName: "t_user"
 comment: "用户"
-author: "fanxuankai"
+author: "admin"
 prefix: "t_"
 projectDir: "/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/fxk-boot-starter-generator-example"
 apiPath: ""
@@ -9,7 +9,7 @@ webPath: ""
 serviceName: "user-service"
 packageName: "com.fanxuankai.boot.generator"
 cover: true
-templates: []
+filesToCreate: []
 columnInfos:
 - columnName: "id"
   columnType: "bigint"
@@ -167,7 +167,7 @@ columnInfos:
   fill: "INSERT"
   formShow: false
   listShow: true
-- columnName: "create_date"
+- columnName: "gmt_create"
   columnType: "datetime"
   fieldName: null
   primaryKey: false
@@ -191,7 +191,7 @@ columnInfos:
   fill: "UPDATE"
   formShow: false
   listShow: true
-- columnName: "last_modified_date"
+- columnName: "gmt_modified"
   columnType: "datetime"
   fieldName: null
   primaryKey: false

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * 用户 数据访问实现类
  *
- * @author fanxuankai
+ * @author admin
  */
 @Service
 public class UserDaoImpl extends ServiceImpl<UserMapper, User> implements UserDao {

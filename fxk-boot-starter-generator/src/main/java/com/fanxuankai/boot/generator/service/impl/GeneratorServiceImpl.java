@@ -99,7 +99,6 @@ public class GeneratorServiceImpl implements GeneratorService, ApplicationContex
     public void initConfig(String tableName) {
         GenConfig genConfig = query(tableName);
         BeanUtil.copyProperties(properties, genConfig);
-        genConfig.setTemplates(Collections.emptySet());
         File file = getConfigPath(tableName);
         FileUtil.touch(file);
         try {
@@ -133,8 +132,8 @@ public class GeneratorServiceImpl implements GeneratorService, ApplicationContex
             if (templateFileAnnotation == null) {
                 continue;
             }
-            if (!genConfig.getTemplates().isEmpty()
-                    && !genConfig.getTemplates().contains(templateFileAnnotation.value().getName())) {
+            if (!genConfig.getFilesToCreate().isEmpty()
+                    && !genConfig.getFilesToCreate().contains(templateFileAnnotation.value())) {
                 continue;
             }
             try {

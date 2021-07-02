@@ -1,9 +1,10 @@
 package com.fanxuankai.boot.generator.model;
 
+import com.fanxuankai.boot.generator.strategy.enums.TemplateFile;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 代码生成配置
@@ -11,7 +12,6 @@ import java.util.Set;
  * @author fanxuankai
  */
 public class GenConfig implements Serializable {
-
     /**
      * 表名
      */
@@ -63,9 +63,9 @@ public class GenConfig implements Serializable {
     private boolean cover;
 
     /**
-     * 需要生成代码的模板
+     * 要生成的类文件
      */
-    private Set<String> templates = Collections.emptySet();
+    private List<TemplateFile> filesToCreate = Collections.emptyList();
 
     /**
      * 列配置
@@ -152,12 +152,12 @@ public class GenConfig implements Serializable {
         this.cover = cover;
     }
 
-    public Set<String> getTemplates() {
-        return templates;
+    public List<TemplateFile> getFilesToCreate() {
+        return filesToCreate;
     }
 
-    public void setTemplates(Set<String> templates) {
-        this.templates = templates;
+    public void setFilesToCreate(List<TemplateFile> filesToCreate) {
+        this.filesToCreate = filesToCreate;
     }
 
     public List<ColumnInfo> getColumnInfos() {

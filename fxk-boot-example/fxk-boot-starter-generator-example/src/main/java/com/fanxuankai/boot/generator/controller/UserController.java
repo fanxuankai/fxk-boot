@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户 管理
  *
- * @author fanxuankai
+ * @author admin
  */
 @RestController
 @RequestMapping("/user")

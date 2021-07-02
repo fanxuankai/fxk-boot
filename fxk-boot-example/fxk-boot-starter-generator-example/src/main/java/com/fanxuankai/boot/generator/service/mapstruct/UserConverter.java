@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * 用户 MapStruct 对象转换接口
  *
- * @author fanxuankai
+ * @author admin
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserConverter extends Converter<User, UserDTO, UserVO> {

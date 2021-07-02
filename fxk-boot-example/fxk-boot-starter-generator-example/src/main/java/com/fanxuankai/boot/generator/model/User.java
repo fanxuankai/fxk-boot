@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 /**
  * 用户 实体类
  *
- * @author fanxuankai
+ * @author admin
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

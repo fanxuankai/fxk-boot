@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * 用户 服务实现类
  *
- * @author fanxuankai
+ * @author admin
  */
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserConverter, UserDao> implements UserService {
@@ -41,9 +41,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, User
             map.put("关联物料 code", user.getRelationCode());
             map.put("关联物料名称", user.getRelationName());
             map.put("创建人", user.getCreateUserId());
-            map.put("创建时间", user.getCreateDate());
+            map.put("创建时间", user.getGmtCreate());
             map.put("修改人", user.getModifiedUserId());
-            map.put("修改时间", user.getLastModifiedDate());
+            map.put("修改时间", user.getGmtModified());
             list.add(map);
         }
         ExcelDownloadUtils.downloadExcel(list, response);

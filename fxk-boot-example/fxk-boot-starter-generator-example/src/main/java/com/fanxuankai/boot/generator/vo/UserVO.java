@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 用户 视图对象
  *
- * @author fanxuankai
+ * @author admin
  */
 @Data
 @Accessors(chain = true)
@@ -74,7 +74,7 @@ public class UserVO implements Serializable {
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp createDate;
+    private Date gmtCreate;
     /**
      * 修改人
      */
@@ -84,5 +84,5 @@ public class UserVO implements Serializable {
      * 修改时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp lastModifiedDate;
+    private Date gmtModified;
 }

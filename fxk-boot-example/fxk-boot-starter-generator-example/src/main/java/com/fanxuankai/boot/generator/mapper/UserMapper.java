@@ -6,7 +6,7 @@ import com.fanxuankai.boot.generator.model.User;
 /**
  * 用户 Mapper 接口
  *
- * @author fanxuankai
+ * @author admin
  */
 public interface UserMapper extends BaseMapper<User> {
 }

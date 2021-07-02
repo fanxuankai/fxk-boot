@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 用户 数据传输对象
  *
- * @author fanxuankai
+ * @author admin
  */
 @Data
 @Accessors(chain = true)

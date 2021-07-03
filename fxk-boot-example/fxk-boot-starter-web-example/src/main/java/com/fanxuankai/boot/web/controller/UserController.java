@@ -11,6 +11,7 @@ import com.fanxuankai.commons.util.ResultUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,17 +38,33 @@ public class UserController {
      * 测试嵌套异常全局处理
      */
     @GetMapping("testException")
-    public void testException() {
+    public Result<Void> testException() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             Future<?> submit = executorService.submit(() -> {
                 if (RandomUtil.randomInt() % 2 == 0) {
-                    throw new BizException("测试异常嵌套");
+                    throw new BizException("测试线程异常");
                 }
             });
             System.out.println(submit.get());
         } catch (Exception e) {
             throw new BizException(e.getMessage());
         }
+        return ResultUtils.ok();
+    }
+
+    /**
+     * 测试嵌套异常全局处理
+     */
+    @GetMapping("test14")
+    public Result<Void> test14() throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<?> submit = executorService.submit(() -> {
+            if (RandomUtil.randomInt() % 2 == 0) {
+                throw new BizException("测试线程异常");
+            }
+        });
+        submit.get();
+        return ResultUtils.ok();
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -27,11 +28,9 @@ import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.util.Objects;
 
 /**
  * 认证服务器配置
@@ -40,6 +39,12 @@ import java.util.Objects;
  */
 @Import({LogoutEndpoint.class})
 public class AuthorizationServerAutoConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Configuration
     @Conditional({JdbcCondition.class})
     public static class JdbcTokenServiceConfiguration {
@@ -118,23 +123,13 @@ public class AuthorizationServerAutoConfiguration {
     protected static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Resource
         private UserDetailsService userDetailsService;
+        @Resource
+        private PasswordEncoder passwordEncoder;
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             // 校验用户
-            auth.userDetailsService(userDetailsService).passwordEncoder(new PasswordEncoder() {
-                // 对密码进行加密
-                @Override
-                public String encode(CharSequence charSequence) {
-                    return DigestUtils.md5DigestAsHex(charSequence.toString().getBytes());
-                }
-
-                // 对密码进行判断匹配
-                @Override
-                public boolean matches(CharSequence charSequence, String s) {
-                    return Objects.equals(DigestUtils.md5DigestAsHex(charSequence.toString().getBytes()), s);
-                }
-            });
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
 
         @Override
@@ -150,24 +145,6 @@ public class AuthorizationServerAutoConfiguration {
                     .antMatchers("/oauth/**", "/login", "/logout", "/login-error").permitAll()
                     .and()
                     .formLogin();
-        }
-
-        @Bean
-        @ConditionalOnMissingBean
-        public PasswordEncoder passwordEncoder() {
-            return new PasswordEncoder() {
-                // 对密码进行加密
-                @Override
-                public String encode(CharSequence charSequence) {
-                    return charSequence.toString();
-                }
-
-                // 对密码进行判断匹配
-                @Override
-                public boolean matches(CharSequence charSequence, String s) {
-                    return Objects.equals(charSequence, s);
-                }
-            };
         }
     }
 }

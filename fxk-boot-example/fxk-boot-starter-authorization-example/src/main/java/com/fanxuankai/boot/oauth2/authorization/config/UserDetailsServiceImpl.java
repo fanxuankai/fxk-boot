@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     static {
         // 这里是演示，正式应该从库里查
         USERS = ListUtil.toList(User.withUsername("admin")
-                .password("e10adc3949ba59abbe56e057f20f883e")
+                .password("$2a$10$dmBN2ZC0MEtb1rIarY.aO.OAE0jReVw0yu04FmQ1iw5Km.p6HTz8y")
                 .authorities("user")
                 .build())
                 .stream()

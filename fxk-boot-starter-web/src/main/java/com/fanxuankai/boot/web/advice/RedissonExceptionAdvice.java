@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  *
  * @author fanxuankai
  */
-public class RedissonExceptionAdvice {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NormalExceptionAdvice.class);
+public class RedissonExceptionAdvice extends NormalExceptionAdvice {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedissonExceptionAdvice.class);
 
     /**
      * Redis 异常

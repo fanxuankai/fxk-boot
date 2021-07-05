@@ -8,6 +8,7 @@ import com.fanxuankai.commons.exception.BizException;
 import com.fanxuankai.commons.exception.LockException;
 import com.fanxuankai.commons.util.IdUtils;
 import com.fanxuankai.commons.util.ResultUtils;
+import org.redisson.client.RedisException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,19 +38,30 @@ public class UserController {
     /**
      * 测试嵌套异常全局处理
      */
-    @GetMapping("testException")
-    public Result<Void> testException() {
+    @GetMapping("testBizException")
+    public Result<Void> testBizException() throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        try {
-            Future<?> submit = executorService.submit(() -> {
-                if (RandomUtil.randomInt() % 2 == 0) {
-                    throw new BizException("测试线程异常");
-                }
-            });
-            System.out.println(submit.get());
-        } catch (Exception e) {
-            throw new BizException(e.getMessage());
-        }
+        Future<?> submit = executorService.submit(() -> {
+            if (RandomUtil.randomInt() % 2 == 0) {
+                throw new BizException("测试线程异常");
+            }
+        });
+        System.out.println(submit.get());
+        return ResultUtils.ok();
+    }
+
+    /**
+     * 测试嵌套异常全局处理
+     */
+    @GetMapping("testRedisException")
+    public Result<Void> testRedisException() throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<?> submit = executorService.submit(() -> {
+            if (RandomUtil.randomInt() % 2 == 0) {
+                throw new RedisException("测试线程异常");
+            }
+        });
+        System.out.println(submit.get());
         return ResultUtils.ok();
     }
 

@@ -17,10 +17,6 @@ public class WebProperties {
      * null 转 empty
      */
     private boolean nullToEmpty = true;
-    /**
-     * 开启全局异常处理
-     */
-    private boolean enableExceptionAdvice = true;
 
     public boolean isLongToString() {
         return longToString;
@@ -36,13 +32,5 @@ public class WebProperties {
 
     public void setNullToEmpty(boolean nullToEmpty) {
         this.nullToEmpty = nullToEmpty;
-    }
-
-    public boolean isEnableExceptionAdvice() {
-        return enableExceptionAdvice;
-    }
-
-    public void setEnableExceptionAdvice(boolean enableExceptionAdvice) {
-        this.enableExceptionAdvice = enableExceptionAdvice;
     }
 }

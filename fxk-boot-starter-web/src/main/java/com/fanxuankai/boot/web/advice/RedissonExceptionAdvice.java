@@ -5,13 +5,19 @@ import com.fanxuankai.commons.util.ResultUtils;
 import org.redisson.client.RedisException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Redisson 异常处理
  *
  * @author fanxuankai
  */
+@Order(1000)
+@RestControllerAdvice
+@ConditionalOnClass({RedisException.class})
 public class RedissonExceptionAdvice extends NormalExceptionAdvice {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedissonExceptionAdvice.class);
 

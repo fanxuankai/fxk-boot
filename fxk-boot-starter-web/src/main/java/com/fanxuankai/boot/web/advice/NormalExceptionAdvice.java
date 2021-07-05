@@ -7,14 +7,18 @@ import com.fanxuankai.commons.exception.LockException;
 import com.fanxuankai.commons.util.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 常用异常处理
+ * 常用异常处理，多个 advice 的情况下，该 advice 优先级最低
  *
  * @author fanxuankai
  */
+@Order
+@RestControllerAdvice
 public class NormalExceptionAdvice extends BaseExceptionAdvice {
     private static final Logger LOGGER = LoggerFactory.getLogger(NormalExceptionAdvice.class);
 

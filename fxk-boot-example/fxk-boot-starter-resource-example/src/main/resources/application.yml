@@ -19,3 +19,15 @@ fxk:
     token-store-type: redis
     resource:
       id: order
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露端点`/actuator/prometheus`
+        include: prometheus,info,health
+  metrics:
+    tags:
+      application: ${spring.application.name}
+spring:
+  application:
+    name: resource-service

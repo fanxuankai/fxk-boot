@@ -69,8 +69,8 @@ public class ResourceServerAutoConfiguration {
         public void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                     .authorizeRequests()
-                    .anyRequest()
-                    .authenticated()
+                    .antMatchers("/actuator/**").permitAll()
+                    .anyRequest().authenticated()
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
@@ -91,8 +91,8 @@ public class ResourceServerAutoConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                     .authorizeRequests()
-                    .anyRequest()
-                    .authenticated();
+                    .antMatchers("/actuator/**").permitAll()
+                    .anyRequest().authenticated();
         }
     }
 }

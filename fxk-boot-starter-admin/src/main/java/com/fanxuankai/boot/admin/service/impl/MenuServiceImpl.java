@@ -2,6 +2,7 @@ package com.fanxuankai.boot.admin.service.impl;
 
 import com.fanxuankai.boot.admin.dao.MenuDao;
 import com.fanxuankai.boot.admin.dto.MenuDTO;
+import com.fanxuankai.boot.admin.dto.MenuQueryCriteria;
 import com.fanxuankai.boot.admin.model.Menu;
 import com.fanxuankai.boot.admin.service.MenuService;
 import com.fanxuankai.boot.admin.service.mapstruct.MenuConverter;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @author fanxuankai
  */
 @Service
-public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, MenuVO, MenuConverter, MenuDao>
+public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, MenuVO, MenuQueryCriteria, MenuConverter, MenuDao>
         implements MenuService {
     @Override
     public void download(List<MenuVO> all, HttpServletResponse response) throws IOException {

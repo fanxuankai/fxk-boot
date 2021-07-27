@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.admin.service;
 
 import com.fanxuankai.boot.admin.dto.UserDTO;
+import com.fanxuankai.boot.admin.dto.UserQueryCriteria;
 import com.fanxuankai.boot.admin.vo.UserVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 
@@ -9,5 +10,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  *
  * @author fanxuankai
  */
-public interface UserService extends BaseService<UserDTO, UserVO> {
+public interface UserService extends BaseService<UserDTO, UserVO, UserQueryCriteria> {
 }

@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.admin.dao;
 
+import com.fanxuankai.boot.admin.dto.RoleQueryCriteria;
 import com.fanxuankai.boot.admin.model.Role;
 import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
 
@@ -8,5 +9,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
  *
  * @author fanxuankai
  */
-public interface RoleDao extends BaseDao<Role> {
+public interface RoleDao extends BaseDao<Role, RoleQueryCriteria> {
 }

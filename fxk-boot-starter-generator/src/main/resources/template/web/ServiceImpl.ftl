@@ -2,6 +2,7 @@ package ${packageName}.service.impl;
 
 import ${packageName}.dao.${className}Dao;
 import ${packageName}.dto.${className}DTO;
+import ${packageName}.dto.${className}QueryCriteria;
 import ${packageName}.model.${className};
 import ${packageName}.service.${className}Service;
 import ${packageName}.service.mapstruct.${className}Converter;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @author ${author}
  */
 @Service
-public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${className}DTO, ${className}VO, ${className}Converter, ${className}Dao> implements ${className}Service {
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}, ${className}DTO, ${className}VO, ${className}QueryCriteria, ${className}Converter, ${className}Dao> implements ${className}Service {
     @Override
     public void download(List<${className}VO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

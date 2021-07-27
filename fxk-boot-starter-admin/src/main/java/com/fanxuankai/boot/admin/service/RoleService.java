@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.admin.service;
 
 import com.fanxuankai.boot.admin.dto.RoleDTO;
+import com.fanxuankai.boot.admin.dto.RoleQueryCriteria;
 import com.fanxuankai.boot.admin.vo.RoleVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 
@@ -9,5 +10,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  *
  * @author fanxuankai
  */
-public interface RoleService extends BaseService<RoleDTO, RoleVO> {
+public interface RoleService extends BaseService<RoleDTO, RoleVO, RoleQueryCriteria> {
 }

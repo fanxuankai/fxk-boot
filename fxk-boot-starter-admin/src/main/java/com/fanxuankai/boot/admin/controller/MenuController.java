@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.admin.controller;
 
 import com.fanxuankai.boot.admin.dto.MenuDTO;
+import com.fanxuankai.boot.admin.dto.MenuQueryCriteria;
 import com.fanxuankai.boot.admin.service.MenuService;
 import com.fanxuankai.boot.admin.vo.MenuVO;
 import com.fanxuankai.commons.extra.spring.base.BaseController;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/menu")
-public class MenuController extends BaseController<MenuDTO, MenuVO, MenuService> {
+public class MenuController extends BaseController<MenuDTO, MenuVO, MenuQueryCriteria, MenuService> {
 }

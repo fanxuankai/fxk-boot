@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.admin.dao;
 
+import com.fanxuankai.boot.admin.dto.UserQueryCriteria;
 import com.fanxuankai.boot.admin.model.User;
 import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
 
@@ -8,5 +9,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
  *
  * @author fanxuankai
  */
-public interface UserDao extends BaseDao<User> {
+public interface UserDao extends BaseDao<User, UserQueryCriteria> {
 }

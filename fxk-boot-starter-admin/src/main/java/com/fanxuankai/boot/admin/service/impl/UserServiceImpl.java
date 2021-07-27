@@ -6,6 +6,7 @@ import cn.hutool.crypto.asymmetric.RSA;
 import com.fanxuankai.boot.admin.autoconfigure.AdminProperties;
 import com.fanxuankai.boot.admin.dao.UserDao;
 import com.fanxuankai.boot.admin.dto.UserDTO;
+import com.fanxuankai.boot.admin.dto.UserQueryCriteria;
 import com.fanxuankai.boot.admin.model.User;
 import com.fanxuankai.boot.admin.service.UserService;
 import com.fanxuankai.boot.admin.service.mapstruct.UserConverter;
@@ -27,7 +28,7 @@ import java.util.Map;
  *
  * @author fanxuankai
  */
-public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserConverter, UserDao>
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserQueryCriteria, UserConverter, UserDao>
         implements UserService {
     @Resource
     private AdminProperties properties;

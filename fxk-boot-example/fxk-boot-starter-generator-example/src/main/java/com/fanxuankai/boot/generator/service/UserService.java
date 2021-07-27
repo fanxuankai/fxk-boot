@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.generator.service;
 
 import com.fanxuankai.boot.generator.dto.UserDTO;
+import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
 import com.fanxuankai.boot.generator.vo.UserVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 
@@ -9,5 +10,5 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseService;
  *
  * @author admin
  */
-public interface UserService extends BaseService<UserDTO, UserVO> {
+public interface UserService extends BaseService<UserDTO, UserVO, UserQueryCriteria> {
 }

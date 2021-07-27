@@ -4,6 +4,7 @@ package ${packageName}.dao;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 </#if>
 import ${packageName}.model.${className};
+import ${packageName}.dto.${className}QueryCriteria;
 import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
 
 /**
@@ -11,7 +12,7 @@ import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
  *
  * @author ${author}
  */
-public interface ${className}Dao extends BaseDao<${className}> {
+public interface ${className}Dao extends BaseDao<${className}, ${className}QueryCriteria> {
 <#if columns??>
     <#list columns as column>
         <#if column.unique>

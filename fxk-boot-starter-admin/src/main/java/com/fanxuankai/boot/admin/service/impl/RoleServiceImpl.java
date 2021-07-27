@@ -2,6 +2,7 @@ package com.fanxuankai.boot.admin.service.impl;
 
 import com.fanxuankai.boot.admin.dao.RoleDao;
 import com.fanxuankai.boot.admin.dto.RoleDTO;
+import com.fanxuankai.boot.admin.dto.RoleQueryCriteria;
 import com.fanxuankai.boot.admin.model.Role;
 import com.fanxuankai.boot.admin.service.RoleService;
 import com.fanxuankai.boot.admin.service.mapstruct.RoleConverter;
@@ -23,7 +24,8 @@ import java.util.Map;
  * @author fanxuankai
  */
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<Role, RoleDTO, RoleVO, RoleConverter, RoleDao> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<Role, RoleDTO, RoleVO, RoleQueryCriteria, RoleConverter,
+        RoleDao> implements RoleService {
     @Override
     public void download(List<RoleVO> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

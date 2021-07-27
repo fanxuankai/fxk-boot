@@ -22,6 +22,8 @@ cd ../fxk-boot-starter-log
 mvn clean deploy
 cd ../fxk-boot-starter-springfox
 mvn clean deploy
+cd ../fxk-boot-starter-web
+mvn clean deploy
 cd ../fxk-boot-starter-websocket
 mvn clean deploy
 cd ../fxk-boot-starter-xxl-mq

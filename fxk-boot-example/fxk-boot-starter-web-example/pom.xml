@@ -9,6 +9,8 @@
         <version>2.2.7.2-SNAPSHOT</version>
     </parent>
     <artifactId>fxk-boot-starter-web-example</artifactId>
+    <name>FXK Boot Starter Web Example</name>
+    <description>FXK Boot Starter Web Example</description>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>

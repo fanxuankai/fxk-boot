@@ -27,6 +27,7 @@
         <module>fxk-boot-starter-log-example</module>
         <module>fxk-boot-starter-web-example</module>
         <module>fxk-boot-starter-redis-example</module>
+        <module>fxk-boot-starter-mybatis-plus-example</module>
     </modules>
     <dependencies>
         <dependency>
@@ -40,6 +41,10 @@
         <dependency>
             <groupId>com.github.jsonzou</groupId>
             <artifactId>jmockdata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai</groupId>
+            <artifactId>commons</artifactId>
         </dependency>
     </dependencies>
     <build>

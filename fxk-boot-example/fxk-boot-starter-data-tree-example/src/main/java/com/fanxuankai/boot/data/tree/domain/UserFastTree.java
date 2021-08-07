@@ -1,17 +1,17 @@
 package com.fanxuankai.boot.data.tree.domain;
 
-import com.fanxuankai.commons.extra.mybatis.tree.NestedSets;
+import com.fanxuankai.commons.extra.mybatis.tree.FastTree;
 
 /**
  * @author fanxuankai
  */
-public class UserNestedSets implements NestedSets.Entity {
+public class UserFastTree implements FastTree.Entity {
     private Long id;
+    private Long pid;
     private String code;
     private String name;
-    private Long pid;
-    private Long lft;
-    private Long rgt;
+    private Integer level;
+    private Long treeId;
 
     @Override
     public Long getId() {
@@ -21,6 +21,16 @@ public class UserNestedSets implements NestedSets.Entity {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Long getPid() {
+        return pid;
+    }
+
+    @Override
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     public String getCode() {
@@ -40,32 +50,22 @@ public class UserNestedSets implements NestedSets.Entity {
     }
 
     @Override
-    public Long getPid() {
-        return pid;
+    public Integer getLevel() {
+        return level;
     }
 
     @Override
-    public void setPid(Long pid) {
-        this.pid = pid;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     @Override
-    public Long getLft() {
-        return lft;
+    public Long getTreeId() {
+        return treeId;
     }
 
     @Override
-    public void setLft(Long lft) {
-        this.lft = lft;
-    }
-
-    @Override
-    public Long getRgt() {
-        return rgt;
-    }
-
-    @Override
-    public void setRgt(Long rgt) {
-        this.rgt = rgt;
+    public void setTreeId(Long treeId) {
+        this.treeId = treeId;
     }
 }

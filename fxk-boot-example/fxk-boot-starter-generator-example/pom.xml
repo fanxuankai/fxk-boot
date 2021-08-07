@@ -11,10 +11,6 @@
     <artifactId>fxk-boot-starter-generator-example</artifactId>
     <name>FXK Boot Starter Generator Example</name>
     <description>FXK Boot Starter Generator Example</description>
-    <properties>
-        <maven.install.skip>true</maven.install.skip>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.fanxuankai.boot</groupId>

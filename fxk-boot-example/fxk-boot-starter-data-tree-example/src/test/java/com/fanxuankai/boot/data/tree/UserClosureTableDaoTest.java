@@ -3,9 +3,9 @@ package com.fanxuankai.boot.data.tree;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.data.tree.dao.UserClosureTableDao;
 import com.fanxuankai.boot.data.tree.domain.UserClosureTable;
-import com.fanxuankai.commons.extra.mybatis.tree.TreeUtils;
 import com.fanxuankai.commons.util.IdUtils;
 import com.fanxuankai.commons.util.Node;
+import com.fanxuankai.commons.util.TreeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +41,7 @@ public class UserClosureTableDaoTest {
         node.setAncestor(rootId);
         node.setDescendant(rootId);
         node.setDistance(0);
-        dao.insertNode(node, null);
+        dao.saveNode(node);
         addChildren(rootId, 2, 2, 10);
     }
 
@@ -100,7 +100,7 @@ public class UserClosureTableDaoTest {
             node.setAncestor(id);
             node.setDescendant(_id);
             node.setDistance(level);
-            dao.insertNode(node, id);
+            dao.saveNode(node);
             addChildren(_id, c, level + 1, depth);
         }
     }

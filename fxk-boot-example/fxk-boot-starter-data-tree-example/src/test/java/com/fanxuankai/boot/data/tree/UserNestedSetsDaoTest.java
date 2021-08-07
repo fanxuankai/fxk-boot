@@ -4,9 +4,9 @@ import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.data.tree.dao.UserNestedSetsDao;
 import com.fanxuankai.boot.data.tree.domain.UserNestedSets;
-import com.fanxuankai.commons.extra.mybatis.tree.TreeUtils;
 import com.fanxuankai.commons.util.IdUtils;
 import com.fanxuankai.commons.util.Node;
+import com.fanxuankai.commons.util.TreeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +42,7 @@ public class UserNestedSetsDaoTest {
         node.setId(rootId);
         node.setCode(UUID.fastUUID().toString());
         node.setName("root");
-        dao.insertNode(node, null);
+        dao.saveNode(node);
         addChildren(node.getId(), 2, 2, 10);
     }
 
@@ -98,9 +98,10 @@ public class UserNestedSetsDaoTest {
                 _id = IdUtils.nextId();
             }
             node.setId(_id);
+            node.setPid(id);
             node.setCode(UUID.fastUUID().toString());
             node.setName(level + "代" + i);
-            dao.insertNode(node, id);
+            dao.saveNode(node);
             addChildren(node.getId(), c, level + 1, depth);
         }
     }

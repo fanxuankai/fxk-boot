@@ -28,6 +28,7 @@
         <module>fxk-boot-starter-web-example</module>
         <module>fxk-boot-starter-redis-example</module>
         <module>fxk-boot-starter-mybatis-plus-example</module>
+        <module>fxk-boot-starter-fluent-mybatis</module>
     </modules>
     <dependencies>
         <dependency>

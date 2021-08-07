@@ -16,6 +16,7 @@ public class UserAdjacencyList implements AdjacencyList.Entity {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -25,6 +26,7 @@ public class UserAdjacencyList implements AdjacencyList.Entity {
         return pid;
     }
 
+    @Override
     public void setPid(Long pid) {
         this.pid = pid;
     }

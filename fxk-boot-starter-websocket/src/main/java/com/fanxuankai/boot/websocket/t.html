@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Java 后端 WebSocket 的 Tomcat 实现</title>
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div id="main" style="width: 1200px;height:800px;"></div>
+Welcome<br/><input id="text" type="text"/>
+<button onclick="send()">发送消息</button>
+<hr/>
+<button onclick="closeWebSocket()">关闭WebSocket连接</button>
+<hr/>
+<div id="message"></div>
+</body>
+<script type="text/javascript">
+    var websocket = null;
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://localhost:8080/api/websocket/100");
+    } else {
+        alert('当前浏览器 Not support websocket')
+    }
+
+    //连接发生错误回调方法
+    websocket.onerror = function () {
+        setMessageInnerHTML("WebSocket连接发生错误");
+    };
+
+    //连接成功建立回调方法
+    websocket.onopen = function () {
+        setMessageInnerHTML("WebSocket连接成功");
+    }
+    var U01data, Uidata, Usdata
+    //接收消息回调方法
+    websocket.onmessage = function (event) {
+        console.log(event);
+        setMessageInnerHTML(event);
+        setechart()
+    }
+
+    //连接关闭回调方法
+    websocket.onclose = function () {
+        setMessageInnerHTML("WebSocket连接关闭");
+    }
+
+    //监听窗口关闭事件
+    window.onbeforeunload = function () {
+        closeWebSocket();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML) {
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+
+    //关闭WebSocket连接
+    function closeWebSocket() {
+        websocket.close();
+    }
+
+    //发送消息
+    function send() {
+        var message = document.getElementById('text').value;
+        websocket.send('{"msg":"' + message + '"}');
+        setMessageInnerHTML(message + "&#13;");
+    }
+</script>
+
+</html>

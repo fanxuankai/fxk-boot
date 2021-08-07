@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.mqbroker.task;
 
-import com.fanxuankai.boot.mqbroker.config.MqBrokerProperties;
+import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
@@ -30,6 +30,8 @@ public class TaskConfigurer implements SchedulingConfigurer {
     private MsgSendTask msgSendTask;
     @Resource
     private MsgReceiveTask msgReceiveTask;
+    @Resource
+    private EventListenerRegistry eventListenerRegistry;
 
     @Override
     public void configureTasks(@NonNull ScheduledTaskRegistrar scheduledTaskRegistrar) {
@@ -39,7 +41,7 @@ public class TaskConfigurer implements SchedulingConfigurer {
         scheduledTaskRegistrar.addTriggerTask(() -> msgSendService.publisherCallbackTimeout(),
                 triggerContext -> new PeriodicTrigger(mqBrokerProperties.getPublisherCallbackTimeout(),
                         TimeUnit.MILLISECONDS).nextExecutionTime(triggerContext));
-        if (!EventListenerRegistry.getAllListenerMetadata().isEmpty()) {
+        if (!eventListenerRegistry.getAllListenerMetadata().isEmpty()) {
             scheduledTaskRegistrar.addTriggerTask(msgReceiveTask, triggerContext ->
                     new PeriodicTrigger(mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
                             .nextExecutionTime(triggerContext));

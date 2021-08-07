@@ -7,5 +7,4 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @TableName("mq_broker_msg_send")
 public class MsgSend extends Msg {
-
 }

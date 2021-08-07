@@ -12,6 +12,10 @@ import java.util.List;
 @Component
 public class ManyEventDistributor extends AbstractEventDistributor {
 
+    public ManyEventDistributor(EventListenerRegistry eventListenerRegistry) {
+        super(eventListenerRegistry);
+    }
+
     @Override
     @SuppressWarnings("rawtypes unchecked")
     protected void onEvent(Event<?> event, List<EventListener<?>> eventListeners) {

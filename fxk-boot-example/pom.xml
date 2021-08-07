@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-parent</artifactId>
+        <version>2.2.7.2-SNAPSHOT</version>
+    </parent>
+    <artifactId>fxk-boot-example</artifactId>
+    <packaging>pom</packaging>
+    <name>FXK Boot Example</name>
+    <description>FXK Boot Example</description>
+    <properties>
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+    <modules>
+        <module>fxk-boot-starter-admin-example</module>
+        <module>fxk-boot-starter-data-tree-example</module>
+        <module>fxk-boot-starter-enum-example</module>
+        <module>fxk-boot-starter-generator-example</module>
+        <module>fxk-boot-starter-authorization-example</module>
+        <module>fxk-boot-starter-resource-example</module>
+        <module>fxk-boot-starter-distributed-lock-example</module>
+        <module>fxk-boot-starter-log-example</module>
+        <module>fxk-boot-starter-web-example</module>
+        <module>fxk-boot-starter-redis-example</module>
+        <module>fxk-boot-starter-mybatis-plus-example</module>
+        <module>fxk-boot-starter-fluent-mybatis</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsonzou</groupId>
+            <artifactId>jmockdata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>2.2.7.RELEASE</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

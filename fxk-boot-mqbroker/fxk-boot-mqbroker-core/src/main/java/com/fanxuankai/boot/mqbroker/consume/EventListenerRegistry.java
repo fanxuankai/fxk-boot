@@ -1,42 +1,84 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
-import com.fanxuankai.spring.util.GenericTypeUtils;
+import com.fanxuankai.commons.extra.spring.util.GenericTypeUtils;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 事件注册
  *
  * @author fanxuankai
  */
+@Component
 public class EventListenerRegistry {
+    private Set<ListenerMetadata> listenerMetadataSet;
+    private Map<ListenerMetadata, List<EventListener<?>>> eventListenerGrouped;
+    private Map<ListenerMetadata, Class<?>> dataType;
 
-    private static final Set<ListenerMetadata> LISTENER_METADATA_SET = new HashSet<>();
-    private static final Map<ListenerMetadata, List<EventListener<?>>> EVENT_LISTENERS = new HashMap<>();
-    private static final Map<ListenerMetadata, Class<?>> DATA_TYPE = new HashMap<>();
-
-    public static Set<ListenerMetadata> getAllListenerMetadata() {
-        return LISTENER_METADATA_SET;
+    public EventListenerRegistry(List<EventListenerContainer> containerList,
+                                 List<EventListener<?>> eventListenerList) {
+        init(containerList, eventListenerList);
     }
 
-    private static void registerEvent(ListenerMetadata listenerMetadata) {
-        LISTENER_METADATA_SET.add(listenerMetadata);
+    private void init(List<EventListenerContainer> containerList,
+                      List<EventListener<?>> eventListenerList) {
+        List<EventListenerBean> beanList = new ArrayList<>();
+        if (CollectionUtil.isNotEmpty(containerList)) {
+            containerList.stream()
+                    .map(EventListenerContainer::getListeners)
+                    .filter(CollectionUtil::isNotEmpty)
+                    .forEach(beanList::addAll);
+        }
+        if (CollectionUtil.isNotEmpty(eventListenerList)) {
+            for (EventListener<?> eventListener : eventListenerList) {
+                Listener listener = AnnotationUtils.findAnnotation(eventListener.getClass(), Listener.class);
+                assert listener != null;
+                String group = Optional.of(listener.group())
+                        .filter(StringUtils::hasText)
+                        .orElse(null);
+                ListenerMetadata listenerMetadata = new ListenerMetadata();
+                listenerMetadata.setGroup(group);
+                listenerMetadata.setTopic(listener.event());
+                listenerMetadata.setName(listener.name());
+                listenerMetadata.setWaitRateSeconds(listener.waitRateSeconds());
+                listenerMetadata.setWaitMaxSeconds(listener.waitMaxSeconds());
+                beanList.add(new EventListenerBean(listenerMetadata, eventListener));
+            }
+        }
+        eventListenerGrouped = beanList.stream()
+                .collect(Collectors.groupingBy(EventListenerBean::getListenerMetadata))
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, o -> o.getValue()
+                        .stream()
+                        .map(EventListenerBean::getEventListener)
+                        .collect(Collectors.toList())));
+        listenerMetadataSet = eventListenerGrouped.keySet();
+        dataType = new HashMap<>(eventListenerGrouped.size());
+        for (Map.Entry<ListenerMetadata, List<EventListener<?>>> entry :
+                eventListenerGrouped.entrySet()) {
+            for (EventListener<?> eventListener : entry.getValue()) {
+                dataType.put(entry.getKey(), GenericTypeUtils.getGenericType(eventListener.getClass(),
+                        EventListener.class, 0));
+            }
+        }
     }
 
-    public static <T> void addListener(ListenerMetadata listenerMetadata, EventListener<T> eventListener) {
-        registerEvent(listenerMetadata);
-        EVENT_LISTENERS.computeIfAbsent(listenerMetadata, s -> new ArrayList<>()).add(eventListener);
-        DATA_TYPE.put(listenerMetadata, GenericTypeUtils.getGenericType(eventListener.getClass(), EventListener.class,
-                0));
+    public Set<ListenerMetadata> getAllListenerMetadata() {
+        return listenerMetadataSet;
     }
 
-    public static List<EventListener<?>> getListeners(ListenerMetadata listenerMetadata) {
-        return EVENT_LISTENERS.get(listenerMetadata);
+    public List<EventListener<?>> getListeners(ListenerMetadata listenerMetadata) {
+        return eventListenerGrouped.get(listenerMetadata);
     }
 
-    public static Class<?> getDataType(ListenerMetadata listenerMetadata) {
-        return DATA_TYPE.get(listenerMetadata);
+    public Class<?> getDataType(ListenerMetadata listenerMetadata) {
+        return dataType.get(listenerMetadata);
     }
-
 }

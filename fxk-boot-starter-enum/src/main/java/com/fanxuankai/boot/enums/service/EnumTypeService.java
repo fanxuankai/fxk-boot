@@ -1,0 +1,82 @@
+package com.fanxuankai.boot.enums.service;
+
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.fanxuankai.boot.enums.domain.EnumType;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @author fanxuankai
+ */
+public interface EnumTypeService extends IService<EnumType> {
+
+    /**
+     * 查枚举类型
+     *
+     * @param name 枚举类名
+     * @return 枚举类型
+     */
+    default EnumType get(String name) {
+        return getOne(new QueryWrapper<EnumType>().lambda().eq(EnumType::getName, name));
+    }
+
+    /**
+     * 批量查枚举类型
+     *
+     * @param names 枚举类名
+     * @return 枚举类型
+     */
+    default List<EnumType> list(List<String> names) {
+        return list(new QueryWrapper<EnumType>().lambda().in(EnumType::getName, names));
+    }
+
+    /**
+     * 新增枚举类型
+     *
+     * @param enumType 枚举类型
+     */
+    default void add(EnumType enumType) {
+        EnumType entity = new EnumType();
+        entity.setName(enumType.getName());
+        entity.setDescription(enumType.getDescription());
+        save(entity);
+    }
+
+    /**
+     * 批量新增枚举类型
+     *
+     * @param enumTypes 枚举类型
+     */
+    default void batchAdd(List<EnumType> enumTypes) {
+        if (CollectionUtils.isEmpty(enumTypes)) {
+            return;
+        }
+        saveBatch(enumTypes.stream().map(enumType ->
+                BeanUtil.copyProperties(enumType, EnumType.class))
+                .collect(Collectors.toList()));
+    }
+
+    /**
+     * 新增枚举类型
+     *
+     * @param enumType 枚举描述
+     * @return 返回枚举类型 id
+     */
+    default Long addAndGet(EnumType enumType) {
+        add(enumType);
+        return get(enumType.getName()).getId();
+    }
+
+    /**
+     * 删除枚举类型
+     *
+     * @param name 枚举类名
+     */
+    default void delete(String name) {
+        remove(new QueryWrapper<EnumType>().lambda().eq(EnumType::getName, name));
+    }
+}

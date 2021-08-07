@@ -1,0 +1,21 @@
+[
+  {
+    "enumType": {
+      "name": "deleted",
+      "description": "是否删除",
+      "generateDataOnly": false
+    },
+    "enumList": [
+      {
+        "code": 10,
+        "name": "no",
+        "value": "未删除"
+      },
+      {
+        "code": 17,
+        "name": "yes",
+        "value": "已删除"
+      }
+    ]
+  }
+]

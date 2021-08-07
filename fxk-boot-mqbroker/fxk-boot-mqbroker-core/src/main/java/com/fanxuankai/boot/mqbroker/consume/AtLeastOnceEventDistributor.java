@@ -12,6 +12,10 @@ import java.util.List;
 @Component
 public class AtLeastOnceEventDistributor extends AbstractEventDistributor {
 
+    public AtLeastOnceEventDistributor(EventListenerRegistry eventListenerRegistry) {
+        super(eventListenerRegistry);
+    }
+
     @Override
     @SuppressWarnings("rawtypes unchecked")
     protected void onEvent(Event<?> event, List<EventListener<?>> eventListeners) {

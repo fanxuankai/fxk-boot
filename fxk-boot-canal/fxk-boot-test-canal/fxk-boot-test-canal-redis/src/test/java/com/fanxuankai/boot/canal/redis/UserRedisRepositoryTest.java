@@ -7,10 +7,12 @@ import com.fanxuankai.boot.canal.redis.model.Entry;
 import com.fanxuankai.boot.canal.redis.model.UniqueKey;
 import com.fanxuankai.boot.canal.redis.model.UniqueKeyPro;
 import com.fanxuankai.boot.canal.redis.repository.UserRedisRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -20,11 +22,18 @@ import java.util.List;
  * @author fanxuankai
  */
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class UserRedisRepositoryTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRedisRepositoryTest.class);
 
     @Resource
     private UserRedisRepository userRedisRepository;
+
+    @Test
+    public void findById() {
+        userRedisRepository.findAll();
+        userRedisRepository.findById(1L).ifPresent(System.out::print);
+    }
 
     @Test
     public void findAllById() {

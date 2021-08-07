@@ -3,6 +3,8 @@ package com.fanxuankai.boot.mqbroker.model;
 import java.util.Objects;
 
 /**
+ * 监听者信息
+ *
  * @author fanxuankai
  */
 public class ListenerMetadata {

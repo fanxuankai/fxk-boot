@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.fanxuankai.boot</groupId>
+        <artifactId>fxk-boot-canal</artifactId>
+        <version>2.2.7.2-SNAPSHOT</version>
+    </parent>
+    <artifactId>fxk-boot-canal-core-autoconfigure</artifactId>
+    <name>FXK Boot Canal Core Autoconfigure</name>
+    <description>FXK Boot Canal Core Autoconfigure</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.fanxuankai.canal</groupId>
+            <artifactId>canal-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fanxuankai.boot</groupId>
+            <artifactId>fxk-boot-starter-redis</artifactId>
+        </dependency>
+    </dependencies>
+</project>

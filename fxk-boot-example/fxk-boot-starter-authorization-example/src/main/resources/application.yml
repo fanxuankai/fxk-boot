@@ -1,0 +1,36 @@
+server:
+  port: 80
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth2_jwt?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  application:
+    name: auth-service
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          oauth2: debug
+security:
+  oauth2:
+    authorization:
+      jwt:
+        key-store: classpath:mytest.jks
+        key-alias: mytest
+        key-password: mypass
+        key-store-password: mypass
+fxk:
+  oauth2:
+    token-store-type: redis
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露端点`/actuator/prometheus`
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: ${spring.application.name}

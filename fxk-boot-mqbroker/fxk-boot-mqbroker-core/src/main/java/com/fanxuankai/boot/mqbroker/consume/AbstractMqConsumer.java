@@ -1,5 +1,7 @@
 package com.fanxuankai.boot.mqbroker.consume;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
@@ -7,8 +9,6 @@ import com.fanxuankai.boot.mqbroker.enums.Status;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
-import com.fanxuankai.commons.util.ThrowableUtils;
-import com.fanxuankai.spring.util.ApplicationContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -28,14 +28,14 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
 
     private MsgReceiveService getMsgReceiveService() {
         if (msgReceiveService == null) {
-            msgReceiveService = ApplicationContexts.getBean(MsgReceiveService.class);
+            msgReceiveService = SpringUtil.getBean(MsgReceiveService.class);
         }
         return msgReceiveService;
     }
 
     public MqBrokerDingTalkClientHelper getMqBrokerDingTalkClientHelper() {
         if (mqBrokerDingTalkClientHelper == null) {
-            mqBrokerDingTalkClientHelper = ApplicationContexts.getBean(MqBrokerDingTalkClientHelper.class);
+            mqBrokerDingTalkClientHelper = SpringUtil.getBean(MqBrokerDingTalkClientHelper.class);
         }
         return mqBrokerDingTalkClientHelper;
     }
@@ -49,6 +49,7 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void accept(T t) {
         Event<String> event = apply(t);
         MsgReceiveService msgReceiveService = getMsgReceiveService();
@@ -75,8 +76,10 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
                 msgReceiveService.consume(msg, true, true);
             }
         } catch (Throwable throwable) {
-            ThrowableUtils.checkException(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 

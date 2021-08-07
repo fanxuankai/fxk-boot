@@ -6,17 +6,35 @@
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-parent</artifactId>
-        <version>${revision}</version>
-        <relativePath>../fxk-boot-parent</relativePath>
+        <version>2.2.7.2-SNAPSHOT</version>
     </parent>
     <artifactId>fxk-boot-mqbroker</artifactId>
     <packaging>pom</packaging>
     <name>FXK Boot MQ Broker</name>
     <description>FXK Boot MQ Broker</description>
     <modules>
-        <module>fxk-boot-mqbroker-autoconfigure</module>
         <module>fxk-boot-mqbroker-core</module>
-        <module>fxk-boot-starter-mqbroker</module>
+        <module>fxk-boot-starter-mqbroker-kafka</module>
+        <module>fxk-boot-starter-mqbroker-rabbit</module>
+        <module>fxk-boot-starter-mqbroker-rocket</module>
+        <module>fxk-boot-starter-mqbroker-runlion-xxl</module>
+        <module>fxk-boot-starter-mqbroker-xxl</module>
         <module>fxk-boot-test-mqbroker</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,0 +1,33 @@
+server:
+  port: 6666
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          oauth2: debug
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-store: classpath:mytest.jks
+        key-alias: mytest
+        key-password: mypass
+        key-store-password: mypass
+fxk:
+  oauth2:
+    token-store-type: redis
+    resource:
+      id: order
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露端点`/actuator/prometheus`
+        include: prometheus,info,health
+  metrics:
+    tags:
+      application: ${spring.application.name}
+spring:
+  application:
+    name: resource-service

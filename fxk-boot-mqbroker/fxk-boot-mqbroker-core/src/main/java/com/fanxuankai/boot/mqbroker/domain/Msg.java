@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.mqbroker.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.util.Date;
@@ -59,10 +60,12 @@ public class Msg {
     /**
      * 创建日期
      */
+    @TableField("create_date")
     private Date createDate;
     /**
      * 修改日期
      */
+    @TableField("last_modified_date")
     private Date lastModifiedDate;
 
     public Long getId() {

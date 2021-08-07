@@ -4,10 +4,10 @@
 ![](http://processon.com/chart_image/5eda399f0791297145d394b3.png)
 
 ## 功能
-- **Redis**：实时刷新缓存 [canal-redis](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal/fxk-boot-starter-canal-redis)
-- **Elasticsearch**：自动构建全文搜索 [canal-elasticsearch](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal/fxk-boot-starter-canal-elasticsearch)
-- **DB**：数据库同步 [fxk-boot-starter-canal-mysql](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal/fxk-boot-starter-canal-mysql)
-- **MQ**：数据监听, 自动下发任务, 目前支持 RabbitMQ、XXL-MQ、RocketMQ、Kafka [fxk-boot-starter-canal-rabbitmq](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal/fxk-boot-starter-canal-rabbitmq)
+- **Redis**：实时刷新缓存 [canal-redis](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal-redis)
+- **Elasticsearch**：自动构建全文搜索 [canal-elasticsearch](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal-elasticsearch)
+- **DB**：数据库同步 [fxk-boot-starter-canal-mysql](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal-mysql)
+- **MQ**：数据监听, 自动下发任务, 目前支持 RabbitMQ、XXL-MQ、RocketMQ、Kafka [fxk-boot-starter-canal-rabbitmq](https://github.com/fanxuankai/fxk-boot/tree/main/fxk-boot-canal/fxk-boot-starter-canal-rabbitmq)
 
 ## 运行环境
 - Canal 服务
@@ -22,52 +22,53 @@ spring:
   redis:
     host: localhost
     port: 6379
-canal:
-  # redis、elasticsearch、mysql、mq
-  redis:
-    # 是否开启 canal 服务
-    enabled: true
-    configuration:
-      # 应用 id, 用于 canal client 抢占式运行、binlog offset 防重, 默认取 instance
-      id: example-service
-      # 集群配置
-      #cluster:
-        # zookeeper的ip+端口, 以逗号隔开
-        #nodes: localhost:2181,localhost:2182,localhost:2183
-      # 单节点配置
-      #single-node:
-        # ip
-        #hostname: localhost
-        # 端口
-        #port: 11111
-      # 实例
-      #instance: example
-      # 过滤
-      #filter: .*\\..*
-      # 账号
-      #username: canal
-      # 密码
-      #password: canal
-      # 拉取数据的间隔 ms
-      #interval-millis: 1000
-      # 拉取数据的数量
-      #batch-size: 100
-      # 打印事件日志
-      #show-event-log: false
-      # 打印 Entry 日志
-      #show-entry-log: false
-      # 打印数据明细日志
-      #show-row-change: false
-      # 格式化数据明细日志
-      #format-row-change-log: false
-      # 批次达到一定数量进行并行处理, 且确保顺序消费
-      #performance-threshold: 10000
-      # 跳过处理
-      #skip: false
-      # 全局逻辑删除字段
-      #logic-delete-field: deleted
-      # 激活逻辑删除
-      #enable-logic-delete: false
+fxk:
+  canal:
+    # redis、elasticsearch、mysql、mq
+    redis:
+      # 是否开启 canal 服务
+      enabled: true
+      configuration:
+        # 应用 id, 用于 canal client 抢占式运行、binlog offset 防重, 默认取 instance
+        id: example-service
+        # 集群配置
+        #cluster:
+          # zookeeper的ip+端口, 以逗号隔开
+          #nodes: localhost:2181,localhost:2182,localhost:2183
+        # 单节点配置
+        #single-node:
+          # ip
+          #hostname: localhost
+          # 端口
+          #port: 11111
+        # 实例
+        #instance: example
+        # 过滤
+        #filter: .*\\..*
+        # 账号
+        #username: canal
+        # 密码
+        #password: canal
+        # 拉取数据的间隔 ms
+        #interval-millis: 1000
+        # 拉取数据的数量
+        #batch-size: 100
+        # 打印事件日志
+        #show-event-log: false
+        # 打印 Entry 日志
+        #show-entry-log: false
+        # 打印数据明细日志
+        #show-row-change: false
+        # 格式化数据明细日志
+        #format-row-change-log: false
+        # 批次达到一定数量进行并行处理, 且确保顺序消费
+        #performance-threshold: 10000
+        # 跳过处理
+        #skip: false
+        # 全局逻辑删除字段
+        #logic-delete-field: deleted
+        # 激活逻辑删除
+        #enable-logic-delete: false
 ```
 
 ## 常见问题

@@ -1,6 +1,7 @@
 package com.fanxuankai.boot.mqbroker.produce;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
@@ -9,7 +10,6 @@ import com.fanxuankai.boot.mqbroker.enums.Status;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
-import com.fanxuankai.commons.util.ThrowableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -99,7 +99,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         if (data instanceof CharSequence) {
             msg.setData(data.toString());
         } else {
-            msg.setData(JSON.toJSONString(data));
+            msg.setData(JSONUtil.toJsonStr(data));
         }
         msg.setRetry(0);
         msg.setStatus(Status.RUNNING.getCode());
@@ -113,25 +113,31 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         return msg;
     }
 
+    @SuppressWarnings("unchecked")
     private void save(MsgSend msgSend) {
         try {
             if (msgSendService.save(msgSend)) {
                 produce(msgSend);
             }
         } catch (Throwable throwable) {
-            ThrowableUtils.checkException(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void save(List<MsgSend> msgSends) {
         try {
             if (msgSendService.saveBatch(msgSends)) {
                 msgSends.forEach(this::produce);
             }
         } catch (Throwable throwable) {
-            ThrowableUtils.checkException(throwable, DuplicateKeyException.class,
-                    SQLIntegrityConstraintViolationException.class);
+            if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
+                    SQLIntegrityConstraintViolationException.class)) {
+                throw new RuntimeException(throwable);
+            }
         }
     }
 

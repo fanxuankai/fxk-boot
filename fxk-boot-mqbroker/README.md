@@ -53,13 +53,34 @@ CREATE TABLE `mq_broker_msg_receive` (
   UNIQUE KEY `uk_topic_code` (`topic`,`code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='接收消息表';
 ```
+- 支持自定义表名字段名  
+在 resources 目录下创建 table-info.json
+```json
+[
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.Msg",
+    "fieldMap": {
+      "createDate": "my_create_date",
+      "lastModifiedDate": "my_last_modified_date"
+    }
+  },
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.MsgSend",
+    "tableName": "my_msg_send"
+  },
+  {
+    "className": "com.fanxuankai.boot.mqbroker.domain.MsgReceive",
+    "tableName": "my_msg_receive"
+  }
+]
+```
 - 添加 maven 依赖
 ```xml
 <dependencies>
     <dependency>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-starter-mqbroker-rabbit</artifactId>
-        <version>${mqbroker.spring.boot.version}</version>
+        <version>${latestVersion}</version>
     </dependency>
     <dependency>
         <groupId>mysql</groupId>
@@ -81,34 +102,35 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/canal_client_example?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: HzB!OPxxE$5CwJIZ
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-mq-broker:
-  # 最大重试次数
-  #max-retry: 3
-  # 发布回调超时
-  #publisher-callback-timeout: 300000
-  # 消费超时
-  #consume-timeout: 300000
-  # 手动确认
-  #manual-acknowledge: false
-  # 事件策略, 可以配置相同事件多个消费者
-  #event-strategy:
-    # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
-    #user: DEFAULT
-  # 补偿时, 拉取消息的数量
-  #msg-size: 1000
-  # 补偿时, 拉取数据的间隔 ms
-  #interval-millis: 1000
-  # 钉钉推送配置(发送、消费失败)
-  #ding-talk:
-    #enabled:
-    #url:
-    #accessToken:
-    #secret:
-    #env:
-  # 开启延迟消息
-  #enabledDelayedMessage: false
+fxk:
+  mq-broker:
+    # 最大重试次数
+    #max-retry: 3
+    # 发布回调超时
+    #publisher-callback-timeout: 300000
+    # 消费超时
+    #consume-timeout: 300000
+    # 手动确认
+    #manual-acknowledge: false
+    # 事件策略, 可以配置相同事件多个消费者
+    #event-strategy:
+      # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
+      #user: DEFAULT
+    # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+    #msg-size: 100
+    # 补偿时, 拉取数据的间隔 ms
+    #interval-millis: 1000
+    # 钉钉推送配置(发送、消费失败)
+    #ding-talk:
+      #enabled:
+      #url:
+      #accessToken:
+      #secret:
+      #env:
+    # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
+    #enabledDelayedMessage: false
 ```
 - 监听事件
 ```

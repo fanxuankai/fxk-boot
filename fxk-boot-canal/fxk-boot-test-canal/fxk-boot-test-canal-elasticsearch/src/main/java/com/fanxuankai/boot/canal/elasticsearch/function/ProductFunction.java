@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.canal.elasticsearch.function;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.canal.elasticsearch.document.ProductInfo;
 import com.fanxuankai.boot.canal.elasticsearch.domain.Product;
@@ -7,7 +8,6 @@ import com.fanxuankai.boot.canal.elasticsearch.domain.ProductAttribute;
 import com.fanxuankai.boot.canal.elasticsearch.service.AttributeService;
 import com.fanxuankai.boot.canal.elasticsearch.service.ProductAttributeService;
 import com.fanxuankai.canal.elasticsearch.MasterDocumentFunction;
-import com.fanxuankai.spring.util.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,7 +45,7 @@ public class ProductFunction implements MasterDocumentFunction<Product, ProductI
 
     @Override
     public ProductInfo applyForUpdate(Product before, Product after) {
-        return BeanUtils.copyProperties(after, ProductInfo.class);
+        return BeanUtil.copyProperties(after, ProductInfo.class);
     }
 
     @Override

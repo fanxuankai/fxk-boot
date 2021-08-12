@@ -48,46 +48,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 手动敲 mvn 命令, 无法替换占位符 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.codehaus.mojo</groupId>-->
-            <!--                <artifactId>flatten-maven-plugin</artifactId>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>flatten</id>-->
-            <!--                        <phase>process-resources</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>flatten</goal>-->
-            <!--                        </goals>-->
-            <!--                        <configuration>-->
-            <!--                            <updatePomFile>true</updatePomFile>-->
-            <!--                            <flattenMode>resolveCiFriendliesOnly</flattenMode>-->
-            <!--                        </configuration>-->
-            <!--                    </execution>-->
-            <!--                    <execution>-->
-            <!--                        <id>flatten-dependencies</id>-->
-            <!--                        <phase>process-resources</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>flatten</goal>-->
-            <!--                        </goals>-->
-            <!--                        <configuration>-->
-            <!--                            <updatePomFile>false</updatePomFile>-->
-            <!--                            <flattenMode>resolveCiFriendliesOnly</flattenMode>-->
-            <!--                            <pomElements>-->
-            <!--                                <build>remove</build>-->
-            <!--                            </pomElements>-->
-            <!--                        </configuration>-->
-            <!--                        <inherited>false</inherited>-->
-            <!--                    </execution>-->
-            <!--                    <execution>-->
-            <!--                        <id>flatten-clean</id>-->
-            <!--                        <phase>clean</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>clean</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

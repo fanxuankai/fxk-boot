@@ -27,7 +27,7 @@ public class DistributedLockTest {
     @Test
     public void testLock() {
         distributedLocker.lock("lock", () -> System.out.println("do in lock"));
-        distributedLocker.lock("我的业务", 5000, 60000, Arrays.asList(1, 2, 3), () -> System.out.println(1));
+        distributedLocker.lock("我的业务", Arrays.asList(1, 2, 3), 5000, 60000, () -> System.out.println(1));
     }
 
     @Test

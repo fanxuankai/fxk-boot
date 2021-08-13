@@ -102,13 +102,13 @@ public interface DistributedLocker {
      * 加分布式锁, 自动释放锁
      *
      * @param business    业务名
+     * @param resources   锁资源
      * @param waitTime    等待时间
      * @param releaseTime 释放时间
-     * @param resources   锁资源
      * @param runnable    加锁成功才会执行
      */
-    default void lock(String business, long waitTime, long releaseTime, List<Object> resources, Runnable runnable) {
-        lock(null, business, waitTime, releaseTime, resources, runnable);
+    default void lock(String business, List<Object> resources, long waitTime, long releaseTime, Runnable runnable) {
+        lock(null, business, resources, waitTime, releaseTime, runnable);
     }
 
     /**
@@ -128,12 +128,12 @@ public interface DistributedLocker {
      *
      * @param prefix      前缀
      * @param business    业务名
+     * @param resources   锁资源
      * @param waitTime    等待时间
      * @param releaseTime 释放时间
-     * @param resources   锁资源
      * @param runnable    加锁成功才会执行
      */
-    default void lock(String prefix, String business, long waitTime, long releaseTime, List<Object> resources,
+    default void lock(String prefix, String business, List<Object> resources, long waitTime, long releaseTime,
                       Runnable runnable) {
         lock(LockKeyMaker.makeKey(prefix, business, resources), waitTime, releaseTime, runnable);
     }
@@ -156,17 +156,17 @@ public interface DistributedLocker {
      * 加分布式锁, 自动释放锁
      *
      * @param business    业务名
+     * @param resources   锁资源
      * @param waitTime    等待时间
      * @param releaseTime 释放时间
-     * @param resources   锁资源
      * @param callable    加锁成功才会执行
      * @param <T>         the callable item type
      * @return callable 的返回值
      * @throws Exception callable exception
      */
-    default <T> T lock(String business, long waitTime, long releaseTime, List<Object> resources,
+    default <T> T lock(String business, List<Object> resources, long waitTime, long releaseTime,
                        Callable<T> callable) throws Exception {
-        return lock(null, business, waitTime, releaseTime, resources, callable);
+        return lock(null, business, resources, waitTime, releaseTime, callable);
     }
 
     /**
@@ -189,15 +189,15 @@ public interface DistributedLocker {
      *
      * @param prefix      前缀
      * @param business    业务名
+     * @param resources   锁资源
      * @param waitTime    等待时间
      * @param releaseTime 释放时间
-     * @param resources   锁资源
      * @param callable    加锁成功才会执行
      * @param <T>         the callable item type
      * @return callable 的返回值
      * @throws Exception callable exception
      */
-    default <T> T lock(String prefix, String business, long waitTime, long releaseTime, List<Object> resources,
+    default <T> T lock(String prefix, String business, List<Object> resources, long waitTime, long releaseTime,
                        Callable<T> callable) throws Exception {
         return lock(LockKeyMaker.makeKey(prefix, business, resources), waitTime, releaseTime, callable);
     }

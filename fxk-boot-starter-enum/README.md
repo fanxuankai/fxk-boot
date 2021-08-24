@@ -17,7 +17,7 @@ CREATE TABLE `sys_enum` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `type_id` bigint(20) DEFAULT NULL COMMENT '枚举类型id',
   `name` varchar(255) DEFAULT NULL COMMENT '枚举名',
-  `code` tinyint(4) DEFAULT NULL COMMENT '枚举代码',
+  `code` int(11) DEFAULT NULL COMMENT '枚举代码',
   `value` varchar(255) DEFAULT NULL COMMENT '枚举值',
   `disabled` tinyint(1) DEFAULT NULL COMMENT '是否禁用',
   PRIMARY KEY (`id`),

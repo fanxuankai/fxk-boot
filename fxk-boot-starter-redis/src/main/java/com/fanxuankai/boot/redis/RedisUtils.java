@@ -1,9 +1,10 @@
 package com.fanxuankai.boot.redis;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.*;
-import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -13,23 +14,15 @@ import java.util.concurrent.TimeUnit;
  *
  * @author fanxuankai
  */
-@Component
 @SuppressWarnings({"unchecked", "unused"})
-public class RedisUtils {
-    private static DefaultTypingRedisTemplate template;
-    private static ValueOperations<String, Object> valueOps;
-    private static ListOperations<String, Object> listOps;
-    private static HashOperations<String, String, Object> hashOps;
-    private static ZSetOperations<String, Object> zSetOps;
-    private static SetOperations<String, Object> setOps;
+public class RedisUtils implements InitializingBean {
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+    private static RedisTemplate<String, Object> template;
 
-    public RedisUtils(DefaultTypingRedisTemplate defaultTypingRedisTemplate) {
-        RedisUtils.template = defaultTypingRedisTemplate;
-        valueOps = defaultTypingRedisTemplate.opsForValue();
-        listOps = defaultTypingRedisTemplate.opsForList();
-        hashOps = defaultTypingRedisTemplate.opsForHash();
-        zSetOps = defaultTypingRedisTemplate.opsForZSet();
-        setOps = defaultTypingRedisTemplate.opsForSet();
+    @Override
+    public void afterPropertiesSet() {
+        template = redisTemplate;
     }
 
     /* ------------------- key 相关操作--------------------- */
@@ -168,7 +161,7 @@ public class RedisUtils {
         }
 
         /**
-         * 仅当 newkey 不存在时，将 oldKey 改名为 newkey
+         * 仅当 newKey 不存在时，将 oldKey 改名为 newKey
          *
          * @param oldKey /
          * @param newKey /
@@ -200,7 +193,7 @@ public class RedisUtils {
          * @param <T>   /
          */
         public static <T> void set(String key, T value) {
-            valueOps.set(key, value);
+            template.opsForValue().set(key, value);
         }
 
         /**
@@ -211,7 +204,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T get(String key) {
-            return (T) valueOps.get(key);
+            return (T) template.opsForValue().get(key);
         }
 
         /**
@@ -223,7 +216,7 @@ public class RedisUtils {
          * @return /
          */
         public static String get(String key, long start, long end) {
-            return valueOps.get(key, start, end);
+            return template.opsForValue().get(key, start, end);
         }
 
         /**
@@ -235,7 +228,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T getAndSet(String key, T value) {
-            return (T) valueOps.getAndSet(key, value);
+            return (T) template.opsForValue().getAndSet(key, value);
         }
 
         /**
@@ -246,7 +239,7 @@ public class RedisUtils {
          * @return /
          */
         public static Boolean getBit(String key, long offset) {
-            return valueOps.getBit(key, offset);
+            return template.opsForValue().getBit(key, offset);
         }
 
         /**
@@ -257,7 +250,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> List<T> multiGet(Collection<String> keys) {
-            return (List<T>) valueOps.multiGet(keys);
+            return (List<T>) template.opsForValue().multiGet(keys);
         }
 
         /**
@@ -269,7 +262,7 @@ public class RedisUtils {
          * @return /
          */
         public static Boolean setBit(String key, long offset, boolean value) {
-            return valueOps.setBit(key, offset, value);
+            return template.opsForValue().setBit(key, offset, value);
         }
 
         /**
@@ -283,7 +276,7 @@ public class RedisUtils {
          * @param <T>     /
          */
         public static <T> void set(String key, T value, long timeout, TimeUnit unit) {
-            valueOps.set(key, value, timeout, unit);
+            template.opsForValue().set(key, value, timeout, unit);
         }
 
         /**
@@ -295,7 +288,7 @@ public class RedisUtils {
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean setIfAbsent(String key, T value) {
-            return valueOps.setIfAbsent(key, value);
+            return template.opsForValue().setIfAbsent(key, value);
         }
 
         /**
@@ -308,7 +301,7 @@ public class RedisUtils {
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean setIfAbsent(String key, T value, Duration timeout) {
-            return valueOps.setIfAbsent(key, value, timeout);
+            return template.opsForValue().setIfAbsent(key, value, timeout);
         }
 
         /**
@@ -322,7 +315,7 @@ public class RedisUtils {
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean setIfAbsent(String key, T value, long timeout, TimeUnit unit) {
-            return valueOps.setIfAbsent(key, value, timeout, unit);
+            return template.opsForValue().setIfAbsent(key, value, timeout, unit);
         }
 
         /**
@@ -334,7 +327,7 @@ public class RedisUtils {
          * @param <T>    /
          */
         public static <T> void set(String key, T value, long offset) {
-            valueOps.set(key, value, offset);
+            template.opsForValue().set(key, value, offset);
         }
 
         /**
@@ -344,7 +337,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long size(String key) {
-            return valueOps.size(key);
+            return template.opsForValue().size(key);
         }
 
         /**
@@ -354,7 +347,7 @@ public class RedisUtils {
          * @param <T>  /
          */
         public static <T> void multiSet(Map<String, T> maps) {
-            valueOps.multiSet(maps);
+            template.opsForValue().multiSet(maps);
         }
 
         /**
@@ -365,7 +358,7 @@ public class RedisUtils {
          * @return / 之前已经存在返回false, 不存在返回true
          */
         public static <T> Boolean multiSetIfAbsent(Map<String, T> maps) {
-            return valueOps.multiSetIfAbsent(maps);
+            return template.opsForValue().multiSetIfAbsent(maps);
         }
 
         /**
@@ -376,7 +369,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long increment(String key, long increment) {
-            return valueOps.increment(key, increment);
+            return template.opsForValue().increment(key, increment);
         }
 
         /**
@@ -385,7 +378,7 @@ public class RedisUtils {
          * @return /
          */
         public static Double increment(String key, double increment) {
-            return valueOps.increment(key, increment);
+            return template.opsForValue().increment(key, increment);
         }
 
         /**
@@ -396,7 +389,7 @@ public class RedisUtils {
          * @return /
          */
         public static Integer append(String key, String value) {
-            return valueOps.append(key, value);
+            return template.opsForValue().append(key, value);
         }
     }
 
@@ -450,7 +443,7 @@ public class RedisUtils {
          * @param <T>     /
          */
         public static <T> void put(String key, String hashKey, T value) {
-            hashOps.put(key, hashKey, value);
+            template.opsForHash().put(key, hashKey, value);
         }
 
         /**
@@ -461,7 +454,7 @@ public class RedisUtils {
          * @param <T>  /
          */
         public static <T> void putAll(String key, Map<String, T> maps) {
-            hashOps.putAll(key, maps);
+            template.opsForHash().putAll(key, maps);
         }
 
         /**
@@ -474,7 +467,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Boolean putIfAbsent(String key, String hashKey, T value) {
-            return hashOps.putIfAbsent(key, hashKey, value);
+            return template.opsForHash().putIfAbsent(key, hashKey, value);
         }
 
         /**
@@ -485,7 +478,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long delete(String key, String... fields) {
-            return hashOps.delete(key, Arrays.stream(fields).toArray(Object[]::new));
+            return template.opsForHash().delete(key, Arrays.stream(fields).toArray(Object[]::new));
         }
 
         /**
@@ -496,7 +489,7 @@ public class RedisUtils {
          * @return /
          */
         public static Boolean hasKey(String key, String field) {
-            return hashOps.hasKey(key, field);
+            return template.opsForHash().hasKey(key, field);
         }
 
         /**
@@ -508,7 +501,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long increment(String key, String field, long increment) {
-            return hashOps.increment(key, field, increment);
+            return template.opsForHash().increment(key, field, increment);
         }
 
         /**
@@ -520,7 +513,7 @@ public class RedisUtils {
          * @return /
          */
         public static Double increment(String key, String field, double delta) {
-            return hashOps.increment(key, field, delta);
+            return template.opsForHash().increment(key, field, delta);
         }
 
         /**
@@ -530,7 +523,8 @@ public class RedisUtils {
          * @return /
          */
         public static Set<String> keys(String key) {
-            return hashOps.keys(key);
+            HashOperations<String, String, Object> opsForHash = template.opsForHash();
+            return opsForHash.keys(key);
         }
 
         /**
@@ -540,7 +534,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long size(String key) {
-            return hashOps.size(key);
+            return template.opsForHash().size(key);
         }
 
         /**
@@ -581,7 +575,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T index(String key, long index) {
-            return (T) listOps.index(key, index);
+            return (T) template.opsForList().index(key, index);
         }
 
         /**
@@ -594,7 +588,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> List<T> range(String key, long start, long end) {
-            return (List<T>) listOps.range(key, start, end);
+            return (List<T>) template.opsForList().range(key, start, end);
         }
 
         /**
@@ -606,7 +600,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long leftPush(String key, T value) {
-            return listOps.leftPush(key, value);
+            return template.opsForList().leftPush(key, value);
         }
 
         /**
@@ -616,7 +610,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long leftPushAll(String key, T... values) {
-            return listOps.leftPushAll(key, values);
+            return template.opsForList().leftPushAll(key, values);
         }
 
         /**
@@ -626,7 +620,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long leftPushAll(String key, Collection<T> values) {
-            return listOps.leftPushAll(key, values.toArray());
+            return template.opsForList().leftPushAll(key, values.toArray());
         }
 
         /**
@@ -638,7 +632,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long leftPushIfPresent(String key, T value) {
-            return listOps.leftPushIfPresent(key, value);
+            return template.opsForList().leftPushIfPresent(key, value);
         }
 
         /**
@@ -651,7 +645,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long leftPush(String key, String pivot, T value) {
-            return listOps.leftPush(key, pivot, value);
+            return template.opsForList().leftPush(key, pivot, value);
         }
 
         /**
@@ -661,7 +655,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long rightPush(String key, T value) {
-            return listOps.rightPush(key, value);
+            return template.opsForList().rightPush(key, value);
         }
 
         /**
@@ -671,7 +665,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long rightPushAll(String key, T... value) {
-            return listOps.rightPushAll(key, value);
+            return template.opsForList().rightPushAll(key, value);
         }
 
         /**
@@ -681,7 +675,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long rightPushAll(String key, Collection<T> value) {
-            return listOps.rightPushAll(key, value.toArray());
+            return template.opsForList().rightPushAll(key, value.toArray());
         }
 
         /**
@@ -693,7 +687,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long rightPushIfPresent(String key, T value) {
-            return listOps.rightPushIfPresent(key, value);
+            return template.opsForList().rightPushIfPresent(key, value);
         }
 
         /**
@@ -706,7 +700,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long rightPush(String key, String pivot, T value) {
-            return listOps.rightPush(key, pivot, value);
+            return template.opsForList().rightPush(key, pivot, value);
         }
 
         /**
@@ -718,7 +712,7 @@ public class RedisUtils {
          * @param <T>   /
          */
         public static <T> void set(String key, long index, T value) {
-            listOps.set(key, index, value);
+            template.opsForList().set(key, index, value);
         }
 
         /**
@@ -729,7 +723,7 @@ public class RedisUtils {
          * @return / 删除的元素
          */
         public static <T> T leftPop(String key) {
-            return (T) listOps.leftPop(key);
+            return (T) template.opsForList().leftPop(key);
         }
 
         /**
@@ -742,7 +736,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T leftPop(String key, long timeout, TimeUnit unit) {
-            return (T) listOps.leftPop(key, timeout, unit);
+            return (T) template.opsForList().leftPop(key, timeout, unit);
         }
 
         /**
@@ -753,7 +747,7 @@ public class RedisUtils {
          * @return / 删除的元素
          */
         public static <T> T rightPop(String key) {
-            return (T) listOps.rightPop(key);
+            return (T) template.opsForList().rightPop(key);
         }
 
         /**
@@ -766,7 +760,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T rightPop(String key, long timeout, TimeUnit unit) {
-            return (T) listOps.rightPop(key, timeout, unit);
+            return (T) template.opsForList().rightPop(key, timeout, unit);
         }
 
         /**
@@ -778,7 +772,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T rightPopAndLeftPush(String sourceKey, String destinationKey) {
-            return (T) listOps.rightPopAndLeftPush(sourceKey, destinationKey);
+            return (T) template.opsForList().rightPopAndLeftPush(sourceKey, destinationKey);
         }
 
         /**
@@ -792,7 +786,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T rightPopAndLeftPush(String sourceKey, String destinationKey, long timeout, TimeUnit unit) {
-            return (T) listOps.rightPopAndLeftPush(sourceKey, destinationKey, timeout, unit);
+            return (T) template.opsForList().rightPopAndLeftPush(sourceKey, destinationKey, timeout, unit);
         }
 
         /**
@@ -807,7 +801,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long remove(String key, long index, T value) {
-            return listOps.remove(key, index, value);
+            return template.opsForList().remove(key, index, value);
         }
 
         /**
@@ -818,7 +812,7 @@ public class RedisUtils {
          * @param end   /
          */
         public static void trim(String key, long start, long end) {
-            listOps.trim(key, start, end);
+            template.opsForList().trim(key, start, end);
         }
 
         /**
@@ -828,7 +822,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long size(String key) {
-            return listOps.size(key);
+            return template.opsForList().size(key);
         }
     }
 
@@ -844,7 +838,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long add(String key, T... values) {
-            return setOps.add(key, values);
+            return template.opsForSet().add(key, values);
         }
 
         /**
@@ -856,7 +850,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long add(String key, Collection<T> values) {
-            return setOps.add(key, values.toArray());
+            return template.opsForSet().add(key, values.toArray());
         }
 
         /**
@@ -868,7 +862,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long remove(String key, T... values) {
-            return setOps.remove(key, Arrays.stream(values).toArray());
+            return template.opsForSet().remove(key, Arrays.stream(values).toArray());
         }
 
         /**
@@ -879,7 +873,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T pop(String key) {
-            return (T) setOps.pop(key);
+            return (T) template.opsForSet().pop(key);
         }
 
         /**
@@ -892,7 +886,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Boolean move(String key, T value, String destKey) {
-            return setOps.move(key, value, destKey);
+            return template.opsForSet().move(key, value, destKey);
         }
 
         /**
@@ -902,7 +896,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long size(String key) {
-            return setOps.size(key);
+            return template.opsForSet().size(key);
         }
 
         /**
@@ -914,7 +908,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Boolean isMember(String key, T value) {
-            return setOps.isMember(key, value);
+            return template.opsForSet().isMember(key, value);
         }
 
         /**
@@ -926,7 +920,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> intersect(String key, String otherKey) {
-            return (Set<T>) setOps.intersect(key, otherKey);
+            return (Set<T>) template.opsForSet().intersect(key, otherKey);
         }
 
         /**
@@ -938,7 +932,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> intersect(String key, Collection<String> otherKeys) {
-            return (Set<T>) setOps.intersect(key, otherKeys);
+            return (Set<T>) template.opsForSet().intersect(key, otherKeys);
         }
 
         /**
@@ -950,7 +944,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long intersectAndStore(String key, String otherKey, String destKey) {
-            return setOps.intersectAndStore(key, otherKey, destKey);
+            return template.opsForSet().intersectAndStore(key, otherKey, destKey);
         }
 
         /**
@@ -962,7 +956,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long intersectAndStore(String key, Collection<String> otherKeys, String destKey) {
-            return setOps.intersectAndStore(key, otherKeys, destKey);
+            return template.opsForSet().intersectAndStore(key, otherKeys, destKey);
         }
 
         /**
@@ -974,7 +968,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> union(String key, String otherKeys) {
-            return (Set<T>) setOps.union(key, otherKeys);
+            return (Set<T>) template.opsForSet().union(key, otherKeys);
         }
 
         /**
@@ -986,7 +980,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> union(String key, Collection<String> otherKeys) {
-            return (Set<T>) setOps.union(key, otherKeys);
+            return (Set<T>) template.opsForSet().union(key, otherKeys);
         }
 
         /**
@@ -998,7 +992,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long unionAndStore(String key, String otherKey, String destKey) {
-            return setOps.unionAndStore(key, otherKey, destKey);
+            return template.opsForSet().unionAndStore(key, otherKey, destKey);
         }
 
         /**
@@ -1010,7 +1004,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long unionAndStore(String key, Collection<String> otherKeys, String destKey) {
-            return setOps.unionAndStore(key, otherKeys, destKey);
+            return template.opsForSet().unionAndStore(key, otherKeys, destKey);
         }
 
         /**
@@ -1022,7 +1016,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> difference(String key, String otherKey) {
-            return (Set<T>) setOps.difference(key, otherKey);
+            return (Set<T>) template.opsForSet().difference(key, otherKey);
         }
 
         /**
@@ -1034,7 +1028,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> difference(String key, Collection<String> otherKeys) {
-            return (Set<T>) setOps.difference(key, otherKeys);
+            return (Set<T>) template.opsForSet().difference(key, otherKeys);
         }
 
         /**
@@ -1046,7 +1040,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long differenceAndStore(String key, String otherKey, String destKey) {
-            return setOps.differenceAndStore(key, otherKey, destKey);
+            return template.opsForSet().differenceAndStore(key, otherKey, destKey);
         }
 
         /**
@@ -1059,7 +1053,7 @@ public class RedisUtils {
          */
         public static Long differenceAndStore(String key, Collection<String> otherKeys,
                                               String destKey) {
-            return setOps.differenceAndStore(key, otherKeys, destKey);
+            return template.opsForSet().differenceAndStore(key, otherKeys, destKey);
         }
 
         /**
@@ -1070,7 +1064,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> members(String key) {
-            return (Set<T>) setOps.members(key);
+            return (Set<T>) template.opsForSet().members(key);
         }
 
         /**
@@ -1081,7 +1075,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> T randomMember(String key) {
-            return (T) setOps.randomMember(key);
+            return (T) template.opsForSet().randomMember(key);
         }
 
         /**
@@ -1093,7 +1087,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> List<T> randomMembers(String key, long count) {
-            return (List<T>) setOps.randomMembers(key, count);
+            return (List<T>) template.opsForSet().randomMembers(key, count);
         }
 
         /**
@@ -1105,7 +1099,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> distinctRandomMembers(String key, long count) {
-            return (Set<T>) setOps.distinctRandomMembers(key, count);
+            return (Set<T>) template.opsForSet().distinctRandomMembers(key, count);
         }
 
         /**
@@ -1115,7 +1109,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Cursor<T> scan(String key, ScanOptions options) {
-            return (Cursor<T>) setOps.scan(key, options);
+            return (Cursor<T>) template.opsForSet().scan(key, options);
         }
     }
 
@@ -1132,7 +1126,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Boolean add(String key, T value, double score) {
-            return zSetOps.add(key, value, score);
+            return template.opsForZSet().add(key, value, score);
         }
 
         /**
@@ -1142,7 +1136,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long add(String key, Set<ZSetOperations.TypedTuple<T>> values) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.add(key, values);
         }
 
@@ -1153,7 +1147,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long remove(String key, T... values) {
-            return zSetOps.remove(key, values);
+            return template.opsForZSet().remove(key, values);
         }
 
         /**
@@ -1166,7 +1160,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Double incrementScore(String key, T value, double delta) {
-            return zSetOps.incrementScore(key, value, delta);
+            return template.opsForZSet().incrementScore(key, value, delta);
         }
 
         /**
@@ -1178,7 +1172,7 @@ public class RedisUtils {
          * @return / 0表示第一位
          */
         public static <T> Long rank(String key, T value) {
-            return zSetOps.rank(key, value);
+            return template.opsForZSet().rank(key, value);
         }
 
         /**
@@ -1190,7 +1184,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Long reverseRank(String key, T value) {
-            return zSetOps.reverseRank(key, value);
+            return template.opsForZSet().reverseRank(key, value);
         }
 
         /**
@@ -1203,7 +1197,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> range(String key, long start, long end) {
-            return (Set<T>) zSetOps.range(key, start, end);
+            return (Set<T>) template.opsForZSet().range(key, start, end);
         }
 
         /**
@@ -1217,7 +1211,7 @@ public class RedisUtils {
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeWithScores(String key, long start,
                                                                             long end) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.rangeWithScores(key, start, end);
         }
 
@@ -1231,7 +1225,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> rangeByScore(String key, double min, double max) {
-            return (Set<T>) zSetOps.rangeByScore(key, min, max);
+            return (Set<T>) template.opsForZSet().rangeByScore(key, min, max);
         }
 
         /**
@@ -1244,7 +1238,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeByScoreWithScores(String key, double min, double max) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.rangeByScoreWithScores(key, min, max);
         }
 
@@ -1259,7 +1253,7 @@ public class RedisUtils {
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> rangeByScoreWithScores(String key, double min, double max,
                                                                                    long start, long end) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.rangeByScoreWithScores(key, min, max, start, end);
         }
 
@@ -1273,7 +1267,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> reverseRange(String key, long start, long end) {
-            return (Set<T>) zSetOps.reverseRange(key, start, end);
+            return (Set<T>) template.opsForZSet().reverseRange(key, start, end);
         }
 
         /**
@@ -1286,7 +1280,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> reverseRangeWithScores(String key, long start, long end) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.reverseRangeWithScores(key, start, end);
         }
 
@@ -1300,7 +1294,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> reverseRangeByScore(String key, double min, double max) {
-            return (Set<T>) zSetOps.reverseRangeByScore(key, min, max);
+            return (Set<T>) template.opsForZSet().reverseRangeByScore(key, min, max);
         }
 
         /**
@@ -1314,7 +1308,7 @@ public class RedisUtils {
          */
         public static <T> Set<ZSetOperations.TypedTuple<T>> reverseRangeByScoreWithScores(String key, double min,
                                                                                           double max) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.reverseRangeByScoreWithScores(key, min, max);
         }
 
@@ -1328,7 +1322,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Set<T> reverseRangeByScore(String key, double min, double max, long start, long end) {
-            return (Set<T>) zSetOps.reverseRangeByScore(key, min, max, start, end);
+            return (Set<T>) template.opsForZSet().reverseRangeByScore(key, min, max, start, end);
         }
 
         /**
@@ -1340,7 +1334,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long count(String key, double min, double max) {
-            return zSetOps.count(key, min, max);
+            return template.opsForZSet().count(key, min, max);
         }
 
         /**
@@ -1350,7 +1344,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long size(String key) {
-            return zSetOps.size(key);
+            return template.opsForZSet().size(key);
         }
 
         /**
@@ -1360,7 +1354,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long zCard(String key) {
-            return zSetOps.zCard(key);
+            return template.opsForZSet().zCard(key);
         }
 
         /**
@@ -1372,7 +1366,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Double score(String key, T value) {
-            return zSetOps.score(key, value);
+            return template.opsForZSet().score(key, value);
         }
 
         /**
@@ -1384,7 +1378,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long removeRange(String key, long start, long end) {
-            return zSetOps.removeRange(key, start, end);
+            return template.opsForZSet().removeRange(key, start, end);
         }
 
         /**
@@ -1396,7 +1390,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long removeRangeByScore(String key, double min, double max) {
-            return zSetOps.removeRangeByScore(key, min, max);
+            return template.opsForZSet().removeRangeByScore(key, min, max);
         }
 
         /**
@@ -1408,7 +1402,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long unionAndStore(String key, String otherKey, String destKey) {
-            return zSetOps.unionAndStore(key, otherKey, destKey);
+            return template.opsForZSet().unionAndStore(key, otherKey, destKey);
         }
 
         /**
@@ -1418,7 +1412,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long unionAndStore(String key, Collection<String> otherKeys, String destKey) {
-            return zSetOps.unionAndStore(key, otherKeys, destKey);
+            return template.opsForZSet().unionAndStore(key, otherKeys, destKey);
         }
 
         /**
@@ -1430,7 +1424,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long intersectAndStore(String key, String otherKey, String destKey) {
-            return zSetOps.intersectAndStore(key, otherKey, destKey);
+            return template.opsForZSet().intersectAndStore(key, otherKey, destKey);
         }
 
         /**
@@ -1442,7 +1436,7 @@ public class RedisUtils {
          * @return /
          */
         public static Long intersectAndStore(String key, Collection<String> otherKeys, String destKey) {
-            return zSetOps.intersectAndStore(key, otherKeys, destKey);
+            return template.opsForZSet().intersectAndStore(key, otherKeys, destKey);
         }
 
         /**
@@ -1452,7 +1446,7 @@ public class RedisUtils {
          * @return /
          */
         public static <T> Cursor<ZSetOperations.TypedTuple<T>> scan(String key, ScanOptions options) {
-            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) zSetOps;
+            ZSetOperations<String, T> ops = (ZSetOperations<String, T>) template.opsForZSet();
             return ops.scan(key, options);
         }
     }

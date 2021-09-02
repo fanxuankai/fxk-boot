@@ -19,6 +19,7 @@ CREATE TABLE `sys_enum` (
   `name` varchar(255) DEFAULT NULL COMMENT '枚举名',
   `code` int(11) DEFAULT NULL COMMENT '枚举代码',
   `value` varchar(255) DEFAULT NULL COMMENT '枚举值',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `disabled` tinyint(1) DEFAULT NULL COMMENT '是否禁用',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_type_name` (`type_id`,`name`) USING BTREE,

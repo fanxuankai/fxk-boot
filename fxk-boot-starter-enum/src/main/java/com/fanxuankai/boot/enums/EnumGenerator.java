@@ -92,6 +92,8 @@ public class EnumGenerator {
                 model.setPackageName(generateModel.getPackageName());
                 model.setAuth(generateModel.getAuth());
                 model.setEnumVO(enumVO);
+                model.setHasDescription(enumVO.getEnumList().stream()
+                        .anyMatch(o -> o.getDescription() != null));
                 String shortName = enumVO.getEnumType().getName();
                 BufferedWriter writer =
                         new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + StrPool.SLASH + shortName + ".java")));

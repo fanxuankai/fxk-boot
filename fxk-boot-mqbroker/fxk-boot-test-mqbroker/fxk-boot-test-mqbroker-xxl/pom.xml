@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-test-mqbroker</artifactId>
-        <version>2.2.7.2-SNAPSHOT</version>
+        <version>2.2.7.3-SNAPSHOT</version>
     </parent>
     <artifactId>fxk-boot-test-mqbroker-xxl</artifactId>
     <name>FXK Boot Test MQ Broker XXL</name>

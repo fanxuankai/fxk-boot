@@ -35,6 +35,10 @@ public class Enum {
      */
     private String value;
     /**
+     * 描述
+     */
+    private String description;
+    /**
      * 是否禁用
      */
     private boolean disabled;
@@ -87,6 +91,14 @@ public class Enum {
         this.disabled = disabled;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,11 +111,12 @@ public class Enum {
         return disabled == anEnum.disabled &&
                 name.equals(anEnum.name) &&
                 code.equals(anEnum.code) &&
-                value.equals(anEnum.value);
+                value.equals(anEnum.value) &&
+                Objects.equals(description, anEnum.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, code, value, disabled);
+        return Objects.hash(name, code, value, description, disabled);
     }
 }

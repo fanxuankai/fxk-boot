@@ -7,6 +7,7 @@ public class EnumModel {
     private String packageName;
     private String auth;
     private EnumVO enumVO;
+    private boolean hasDescription;
 
     public String getPackageName() {
         return packageName;
@@ -30,5 +31,13 @@ public class EnumModel {
 
     public void setEnumVO(EnumVO enumVO) {
         this.enumVO = enumVO;
+    }
+
+    public boolean isHasDescription() {
+        return hasDescription;
+    }
+
+    public void setHasDescription(boolean hasDescription) {
+        this.hasDescription = hasDescription;
     }
 }

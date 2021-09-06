@@ -86,7 +86,9 @@ public class LogMethodInterceptor implements MethodInterceptor {
         setupClientInfo(logInfo);
         logInfo.setCreateTime(new Date());
         if (logAnnotation != null) {
-            logInfo.setResource(logAnnotation.value());
+            logInfo.setApplication(logAnnotation.application());
+            logInfo.setResource(logAnnotation.resource());
+            logInfo.setResourceId(logAnnotation.resourceId());
             logInfo.setSafetyLevel(logAnnotation.safetyLevel().ordinal());
             if (logAnnotation.params()) {
                 setupParams(logInfo, methodInvocation);

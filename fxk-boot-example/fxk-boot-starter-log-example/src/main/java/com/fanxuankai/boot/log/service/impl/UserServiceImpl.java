@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     @Override
-    @Log(value = "保存用户")
+    @Log(application = "user-service", resource = "保存用户")
     public void save(User user) {
 
     }

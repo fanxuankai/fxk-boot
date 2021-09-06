@@ -16,11 +16,25 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Log {
     /**
+     * 应用名
+     *
+     * @return /
+     */
+    String application() default "";
+
+    /**
      * 资源名称,指记录某个资源的日志
      *
      * @return /
      */
-    String value() default "";
+    String resource() default "";
+
+    /**
+     * 资源 id,指记录某个资源的日志
+     *
+     * @return /
+     */
+    String resourceId() default "";
 
     /**
      * 安全等级,指该资源的安全等级

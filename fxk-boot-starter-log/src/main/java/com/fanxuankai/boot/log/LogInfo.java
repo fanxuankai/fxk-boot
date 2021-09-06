@@ -8,82 +8,78 @@ import java.util.Date;
  * @author fanxuankai
  */
 public class LogInfo {
+    /**
+     * 主键
+     */
     private Long id;
     /**
-     * 操作用户
+     * 应用名
      */
-    private String username;
-
+    private String application;
     /**
      * 资源名称
      */
     private String resource;
-
+    /**
+     * 资源 id
+     */
+    private String resourceId;
     /**
      * url 地址
      */
     private String url;
-
     /**
      * 安全等级(0: 普通 1: 中等 2: 高风险)
      */
     private Integer safetyLevel;
-
     /**
      * 类名
      */
     private String className;
-
     /**
      * 方法名
      */
     private String methodName;
-
     /**
      * 参数
      */
     private String params;
-
     /**
      * 返回值
      */
     private String returnValue;
-
     /**
      * 服务器 IP
      */
     private String serverIp;
-
     /**
      * 客户端 IP
      */
     private String clientIp;
-
     /**
      * 客户端地址
      */
     private String clientAddress;
-
     /**
      * 浏览器
      */
     private String browser;
-
     /**
      * 总时间毫秒数
      */
     private Long totalTimeMillis;
-
+    /**
+     * 操作用户
+     */
+    private String username;
     /**
      * 操作是否异常
      */
     private Boolean operationException;
-
     /**
      * 异常详细
      */
     private String exceptionDetail;
-
     /**
      * 创建日期
      */
@@ -97,12 +93,12 @@ public class LogInfo {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getApplication() {
+        return application;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setApplication(String application) {
+        this.application = application;
     }
 
     public String getResource() {
@@ -111,6 +107,14 @@ public class LogInfo {
 
     public void setResource(String resource) {
         this.resource = resource;
+    }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getUrl() {
@@ -199,6 +203,14 @@ public class LogInfo {
 
     public void setTotalTimeMillis(Long totalTimeMillis) {
         this.totalTimeMillis = totalTimeMillis;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getOperationException() {

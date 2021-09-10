@@ -1,10 +1,10 @@
 package com.fanxuankai.boot.distributed.lock;
 
+import com.fanxuankai.commons.util.OptionalUtils;
 import jodd.util.StringPool;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +30,7 @@ public class LockKeyMaker {
         if (prefix == null || prefix.length() == 0) {
             prefix = DEFAULT_LOCK_KEY_PREFIX;
         }
-        String suffix = Optional.ofNullable(resources)
+        String suffix = OptionalUtils.ofNullable(resources)
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(Object::toString)

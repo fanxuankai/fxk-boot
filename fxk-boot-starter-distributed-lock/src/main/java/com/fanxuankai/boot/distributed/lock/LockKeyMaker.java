@@ -1,9 +1,9 @@
 package com.fanxuankai.boot.distributed.lock;
 
-import com.fanxuankai.commons.util.OptionalUtils;
-import jodd.util.StringPool;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.StrUtil;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,14 +27,15 @@ public class LockKeyMaker {
      * @return the key
      */
     public static String makeKey(String prefix, String business, List<Object> resources) {
-        if (prefix == null || prefix.length() == 0) {
+        if (StrUtil.isBlank(prefix)) {
             prefix = DEFAULT_LOCK_KEY_PREFIX;
         }
-        String suffix = OptionalUtils.ofNullable(resources)
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(StringPool.COLON, StringPool.COLON, StringPool.EMPTY));
-        return prefix + StringPool.COLON + business + suffix;
+        String key = prefix + StrPool.COLON + business;
+        if (!CollectionUtil.isEmpty(resources)) {
+            key += StrPool.COLON + resources.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(StrPool.COLON));
+        }
+        return key;
     }
 }

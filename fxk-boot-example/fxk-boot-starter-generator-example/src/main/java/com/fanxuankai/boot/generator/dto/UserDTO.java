@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.generator.dto;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,47 +15,13 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class UserDTO implements Serializable {
     /**
-     * 类型 枚举: materielType
+     * 账号
      */
-    private Integer type;
+    @ExcelProperty("账号")
+    private String username;
     /**
-     * 子类型
+     * 密码
      */
-    private Long subType;
-    /**
-     * 编码
-     */
-    private String code;
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 型号
-     */
-    private String model;
-    /**
-     * 规格
-     */
-    private String specs;
-    /**
-     * 单位
-     */
-    private String unit;
-    /**
-     * 备注
-     */
-    private String remarks;
-    /**
-     * 关联物料 id
-     */
-    private String relationId;
-    /**
-     * 关联物料 code
-     */
-    private String relationCode;
-    /**
-     * 关联物料名称
-     */
-    private String relationName;
+    @ExcelProperty("密码")
+    private String password;
 }

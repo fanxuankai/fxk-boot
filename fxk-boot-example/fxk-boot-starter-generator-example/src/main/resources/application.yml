@@ -8,11 +8,11 @@ fxk:
   # 代码生成配置
   code-generator:
     # 激活
-    enabled: true
+    enabled: false
     # 数据库
-    schema: code_generator
+    schema: fxk-boot
     # 需要生成的表
-    tables: t_user
+    tables: user
     # 作者
     author: admin
     # 去表前缀
@@ -29,3 +29,5 @@ fxk:
     package-name: com.fanxuankai.boot.generator
     # 要生成的类文件
     files-to-create:
+    # 集成 EasyExcel
+    integrate-easy-excel: true

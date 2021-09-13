@@ -1,5 +1,7 @@
 package com.fanxuankai.boot.generator.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import com.alibaba.excel.EasyExcel;
 import com.fanxuankai.boot.generator.dao.UserDao;
 import com.fanxuankai.boot.generator.dto.UserDTO;
 import com.fanxuankai.boot.generator.dto.UserQueryCriteria;
@@ -8,15 +10,15 @@ import com.fanxuankai.boot.generator.service.UserService;
 import com.fanxuankai.boot.generator.service.mapstruct.UserConverter;
 import com.fanxuankai.boot.generator.vo.UserVO;
 import com.fanxuankai.commons.extra.mybatis.base.BaseServiceImpl;
-import com.fanxuankai.commons.util.ExcelDownloadUtils;
+import com.fanxuankai.commons.util.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户 服务实现类
@@ -24,29 +26,27 @@ import java.util.Map;
  * @author admin
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserQueryCriteria, UserConverter, UserDao> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, UserVO, UserQueryCriteria, UserConverter, UserDao>
+        implements UserService {
     @Override
     public void download(List<UserVO> all, HttpServletResponse response) throws IOException {
-        List<Map<String, Object>> list = new ArrayList<>();
-        for (UserVO user : all) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("类型 枚举: materielType", user.getType());
-            map.put("子类型", user.getSubType());
-            map.put("编码", user.getCode());
-            map.put("名称", user.getName());
-            map.put("型号", user.getModel());
-            map.put("规格", user.getSpecs());
-            map.put("单位", user.getUnit());
-            map.put("备注", user.getRemarks());
-            map.put("关联物料 id", user.getRelationId());
-            map.put("关联物料 code", user.getRelationCode());
-            map.put("关联物料名称", user.getRelationName());
-            map.put("创建人", user.getCreateUserId());
-            map.put("创建时间", user.getGmtCreate());
-            map.put("修改人", user.getModifiedUserId());
-            map.put("修改时间", user.getGmtModified());
-            list.add(map);
+        String filename = URLEncoder.encode("用户", "UTF-8")
+                + "-" + DateUtils.toText(new Date(), DatePattern.PURE_DATETIME_PATTERN);
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + filename + ".xlsx");
+        EasyExcel.write(response.getOutputStream(), UserVO.class)
+                .sheet("导出数据")
+                .doWrite(all);
+    }
+
+    @Override
+    public void upload(MultipartFile request) throws IOException {
+        List<UserDTO> dtoList = EasyExcel.read(request.getInputStream(), UserDTO.class, null)
+                .sheet()
+                .doReadSync();
+        if (dtoList.isEmpty()) {
+            return;
         }
-        ExcelDownloadUtils.downloadExcel(list, response);
+        baseDao.saveBatch(converter.toEntity(dtoList));
     }
 }

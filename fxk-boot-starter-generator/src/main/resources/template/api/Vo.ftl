@@ -1,5 +1,8 @@
 package ${packageName}.vo;
 
+<#if integrateEasyExcel>
+import com.alibaba.excel.annotation.ExcelProperty;
+</#if>
 <#if hasTimestamp || hasDate || hasLong>
 import com.fasterxml.jackson.annotation.JsonFormat;
 </#if>
@@ -36,6 +39,9 @@ public class ${className}VO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         <#elseif column.fieldType == 'Long'>
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+        </#if>
+        <#if integrateEasyExcel>
+    @ExcelProperty("${column.remark}")
         </#if>
     private ${column.fieldType} ${column.fieldName};
     </#list>

@@ -46,6 +46,7 @@ public class DtoTemplateGenerator extends AbstractTemplateGenerator<DtoTemplateD
     protected DtoTemplateData getTemplateData(GenConfig genConfig, CodeGeneratorProperties properties) {
         DtoTemplateData data = super.getTemplateData(genConfig, properties);
         data.setHasNotNull(data.getColumns().stream().anyMatch(ColumnInfo::isNotNull));
+        data.setIntegrateEasyExcel(properties.isIntegrateEasyExcel());
         return data;
     }
 }

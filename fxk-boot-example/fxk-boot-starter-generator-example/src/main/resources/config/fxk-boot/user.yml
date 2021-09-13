@@ -1,0 +1,109 @@
+---
+tableName: "user"
+comment: "用户"
+author: "admin"
+prefix: "t_"
+projectDir: "/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/fxk-boot-starter-generator-example"
+apiPath: ""
+webPath: ""
+serviceName: "user-service"
+packageName: "com.fanxuankai.boot.generator"
+cover: true
+filesToCreate: []
+columnInfos:
+- columnName: "id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: true
+  unique: false
+  extra: ""
+  remark: "主键"
+  notNull: true
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "username"
+  columnType: "varchar"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "账号"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "password"
+  columnType: "varchar"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "密码"
+  notNull: false
+  queryType: "EQ"
+  fill: null
+  formShow: true
+  listShow: true
+- columnName: "create_user_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "创建人"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: true
+- columnName: "modified_user_id"
+  columnType: "bigint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "修改人"
+  notNull: false
+  queryType: "EQ"
+  fill: "UPDATE"
+  formShow: false
+  listShow: true
+- columnName: "gmt_create"
+  columnType: "datetime"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "创建时间"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: true
+- columnName: "gmt_modified"
+  columnType: "datetime"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "修改时间"
+  notNull: false
+  queryType: "EQ"
+  fill: "UPDATE"
+  formShow: false
+  listShow: true
+- columnName: "deleted"
+  columnType: "tinyint"
+  fieldName: null
+  primaryKey: false
+  unique: false
+  extra: ""
+  remark: "是否删除"
+  notNull: false
+  queryType: "EQ"
+  fill: "INSERT"
+  formShow: false
+  listShow: false

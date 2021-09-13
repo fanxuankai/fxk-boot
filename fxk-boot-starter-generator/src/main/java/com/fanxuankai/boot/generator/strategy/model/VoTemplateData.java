@@ -3,20 +3,11 @@ package com.fanxuankai.boot.generator.strategy.model;
 /**
  * @author fanxuankai
  */
-public class DtoTemplateData extends TemplateData {
-    private boolean hasNotNull;
+public class VoTemplateData extends TemplateData {
     /**
      * 集成 EasyExcel
      */
     private boolean integrateEasyExcel;
-
-    public boolean isHasNotNull() {
-        return hasNotNull;
-    }
-
-    public void setHasNotNull(boolean hasNotNull) {
-        this.hasNotNull = hasNotNull;
-    }
 
     public boolean isIntegrateEasyExcel() {
         return integrateEasyExcel;

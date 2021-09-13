@@ -41,6 +41,7 @@ public class ServiceImplTemplateGenerator extends AbstractTemplateGenerator<Serv
                 .findFirst()
                 .map(ColumnData::getCapitalFieldName)
                 .ifPresent(data::setPkCapitalColName);
+        data.setIntegrateEasyExcel(properties.isIntegrateEasyExcel());
         return data;
     }
 }

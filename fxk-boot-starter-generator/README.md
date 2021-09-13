@@ -69,4 +69,6 @@ fxk:
     inherited-columns: id,create_user_id,create_date,modified_user_id,last_modified_date,deleted
     # 要生成的类文件
     files-to-create:
+    # 集成 EasyExcel
+    integrate-easy-excel: true
 ```

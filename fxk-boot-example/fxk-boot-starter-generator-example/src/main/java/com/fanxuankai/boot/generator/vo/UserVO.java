@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.generator.vo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,73 +17,43 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UserVO implements Serializable {
     /**
-     * ID
+     * 主键
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @ExcelProperty("主键")
     private Long id;
     /**
-     * 类型 枚举: materielType
+     * 账号
      */
-    private Integer type;
+    @ExcelProperty("账号")
+    private String username;
     /**
-     * 子类型
+     * 密码
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long subType;
-    /**
-     * 编码
-     */
-    private String code;
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 型号
-     */
-    private String model;
-    /**
-     * 规格
-     */
-    private String specs;
-    /**
-     * 单位
-     */
-    private String unit;
-    /**
-     * 备注
-     */
-    private String remarks;
-    /**
-     * 关联物料 id
-     */
-    private String relationId;
-    /**
-     * 关联物料 code
-     */
-    private String relationCode;
-    /**
-     * 关联物料名称
-     */
-    private String relationName;
+    @ExcelProperty("密码")
+    private String password;
     /**
      * 创建人
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @ExcelProperty("创建人")
     private Long createUserId;
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date gmtCreate;
     /**
      * 修改人
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @ExcelProperty("修改人")
     private Long modifiedUserId;
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ExcelProperty("创建时间")
+    private Date gmtCreate;
     /**
      * 修改时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ExcelProperty("修改时间")
     private Date gmtModified;
 }

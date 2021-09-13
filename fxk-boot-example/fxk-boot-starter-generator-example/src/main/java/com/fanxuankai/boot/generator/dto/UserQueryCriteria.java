@@ -16,70 +16,30 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UserQueryCriteria {
     /**
-     * ID EQ
+     * 主键 EQ
      */
     @Query(field = "id", type = Query.Type.EQ)
     private Long idEq;
     /**
-     * 类型 枚举: materielType EQ
+     * 账号 EQ
      */
-    @Query(field = "type", type = Query.Type.EQ)
-    private Integer typeEq;
+    @Query(field = "username", type = Query.Type.EQ)
+    private String usernameEq;
     /**
-     * 子类型 EQ
+     * 密码 EQ
      */
-    @Query(field = "subType", type = Query.Type.EQ)
-    private Long subTypeEq;
-    /**
-     * 编码 EQ
-     */
-    @Query(field = "code", type = Query.Type.EQ)
-    private String codeEq;
-    /**
-     * 名称 EQ
-     */
-    @Query(field = "name", type = Query.Type.EQ)
-    private String nameEq;
-    /**
-     * 型号 EQ
-     */
-    @Query(field = "model", type = Query.Type.EQ)
-    private String modelEq;
-    /**
-     * 规格 EQ
-     */
-    @Query(field = "specs", type = Query.Type.EQ)
-    private String specsEq;
-    /**
-     * 单位 EQ
-     */
-    @Query(field = "unit", type = Query.Type.EQ)
-    private String unitEq;
-    /**
-     * 备注 EQ
-     */
-    @Query(field = "remarks", type = Query.Type.EQ)
-    private String remarksEq;
-    /**
-     * 关联物料 id EQ
-     */
-    @Query(field = "relationId", type = Query.Type.EQ)
-    private String relationIdEq;
-    /**
-     * 关联物料 code EQ
-     */
-    @Query(field = "relationCode", type = Query.Type.EQ)
-    private String relationCodeEq;
-    /**
-     * 关联物料名称 EQ
-     */
-    @Query(field = "relationName", type = Query.Type.EQ)
-    private String relationNameEq;
+    @Query(field = "password", type = Query.Type.EQ)
+    private String passwordEq;
     /**
      * 创建人 EQ
      */
     @Query(field = "createUserId", type = Query.Type.EQ)
     private Long createUserIdEq;
+    /**
+     * 修改人 EQ
+     */
+    @Query(field = "modifiedUserId", type = Query.Type.EQ)
+    private Long modifiedUserIdEq;
     /**
      * 创建时间 EQ
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
@@ -88,11 +48,6 @@ public class UserQueryCriteria {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date gmtCreateEq;
     /**
-     * 修改人 EQ
-     */
-    @Query(field = "modifiedUserId", type = Query.Type.EQ)
-    private Long modifiedUserIdEq;
-    /**
      * 修改时间 EQ
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
@@ -100,8 +55,8 @@ public class UserQueryCriteria {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date gmtModifiedEq;
     /**
-     * 是否删除 枚举: yesOrNo EQ
+     * 是否删除 EQ
      */
     @Query(field = "deleted", type = Query.Type.EQ)
-    private Boolean deletedEq;
+    private Integer deletedEq;
 }

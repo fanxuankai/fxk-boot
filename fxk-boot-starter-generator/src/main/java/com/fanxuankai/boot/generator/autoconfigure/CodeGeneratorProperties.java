@@ -58,6 +58,10 @@ public class CodeGeneratorProperties {
      */
     private String packageName;
     /**
+     * 集成 EasyExcel
+     */
+    private boolean integrateEasyExcel;
+    /**
      * 是否覆盖
      */
     private boolean cover = true;
@@ -164,6 +168,14 @@ public class CodeGeneratorProperties {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public boolean isIntegrateEasyExcel() {
+        return integrateEasyExcel;
+    }
+
+    public void setIntegrateEasyExcel(boolean integrateEasyExcel) {
+        this.integrateEasyExcel = integrateEasyExcel;
     }
 
     public boolean isCover() {

@@ -1,10 +1,11 @@
 package com.fanxuankai.boot.generator.strategy;
 
+import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
 import com.fanxuankai.boot.generator.model.ColumnInfo;
 import com.fanxuankai.boot.generator.model.GenConfig;
 import com.fanxuankai.boot.generator.strategy.annotation.TemplateFileAnnotation;
 import com.fanxuankai.boot.generator.strategy.enums.TemplateFile;
-import com.fanxuankai.boot.generator.strategy.model.TemplateData;
+import com.fanxuankai.boot.generator.strategy.model.VoTemplateData;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @TemplateFileAnnotation(TemplateFile.VO)
-public class VoTemplateGenerator extends AbstractTemplateGenerator<TemplateData> {
+public class VoTemplateGenerator extends AbstractTemplateGenerator<VoTemplateData> {
 
     @Override
     protected List<ColumnInfo> filterColumnInfos(List<ColumnInfo> columnInfos) {
@@ -39,4 +40,10 @@ public class VoTemplateGenerator extends AbstractTemplateGenerator<TemplateData>
         return "VO";
     }
 
+    @Override
+    protected VoTemplateData getTemplateData(GenConfig genConfig, CodeGeneratorProperties properties) {
+        VoTemplateData templateData = super.getTemplateData(genConfig, properties);
+        templateData.setIntegrateEasyExcel(properties.isIntegrateEasyExcel());
+        return templateData;
+    }
 }

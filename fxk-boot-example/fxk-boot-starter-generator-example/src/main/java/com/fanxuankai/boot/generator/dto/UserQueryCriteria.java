@@ -1,9 +1,9 @@
 package com.fanxuankai.boot.generator.dto;
 
 import com.fanxuankai.commons.extra.mybatis.annotation.Query;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -45,14 +45,14 @@ public class UserQueryCriteria {
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
     @Query(field = "gmtCreate", type = Query.Type.EQ)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreateEq;
     /**
      * 修改时间 EQ
      * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
     @Query(field = "gmtModified", type = Query.Type.EQ)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtModifiedEq;
     /**
      * 是否删除 EQ

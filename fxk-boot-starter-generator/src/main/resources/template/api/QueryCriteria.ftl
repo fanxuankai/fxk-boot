@@ -3,11 +3,11 @@ package ${packageName}.dto;
 <#if columns?? &&(columns?size > 0)>
 import com.fanxuankai.commons.extra.mybatis.annotation.Query;
 </#if>
-<#if hasTimestamp || hasDate>
-import com.fasterxml.jackson.annotation.JsonFormat;
-</#if>
 import lombok.Data;
 import lombok.experimental.Accessors;
+<#if hasTimestamp || hasDate>
+import org.springframework.format.annotation.DateTimeFormat;
+</#if>
 
 <#if queryHasTimestamp>
 import java.sql.Timestamp;
@@ -42,7 +42,7 @@ public class ${className}QueryCriteria {
         <#if (column.fieldType == 'Date' || column.fieldType == 'Timestamp')
             && (column.queryType != 'NOT_NULL' || column.queryType != 'IS_NULL'
                 || column.queryType != 'ORDER_BY_ASC' || column.queryType != 'ORDER_BY_DESC')>
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         </#if>
         <#if column.queryType == 'NOT_NULL' || column.queryType == 'IS_NULL'
             || column.queryType == 'ORDER_BY_ASC' || column.queryType == 'ORDER_BY_DESC'>

@@ -3,6 +3,7 @@ package com.fanxuankai.boot.enums.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class EnumType {
      * 主键
      */
     @TableId(type = IdType.AUTO)
+    @JsonIgnore
     private Long id;
     /**
      * 枚举类名
@@ -29,6 +31,7 @@ public class EnumType {
     /**
      * 只生成数据
      */
+    @JsonIgnore
     private boolean generateDataOnly;
 
     public Long getId() {

@@ -5,7 +5,7 @@ import com.fanxuankai.commons.util.EnumProtocol;
 /**
  * 是否删除
  *
- * @author fanxuankai
+ * @author admin
  */
 public enum Deleted implements EnumProtocol {
     /**
@@ -34,4 +34,5 @@ public enum Deleted implements EnumProtocol {
     public String getValue() {
         return this.value;
     }
+
 }

@@ -23,7 +23,7 @@ public class EnumApp implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         // 生成枚举类
         GenerateModel model = new GenerateModel();
-        model.setAuth("fanxuankai");
+        model.setAuth("admin");
         model.setPath("/Users/fanxuankai/Java/Workspace/myproject/fanxuankai/framework/标准/fxk-boot/fxk-boot-example/" +
                 "fxk-boot-starter-enum-example/src/main/java");
         model.setPackageName("com.fanxuankai.boot.enums.files");

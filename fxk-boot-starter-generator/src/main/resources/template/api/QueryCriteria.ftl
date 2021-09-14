@@ -34,9 +34,6 @@ public class ${className}QueryCriteria {
     <#list columns as column>
     /**
      * ${column.remark} ${column.queryType}
-        <#if column.fieldType == 'Date' || column.fieldType == 'Timestamp'>
-     * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
-        </#if>
      */
     @Query(field = "${column.fieldName}", type = Query.Type.${column.queryType})
         <#if (column.fieldType == 'Date' || column.fieldType == 'Timestamp')

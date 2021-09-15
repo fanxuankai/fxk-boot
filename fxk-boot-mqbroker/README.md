@@ -169,3 +169,4 @@ EventListener<String> eventListener = new EventListener<String>() {
 EventListenerRegistry.addListener(s, eventListener);
 ```
 - 发送、接收消息都有防重机制，机制触发后，该消息会被丢弃，如果消息监听一直未触发，首先判断是否触发了防重机制。
+- 消费超时，可能造成消息重复消费，消费端尽可能做幂等。

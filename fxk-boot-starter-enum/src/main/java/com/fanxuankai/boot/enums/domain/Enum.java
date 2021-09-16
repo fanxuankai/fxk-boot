@@ -40,7 +40,6 @@ public class Enum {
     /**
      * 描述
      */
-    @JsonIgnore
     private String description;
     /**
      * 是否禁用

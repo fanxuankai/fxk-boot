@@ -14,11 +14,9 @@ import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -31,7 +29,6 @@ import java.util.concurrent.TimeUnit;
  * @author fanxuankai
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ProductInfoTest {
     @Resource
     private ProductService productService;
@@ -108,7 +105,7 @@ public class ProductInfoTest {
 //        long updated = client.updateByQuery(request, RequestOptions.DEFAULT).getUpdated();
 //        System.out.println(updated);
 
-        RestHighLevelClient client = elasticsearchRestTemplate.getClient();
+        RestHighLevelClient client = null; // elasticsearchRestTemplate.getClient();
         //参数为索引名，可以不指定，可以一个，可以多个
         UpdateByQueryRequest request = new UpdateByQueryRequest("canal_client_example.product_info");
         // 更新时版本冲突
@@ -116,7 +113,7 @@ public class ProductInfoTest {
         // 设置查询条件，第一个参数是字段名，第二个参数是字段的值
         request.setQuery(new TermQueryBuilder("code.keyword", "6P"));
         // 更新最大文档数
-        request.setSize(10);
+        request.setMaxDocs(10);
         // 批次大小
         request.setBatchSize(1000);
 //		request.setPipeline("my_pipeline");

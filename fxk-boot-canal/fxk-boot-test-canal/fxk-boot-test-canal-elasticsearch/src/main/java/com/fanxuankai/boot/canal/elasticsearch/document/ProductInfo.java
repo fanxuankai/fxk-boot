@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author fanxuankai
  */
-@Document(indexName = "canal_client_example.product_info", type = "doc")
+@Document(indexName = "canal_client_example.product_info")
 public class ProductInfo {
     @Id
     private Long id;

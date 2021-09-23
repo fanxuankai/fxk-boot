@@ -36,7 +36,8 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
         } else if (Objects.equals(Boolean.class.getName(), deletedFieldType)) {
             strictInsertFill(metaObject, deletedFieldName, Boolean.class, Boolean.FALSE);
         } else if (Objects.equals(Byte.class.getName(), deletedFieldType)) {
-            strictInsertFill(metaObject, deletedFieldName, Byte.class, 0);
+            byte fieldVal = 0;
+            strictInsertFill(metaObject, deletedFieldName, Byte.class, fieldVal);
         }
     }
 

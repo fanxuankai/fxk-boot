@@ -4,16 +4,13 @@ import com.fanxuankai.boot.mqbroker.example.common.UserManager;
 import com.fanxuankai.boot.mqbroker.example.common.domain.User;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @SpringBootTest(classes = MqBrokerRunlionXxlExampleApplication.class)
-@RunWith(SpringRunner.class)
 public class EventPublisherTest {
 
     @Resource

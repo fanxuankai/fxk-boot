@@ -4,10 +4,8 @@ import cn.org.atool.fluent.mybatis.metadata.JoinType;
 import cn.org.atool.fluent.mybatis.segment.JoinQuery;
 import com.fanxuankai.boot.fluent.mybatis.dao.base.HelloWorldBaseDao;
 import com.fanxuankai.boot.fluent.mybatis.wrapper.HelloWorldQuery;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
@@ -15,7 +13,6 @@ import javax.annotation.Resource;
  * @author fanxuankai
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class HelloWorldDaoTest {
     @Resource
     private HelloWorldBaseDao dao;
@@ -33,6 +30,5 @@ public class HelloWorldDaoTest {
                 .on(l -> l.where.id(), r -> r.where.id())
                 .endJoin()
                 .build();
-
     }
 }

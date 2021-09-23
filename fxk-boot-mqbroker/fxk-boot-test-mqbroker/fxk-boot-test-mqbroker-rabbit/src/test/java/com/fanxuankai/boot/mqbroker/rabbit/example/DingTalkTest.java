@@ -3,10 +3,8 @@ package com.fanxuankai.boot.mqbroker.rabbit.example;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.taobao.api.ApiException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -15,7 +13,6 @@ import java.util.Collections;
  * @author fanxuankai
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class DingTalkTest {
     @Resource
     private DingTalkClient dingTalkClient;

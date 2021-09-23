@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fanxuankai.boot</groupId>
     <artifactId>fxk-boot-dependencies</artifactId>
-    <version>2.2.7.3-SNAPSHOT</version>
+    <version>2.4.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>FXK Boot Dependencies</name>
     <description>FXK Boot Dependencies</description>
@@ -35,11 +35,11 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-        <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
-        <fanxuankai-commons.version>1.1.1-SNAPSHOT</fanxuankai-commons.version>
-        <fanxuankai-canal.version>2.0.0-SNAPSHOT</fanxuankai-canal.version>
+        <spring-boot.version>2.4.4</spring-boot.version>
+        <fanxuankai-commons.version>1.1.1_2.4.4-SNAPSHOT</fanxuankai-commons.version>
+        <fanxuankai-canal.version>2.0.0_2.4.4-SNAPSHOT</fanxuankai-canal.version>
         <rocketmq-spring-boot.version>2.2.0</rocketmq-spring-boot.version>
-        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <runlion-xxl-mq.version>1.3.0-SNAPSHOT</runlion-xxl-mq.version>
         <alibaba-dingtalk-service-sdk.version>1.0.1</alibaba-dingtalk-service-sdk.version>
         <redisson.version>3.12.4</redisson.version>
@@ -48,7 +48,7 @@
         <xxl-mq-client.version>1.2.2</xxl-mq-client.version>
         <springfox.version>3.0.0</springfox.version>
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
-        <spring-security-oauth.version>2.2.7.RELEASE</spring-security-oauth.version>
+        <spring-security-oauth.version>2.4.4</spring-security-oauth.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
         <poi.version>4.1.2</poi.version>
         <easyexcel.version>2.2.10</easyexcel.version>

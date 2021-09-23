@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 
 /**
@@ -40,8 +39,7 @@ public class UserController {
      */
     @GetMapping("testBizException")
     public Result<Void> testBizException() throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<?> submit = executorService.submit(() -> {
+        Future<?> submit = ForkJoinPool.commonPool().submit(() -> {
             if (RandomUtil.randomInt() % 2 == 0) {
                 throw new BizException("测试线程异常");
             }
@@ -55,8 +53,7 @@ public class UserController {
      */
     @GetMapping("testRedisException")
     public Result<Void> testRedisException() throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<?> submit = executorService.submit(() -> {
+        Future<?> submit = ForkJoinPool.commonPool().submit(() -> {
             if (RandomUtil.randomInt() % 2 == 0) {
                 throw new RedisException("测试线程异常");
             }
@@ -70,8 +67,7 @@ public class UserController {
      */
     @GetMapping("test14")
     public Result<Void> test14() throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<?> submit = executorService.submit(() -> {
+        Future<?> submit = ForkJoinPool.commonPool().submit(() -> {
             if (RandomUtil.randomInt() % 2 == 0) {
                 throw new BizException("测试线程异常");
             }

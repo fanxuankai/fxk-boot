@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.mqbroker.example.common;
 
+import com.fanxuankai.boot.mqbroker.example.common.constant.CommonConstants;
 import com.fanxuankai.boot.mqbroker.example.common.domain.User;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.github.jsonzou.jmockdata.JMockData;
@@ -17,7 +18,7 @@ public class UserManager {
         return IntStream.range(0, 1)
                 .mapToObj(value -> {
                     Event<User> event = new Event<>();
-                    event.setName("user");
+                    event.setName(CommonConstants.USER_TOPIC);
                     event.setKey(UUID.randomUUID().toString());
                     event.setData(JMockData.mock(User.class));
                     return event;

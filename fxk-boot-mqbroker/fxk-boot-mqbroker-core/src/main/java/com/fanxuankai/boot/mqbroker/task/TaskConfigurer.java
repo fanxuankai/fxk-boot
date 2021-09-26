@@ -47,9 +47,11 @@ public class TaskConfigurer implements SchedulingConfigurer {
             scheduledTaskRegistrar.addTriggerTask(msgReceiveTask, triggerContext ->
                     new PeriodicTrigger(mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
                             .nextExecutionTime(triggerContext));
-            scheduledTaskRegistrar.addTriggerTask(() -> msgReceiveService.consumeTimeout(),
-                    triggerContext -> new PeriodicTrigger(mqBrokerProperties.getConsumeTimeout(),
-                            TimeUnit.MILLISECONDS).nextExecutionTime(triggerContext));
+            if (mqBrokerProperties.isEnabledConsumptionCompensation()) {
+                scheduledTaskRegistrar.addTriggerTask(() -> msgReceiveService.consumeTimeout(),
+                        triggerContext -> new PeriodicTrigger(mqBrokerProperties.getConsumeTimeout(),
+                                TimeUnit.MILLISECONDS).nextExecutionTime(triggerContext));
+            }
         }
     }
 

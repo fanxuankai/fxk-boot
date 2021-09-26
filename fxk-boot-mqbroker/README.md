@@ -120,6 +120,8 @@ fxk:
     #max-retry: 3
     # 发布回调超时
     #publisher-callback-timeout: 300000
+    # 是否开启消费补偿
+    #enabled-consumption-compensation: false
     # 消费超时
     #consume-timeout: 300000
     # 手动确认

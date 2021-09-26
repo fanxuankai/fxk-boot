@@ -22,6 +22,12 @@ public class MqBrokerProperties {
      */
     private long publisherCallbackTimeout = 300_000;
     /**
+     * 是否开启消费补偿。
+     * 开启：消费超时会进行消费补偿，同时会存在重复消费的问题，需要消费端做幂等处理；
+     * 关闭：消费超时不会进行消费补偿，消息状态一直处于进行中，需要人工参与处理。
+     */
+    private boolean enabledConsumptionCompensation;
+    /**
      * 消费超时 ms
      */
     private long consumeTimeout = 300_000;
@@ -70,6 +76,14 @@ public class MqBrokerProperties {
 
     public void setPublisherCallbackTimeout(long publisherCallbackTimeout) {
         this.publisherCallbackTimeout = publisherCallbackTimeout;
+    }
+
+    public boolean isEnabledConsumptionCompensation() {
+        return enabledConsumptionCompensation;
+    }
+
+    public void setEnabledConsumptionCompensation(boolean enabledConsumptionCompensation) {
+        this.enabledConsumptionCompensation = enabledConsumptionCompensation;
     }
 
     public long getConsumeTimeout() {

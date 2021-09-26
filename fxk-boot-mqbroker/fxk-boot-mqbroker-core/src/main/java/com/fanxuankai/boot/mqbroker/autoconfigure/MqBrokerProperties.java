@@ -35,7 +35,7 @@ public class MqBrokerProperties {
      */
     private Map<String, EventStrategy> eventStrategy = Collections.emptyMap();
     /**
-     * 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+     * 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
      */
     private int msgSize = 100;
     /**
@@ -48,9 +48,13 @@ public class MqBrokerProperties {
     @NestedConfigurationProperty
     private DingTalk dingTalk;
     /**
-     * 开启延迟消息
+     * 开启延迟消息(比如: RabbitMQ delayed)
      */
-    private Boolean enabledDelayedMessage = Boolean.FALSE;
+    private boolean enabledDelayedMessage;
+    /**
+     * 延迟发送，到达生效时间才发送
+     */
+    private DelayedSend delayedSend;
 
     public int getMaxRetry() {
         return maxRetry;
@@ -116,12 +120,20 @@ public class MqBrokerProperties {
         this.dingTalk = dingTalk;
     }
 
-    public Boolean getEnabledDelayedMessage() {
+    public boolean isEnabledDelayedMessage() {
         return enabledDelayedMessage;
     }
 
-    public void setEnabledDelayedMessage(Boolean enabledDelayedMessage) {
+    public void setEnabledDelayedMessage(boolean enabledDelayedMessage) {
         this.enabledDelayedMessage = enabledDelayedMessage;
+    }
+
+    public DelayedSend getDelayedSend() {
+        return delayedSend;
+    }
+
+    public void setDelayedSend(DelayedSend delayedSend) {
+        this.delayedSend = delayedSend;
     }
 
     /**
@@ -187,6 +199,33 @@ public class MqBrokerProperties {
 
         public void setEnv(String env) {
             this.env = env;
+        }
+    }
+
+    public static class DelayedSend {
+        /**
+         * 是否开启
+         */
+        private boolean enabled;
+        /**
+         * 拉取数据的间隔 ms
+         */
+        private long intervalMillis = 5_000;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public long getIntervalMillis() {
+            return intervalMillis;
+        }
+
+        public void setIntervalMillis(long intervalMillis) {
+            this.intervalMillis = intervalMillis;
         }
     }
 }

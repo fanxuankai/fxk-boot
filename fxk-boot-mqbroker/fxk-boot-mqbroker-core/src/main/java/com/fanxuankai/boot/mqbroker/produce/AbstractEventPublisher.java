@@ -4,6 +4,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgSend;
 import com.fanxuankai.boot.mqbroker.enums.Status;
@@ -36,6 +37,8 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     private ThreadPoolExecutor threadPoolExecutor;
     @Resource
     private MqBrokerDingTalkClientHelper mqBrokerDingTalkClientHelper;
+    @Resource
+    private MqBrokerProperties mqBrokerProperties;
 
     private boolean exists(Event<T> event) {
         return msgSendService.count(Wrappers.lambdaQuery(MsgSend.class)
@@ -102,7 +105,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
             msg.setData(JSONUtil.toJsonStr(data));
         }
         msg.setRetry(0);
-        msg.setStatus(Status.RUNNING.getCode());
+        msg.setStatus(Status.CREATED.getCode());
         Optional.ofNullable(event.getRetryCount())
                 .ifPresent(msg::setRetryCount);
         Date now = new Date();
@@ -116,7 +119,11 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     @SuppressWarnings("unchecked")
     private void save(MsgSend msgSend) {
         try {
-            if (msgSendService.save(msgSend)) {
+            boolean effective = isEffective(msgSend, new Date());
+            if (effective) {
+                msgSend.setStatus(Status.RUNNING.getCode());
+            }
+            if (msgSendService.save(msgSend) && effective) {
                 produce(msgSend);
             }
         } catch (Throwable throwable) {
@@ -130,8 +137,13 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     @SuppressWarnings("unchecked")
     private void save(List<MsgSend> msgSends) {
         try {
+            Date now = new Date();
+            List<MsgSend> effectiveMsgSends = msgSends.stream()
+                    .filter(msgSend -> isEffective(msgSend, now))
+                    .peek(msgSend -> msgSend.setStatus(Status.RUNNING.getCode()))
+                    .collect(Collectors.toList());
             if (msgSendService.saveBatch(msgSends)) {
-                msgSends.forEach(this::produce);
+                effectiveMsgSends.forEach(this::produce);
             }
         } catch (Throwable throwable) {
             if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
@@ -143,5 +155,13 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
 
     private void produce(MsgSend msg) {
         msgSendService.produce(msg, true);
+    }
+
+    private boolean isEffective(MsgSend msgSend, Date now) {
+        if (msgSend.getEffectTime() == null) {
+            return true;
+        }
+        return !mqBrokerProperties.getDelayedSend().isEnabled()
+                && !now.before(msgSend.getEffectTime());
     }
 }

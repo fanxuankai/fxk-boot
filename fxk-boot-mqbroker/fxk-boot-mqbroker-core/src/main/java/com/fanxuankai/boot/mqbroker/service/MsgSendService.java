@@ -13,9 +13,8 @@ import java.util.List;
  * @author fanxuankai
  */
 public interface MsgSendService extends IService<MsgSend> {
-
     /**
-     * 获取消息
+     * 拉取消息
      *
      * @return list
      */

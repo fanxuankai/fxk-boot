@@ -49,6 +49,7 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
                 new QueryWrapper<MsgSend>().lambda()
                         .eq(Msg::getStatus, Status.CREATED.getCode())
+                        .le(mqBrokerProperties.getDelayedSend().isEnabled(), Msg::getEffectTime, new Date())
                         .orderByAsc(Msg::getId)
                         .lt(Msg::getRetry, mqBrokerProperties.getMaxRetry()))
                 .getRecords();

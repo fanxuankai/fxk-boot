@@ -72,9 +72,8 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
         });
         Exchange exchange = new DirectExchange("mqBrokerRabbit.exchange");
         amqpAdmin.declareExchange(exchange);
-        enabledDelayedMessage = Objects.equals(mqBrokerProperties.getEnabledDelayedMessage(), Boolean.FALSE);
         Exchange delayedExchange = null;
-        if (enabledDelayedMessage) {
+        if (mqBrokerProperties.isEnabledDelayedMessage()) {
             Map<String, Object> args = MapUtil.of("x-delayed-type", "direct");
             delayedExchange = new CustomExchange("mqBrokerRabbit.delayed.exchange", "x-delayed-message",
                     true, false, args);

@@ -1,5 +1,5 @@
 ## 简介
-增强消息队列可靠性，消息一定发送成功且只发送一次，消息一定接收成功且只消费一次。
+增强消息队列可靠性，消息一定发送成功且只发送一次，消息一定接收成功且只消费一次；支持延迟发送。
 
 ![](http://processon.com/chart_image/5ec55550f346fb6907090118.png)
 
@@ -128,7 +128,7 @@ fxk:
     #event-strategy:
       # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
       #user: DEFAULT
-    # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+    # 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
     #msg-size: 100
     # 补偿时, 拉取数据的间隔 ms
     #interval-millis: 1000
@@ -141,6 +141,10 @@ fxk:
       #env:
     # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
     #enabledDelayedMessage: false
+    # 延迟发送，到达生效时间才发送
+    #delayed-send:
+      #enabled: true
+      #interval-millis: 5000
 ```
 - 监听事件
 ```

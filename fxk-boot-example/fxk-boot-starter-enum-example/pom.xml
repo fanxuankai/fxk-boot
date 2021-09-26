@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.fanxuankai.boot</groupId>
         <artifactId>fxk-boot-example</artifactId>
-        <version>2.2.7.3-SNAPSHOT</version>
+        <version>2.2.7.4-SNAPSHOT</version>
     </parent>
     <artifactId>fxk-boot-starter-enum-example</artifactId>
     <name>FXK Boot Starter Enum Example</name>

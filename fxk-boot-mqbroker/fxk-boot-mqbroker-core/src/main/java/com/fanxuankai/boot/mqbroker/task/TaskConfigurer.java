@@ -36,7 +36,9 @@ public class TaskConfigurer implements SchedulingConfigurer {
     @Override
     public void configureTasks(@NonNull ScheduledTaskRegistrar scheduledTaskRegistrar) {
         scheduledTaskRegistrar.addTriggerTask(msgSendTask, triggerContext ->
-                new PeriodicTrigger(mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
+                new PeriodicTrigger(mqBrokerProperties.getDelayedSend().isEnabled() ?
+                        mqBrokerProperties.getDelayedSend().getIntervalMillis() :
+                        mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
                         .nextExecutionTime(triggerContext));
         scheduledTaskRegistrar.addTriggerTask(() -> msgSendService.publisherCallbackTimeout(),
                 triggerContext -> new PeriodicTrigger(mqBrokerProperties.getPublisherCallbackTimeout(),

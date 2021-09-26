@@ -1,9 +1,7 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
 import cn.hutool.core.net.NetUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -52,8 +50,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
             return Collections.emptyList();
         }
         return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
-                new QueryWrapper<MsgReceive>()
-                        .lambda()
+                Wrappers.lambdaQuery(MsgReceive.class)
                         .eq(Msg::getStatus, Status.CREATED.getCode())
                         .in(Msg::getTopic, eventListenerRegistry.getAllListenerMetadata()
                                 .stream()
@@ -70,8 +67,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setStatus(Status.RUNNING.getCode());
         entity.setLastModifiedDate(new Date());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        return update(entity, new UpdateWrapper<MsgReceive>()
-                .lambda()
+        return update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
                 .eq(Msg::getStatus, Status.CREATED.getCode())
                 .eq(Msg::getId, id));
     }
@@ -84,7 +80,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setCause("消费超时");
         entity.setLastModifiedDate(new Date());
         Supplier<LambdaUpdateWrapper<MsgReceive>> lambdaSupplier = () ->
-                new UpdateWrapper<MsgReceive>().lambda()
+                Wrappers.lambdaUpdate(MsgReceive.class)
                         .eq(Msg::getStatus, Status.RUNNING.getCode())
                         .lt(Msg::getLastModifiedDate, timeout);
         entity.setStatus(Status.CREATED.getCode());
@@ -100,8 +96,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setLastModifiedDate(new Date());
         entity.setStatus(Status.SUCCESS.getCode());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        update(entity, new UpdateWrapper<MsgReceive>()
-                .lambda()
+        update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
                 .eq(Msg::getId, msg.getId())
                 .eq(Msg::getStatus, Status.RUNNING.getCode()));
     }
@@ -119,7 +114,7 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         } else {
             entity.setStatus(Status.FAILURE.getCode());
         }
-        update(entity, new UpdateWrapper<MsgReceive>().lambda()
+        update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
                 .eq(Msg::getId, msg.getId())
                 .eq(Msg::getStatus, Status.RUNNING.getCode()));
         mqBrokerDingTalkClientHelper.push("消息消费失败", msg.getMsgGroup(), msg.getTopic(), msg.getCode(), msg.getRetry(),

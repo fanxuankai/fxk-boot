@@ -49,17 +49,12 @@ public class AttributeFunction implements ManyToManyDocumentFunction<Attribute, 
         }
         Map<Long, List<Long>> attributeIdsByProductId =
                 productAttributeService.list(Wrappers.lambdaQuery(ProductAttribute.class)
-                        .in(ProductAttribute::getProductId,
-                                products.stream().map(Product::getId).collect(Collectors.toList()))
-                )
+                        .in(ProductAttribute::getProductId, products.stream()
+                                .map(Product::getId)
+                                .collect(Collectors.toList())))
                         .stream()
-                        .collect(Collectors.groupingBy(ProductAttribute::getProductId))
-                        .entrySet()
-                        .stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey, o -> o.getValue()
-                                .stream()
-                                .map(ProductAttribute::getAttributeId)
-                                .collect(Collectors.toList())));
+                        .collect(Collectors.groupingBy(ProductAttribute::getProductId,
+                                Collectors.mapping(ProductAttribute::getAttributeId, Collectors.toList())));
         Map<Long, Attribute> attributeMap =
                 Optional.of(attributeIdsByProductId.values().stream().flatMap(Collection::stream).collect(Collectors.toList()))
                         .filter(o -> !o.isEmpty())

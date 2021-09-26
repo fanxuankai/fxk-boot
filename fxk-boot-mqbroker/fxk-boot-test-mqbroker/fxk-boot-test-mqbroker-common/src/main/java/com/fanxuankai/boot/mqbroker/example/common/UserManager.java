@@ -20,7 +20,7 @@ public class UserManager {
     }
 
     public static List<Event<User>> mockData(Date effectTime) {
-        return IntStream.range(0, 1)
+        return IntStream.range(0, 100)
                 .mapToObj(value -> {
                     Event<User> event = new Event<>();
                     event.setName(CommonConstants.USER_TOPIC);

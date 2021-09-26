@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.enums.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.boot.enums.domain.EnumType;
 import org.springframework.util.CollectionUtils;
@@ -21,7 +21,8 @@ public interface EnumTypeService extends IService<EnumType> {
      * @return 枚举类型
      */
     default EnumType get(String name) {
-        return getOne(new QueryWrapper<EnumType>().lambda().eq(EnumType::getName, name));
+        return getOne(Wrappers.lambdaQuery(EnumType.class)
+                .eq(EnumType::getName, name));
     }
 
     /**
@@ -31,7 +32,8 @@ public interface EnumTypeService extends IService<EnumType> {
      * @return 枚举类型
      */
     default List<EnumType> list(List<String> names) {
-        return list(new QueryWrapper<EnumType>().lambda().in(EnumType::getName, names));
+        return list(Wrappers.lambdaQuery(EnumType.class)
+                .in(EnumType::getName, names));
     }
 
     /**
@@ -77,6 +79,7 @@ public interface EnumTypeService extends IService<EnumType> {
      * @param name 枚举类名
      */
     default void delete(String name) {
-        remove(new QueryWrapper<EnumType>().lambda().eq(EnumType::getName, name));
+        remove(Wrappers.lambdaQuery(EnumType.class)
+                .eq(EnumType::getName, name));
     }
 }

@@ -82,18 +82,23 @@ public interface EnumService extends IService<Enum> {
     void delete(List<String> typeNames);
 
     /**
-     * 设置 code
+     * 设置 code、sort 字段等等
      *
      * @param dtoList 枚举数据
      */
-    default void setupCode(List<EnumDTO> dtoList) {
+    default void setup(List<EnumDTO> dtoList) {
         for (EnumDTO enumDTO : dtoList) {
             int lastCode = -1;
+            int lastSort = -1;
             for (Enum value : enumDTO.getEnumList()) {
                 if (value.getCode() == null) {
                     value.setCode(lastCode + 1);
                 }
                 lastCode = value.getCode();
+                if (value.getSort() == null) {
+                    value.setSort(lastSort + 1);
+                }
+                lastSort = value.getSort();
             }
         }
     }

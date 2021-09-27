@@ -48,8 +48,8 @@ public class EnumGenerator {
     public void generate(GenerateModel generateModel) {
         List<EnumDTO> dtoList = JSONUtil.toList(getEnumJsonString(), EnumDTO.class);
         check(dtoList);
-        // 先初始化 code
-        enumService.setupCode(dtoList);
+        // 先初始化相关字段
+        enumService.setup(dtoList);
         dtoList = filter(dtoList);
         if (dtoList.isEmpty()) {
             LOGGER.info("枚举配置无修改");
@@ -66,7 +66,7 @@ public class EnumGenerator {
         }
         List<EnumVO> enumList = dtoList.stream().map(vo -> {
             List<Enum> enumDomainList = vo.getEnumList();
-            enumDomainList.sort(Comparator.comparing(Enum::getCode));
+            enumDomainList.sort(Comparator.comparing(Enum::getSort, Comparator.nullsLast(Integer::compareTo)));
             enumDomainList.forEach(anEnum ->
                     anEnum.setName(StrUtil.toUnderlineCase(anEnum.getName()).toUpperCase()));
             EnumType anEnumType = new EnumType();

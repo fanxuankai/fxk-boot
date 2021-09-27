@@ -71,7 +71,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
                 .stream()
                 .map(o -> {
                     EnumType enumType = enumTypeMap.get(o.getKey());
-                    o.getValue().sort(Comparator.comparing(Enum::getId));
+                    o.getValue().sort(Comparator.comparing(Enum::getSort, Comparator.nullsLast(Integer::compareTo)));
                     EnumVO enumVO = new EnumVO();
                     enumVO.setEnumType(enumType);
                     enumVO.setEnumList(o.getValue());

@@ -190,6 +190,12 @@
                 <version>${easyexcel.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.github.mweirauch</groupId>
+                <artifactId>micrometer-jvm-extras</artifactId>
+                <version>0.2.2</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-canal-core-autoconfigure</artifactId>
                 <version>${project.version}</version>
@@ -362,6 +368,11 @@
             <dependency>
                 <groupId>com.fanxuankai.boot</groupId>
                 <artifactId>fxk-boot-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fanxuankai.boot</groupId>
+                <artifactId>fxk-boot-starter-micrometer</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

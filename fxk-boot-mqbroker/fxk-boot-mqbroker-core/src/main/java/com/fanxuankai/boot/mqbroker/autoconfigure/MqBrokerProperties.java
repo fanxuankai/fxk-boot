@@ -26,7 +26,7 @@ public class MqBrokerProperties {
      * 开启：消费超时会进行消费补偿，会存在重复消费的问题，需要消费端做幂等处理；
      * 关闭：消费超时不会进行消费补偿，会存在消息状态一直处于进行中的问题，需要人工参与处理。
      */
-    private boolean enabledConsumptionCompensation;
+    private boolean enabledConsumptionCompensation = true;
     /**
      * 消费超时 ms
      */

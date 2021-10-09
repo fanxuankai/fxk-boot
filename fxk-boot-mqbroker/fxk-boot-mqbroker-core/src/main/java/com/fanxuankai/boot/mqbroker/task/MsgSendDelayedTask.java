@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.mqbroker.task;
 
-import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
-import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
+import com.fanxuankai.boot.mqbroker.domain.MsgSend;
+import com.fanxuankai.boot.mqbroker.service.MsgSendService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -11,21 +11,20 @@ import java.util.List;
  * @author fanxuankai
  */
 @Component
-public class MsgReceiveTask implements Runnable {
-
+public class MsgSendDelayedTask implements Runnable {
     @Resource
-    private MsgReceiveService msgReceiveService;
+    private MsgSendService msgSendService;
 
     @Override
     public void run() {
         while (true) {
-            List<MsgReceive> records = msgReceiveService.pullData();
+            List<MsgSend> records = msgSendService.pullDelayedData();
             if (records.isEmpty()) {
                 return;
             }
             records.forEach(msg -> {
-                if (msgReceiveService.lock(msg.getId())) {
-                    msgReceiveService.consume(msg, true, false);
+                if (msgSendService.lock(msg.getId())) {
+                    msgSendService.produce(msg, true);
                 }
             });
         }

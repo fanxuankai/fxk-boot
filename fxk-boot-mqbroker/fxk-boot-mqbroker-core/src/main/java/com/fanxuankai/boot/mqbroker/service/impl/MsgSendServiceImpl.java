@@ -3,7 +3,7 @@ package com.fanxuankai.boot.mqbroker.service.impl;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgSend;
-import com.fanxuankai.boot.mqbroker.enums.Status;
+import com.fanxuankai.boot.mqbroker.enums.SendStatus;
 import com.fanxuankai.boot.mqbroker.mapper.MsgSendMapper;
 import com.fanxuankai.boot.mqbroker.produce.MqProducer;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,29 +46,33 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
 
     @Override
     public List<MsgSend> pullData() {
-        boolean enabledDelayedSend = mqBrokerProperties.getDelayedSend().isEnabled();
-        LambdaQueryWrapper<MsgSend> wrapper = Wrappers.lambdaQuery(MsgSend.class)
-                .eq(Msg::getStatus, Status.CREATED.getCode())
-                .and(enabledDelayedSend, w -> w.isNull(Msg::getEffectTime)
-                        .or().le(Msg::getEffectTime, new Date()))
-                .lt(Msg::getRetry, mqBrokerProperties.getMaxRetry());
-        if (enabledDelayedSend) {
-            wrapper.orderByAsc(Msg::getEffectTime);
-        } else {
-            wrapper.orderByAsc(Msg::getId);
-        }
-        return page(new Page<>(1, mqBrokerProperties.getMsgSize()), wrapper)
+        return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
+                new QueryWrapper<MsgSend>().lambda()
+                        .eq(Msg::getStatus, SendStatus.WAIT.getCode())
+                        .orderByAsc(Msg::getId)
+                        .lt(Msg::getRetry, mqBrokerProperties.getMaxRetry()))
+                .getRecords();
+    }
+
+    @Override
+    public List<MsgSend> pullDelayedData() {
+        return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
+                Wrappers.lambdaQuery(MsgSend.class)
+                        .eq(Msg::getStatus, SendStatus.DELAYED.getCode())
+                        .le(MsgSend::getEffectTime, new Date())
+                        .lt(Msg::getRetry, mqBrokerProperties.getMaxRetry())
+                        .orderByAsc(MsgSend::getEffectTime))
                 .getRecords();
     }
 
     @Override
     public boolean lock(Long id) {
         MsgSend entity = new MsgSend();
-        entity.setStatus(Status.RUNNING.getCode());
+        entity.setStatus(SendStatus.SENDING.getCode());
         entity.setLastModifiedDate(new Date());
         entity.setHostAddress(NetUtil.getLocalhostStr());
         return update(entity, Wrappers.lambdaUpdate(MsgSend.class)
-                .eq(Msg::getStatus, Status.CREATED.getCode())
+                .in(Msg::getStatus, Arrays.asList(SendStatus.DELAYED.getCode(), SendStatus.WAIT.getCode()))
                 .eq(Msg::getId, id));
     }
 
@@ -79,12 +84,12 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         entity.setCause("回调超时");
         entity.setLastModifiedDate(new Date());
         Supplier<LambdaUpdateWrapper<MsgSend>> lambdaSupplier = () -> Wrappers.lambdaUpdate(MsgSend.class)
-                .eq(Msg::getStatus, Status.RUNNING.getCode())
+                .eq(Msg::getStatus, SendStatus.SENDING.getCode())
                 .lt(Msg::getLastModifiedDate, timeout);
         int lastChance = mqBrokerProperties.getMaxRetry();
-        entity.setStatus(Status.CREATED.getCode());
+        entity.setStatus(SendStatus.WAIT.getCode());
         update(entity, lambdaSupplier.get().lt(Msg::getRetry, lastChance));
-        entity.setStatus(Status.FAILURE.getCode());
+        entity.setStatus(SendStatus.FAILURE.getCode());
         update(entity, lambdaSupplier.get().ge(Msg::getRetry, lastChance));
     }
 
@@ -93,10 +98,10 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         MsgSend entity = new MsgSend();
         entity.setLastModifiedDate(new Date());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        entity.setStatus(Status.SUCCESS.getCode());
+        entity.setStatus(SendStatus.SUCCESS.getCode());
         update(entity, Wrappers.lambdaUpdate(MsgSend.class)
                 .eq(Msg::getId, msg.getId())
-                .eq(Msg::getStatus, Status.RUNNING.getCode()));
+                .eq(Msg::getStatus, SendStatus.SENDING.getCode()));
     }
 
     @Override
@@ -104,11 +109,11 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         MsgSend entity = new MsgSend();
         entity.setLastModifiedDate(new Date());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        entity.setStatus(Status.SUCCESS.getCode());
+        entity.setStatus(SendStatus.SUCCESS.getCode());
         update(entity, Wrappers.lambdaUpdate(MsgSend.class)
                 .eq(Msg::getTopic, topic)
                 .eq(Msg::getCode, code)
-                .eq(Msg::getStatus, Status.RUNNING.getCode()));
+                .eq(Msg::getStatus, SendStatus.SENDING.getCode()));
     }
 
     @Override
@@ -133,12 +138,12 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
         entity.setHostAddress(hostAddress);
         LambdaUpdateWrapper<MsgSend> lambda = Wrappers.lambdaUpdate(MsgSend.class)
                 .eq(Msg::getId, msg.getId())
-                .eq(Msg::getStatus, Status.RUNNING.getCode());
+                .eq(Msg::getStatus, SendStatus.SENDING.getCode());
         int lastChance = mqBrokerProperties.getMaxRetry();
         if (msg.getRetry() < lastChance) {
-            entity.setStatus(Status.CREATED.getCode());
+            entity.setStatus(SendStatus.WAIT.getCode());
         } else {
-            entity.setStatus(Status.FAILURE.getCode());
+            entity.setStatus(SendStatus.FAILURE.getCode());
         }
         update(entity, lambda);
         mqBrokerDingTalkClientHelper.push("消息发送失败", msg.getMsgGroup(), msg.getTopic(), msg.getCode(), msg.getRetry(),

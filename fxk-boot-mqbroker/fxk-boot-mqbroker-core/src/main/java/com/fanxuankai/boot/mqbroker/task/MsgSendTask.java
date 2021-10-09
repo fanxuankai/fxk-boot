@@ -23,11 +23,11 @@ public class MsgSendTask implements Runnable {
             if (records.isEmpty()) {
                 return;
             }
-            for (MsgSend msg : records) {
+            records.forEach(msg -> {
                 if (msgSendService.lock(msg.getId())) {
                     msgSendService.produce(msg, true);
                 }
-            }
+            });
         }
     }
 }

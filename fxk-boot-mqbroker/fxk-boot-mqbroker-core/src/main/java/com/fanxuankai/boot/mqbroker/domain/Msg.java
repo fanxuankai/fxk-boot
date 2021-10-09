@@ -50,14 +50,6 @@ public class Msg {
      */
     private String cause;
     /**
-     * 重试次数
-     */
-    private Integer retryCount;
-    /**
-     * 生效时间
-     */
-    private Date effectTime;
-    /**
      * 创建日期
      */
     @TableField("create_date")
@@ -138,22 +130,6 @@ public class Msg {
 
     public void setCause(String cause) {
         this.cause = cause;
-    }
-
-    public Integer getRetryCount() {
-        return retryCount;
-    }
-
-    public void setRetryCount(Integer retryCount) {
-        this.retryCount = retryCount;
-    }
-
-    public Date getEffectTime() {
-        return effectTime;
-    }
-
-    public void setEffectTime(Date effectTime) {
-        this.effectTime = effectTime;
     }
 
     public Date getCreateDate() {

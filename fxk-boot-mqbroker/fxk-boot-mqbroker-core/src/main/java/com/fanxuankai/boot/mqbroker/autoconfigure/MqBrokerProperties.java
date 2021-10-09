@@ -52,7 +52,7 @@ public class MqBrokerProperties {
      * 钉钉推送参数
      */
     @NestedConfigurationProperty
-    private DingTalk dingTalk;
+    private DingTalk dingTalk = new DingTalk();
     /**
      * 开启延迟消息(比如: RabbitMQ delayed)
      */
@@ -60,7 +60,8 @@ public class MqBrokerProperties {
     /**
      * 延迟发送，到达生效时间才发送
      */
-    private DelayedSend delayedSend;
+    @NestedConfigurationProperty
+    private DelayedSend delayedSend = new DelayedSend();
 
     public int getMaxRetry() {
         return maxRetry;
@@ -157,7 +158,7 @@ public class MqBrokerProperties {
         /**
          * 是否激活
          */
-        private Boolean enabled;
+        private boolean enabled;
         /**
          * url
          */
@@ -175,11 +176,11 @@ public class MqBrokerProperties {
          */
         private String env;
 
-        public Boolean getEnabled() {
+        public boolean isEnabled() {
             return enabled;
         }
 
-        public void setEnabled(Boolean enabled) {
+        public void setEnabled(boolean enabled) {
             this.enabled = enabled;
         }
 

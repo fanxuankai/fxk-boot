@@ -59,7 +59,6 @@ public class MsgReceiveConsumer {
         event.setKey(msg.getCode());
         event.setData(JSONUtil.toBean(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata),
                 true));
-        event.setRetryCount(msg.getRetryCount());
         AbstractEventDistributor abstractEventDistributor = eventDistributorFactory.get(msg);
         while (true) {
             TransactionStatus transactionStatus = null;

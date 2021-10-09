@@ -19,7 +19,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 /**
  * @author fanxuankai
@@ -32,8 +31,7 @@ public class MqBrokerDingTalkClientHelper {
     private MqBrokerProperties mqBrokerProperties;
 
     public void push(String title, String group, String topic, String code) {
-        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
-        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
+        if (!mqBrokerProperties.getDingTalk().isEnabled()) {
             return;
         }
         OapiRobotSendRequest request = new OapiRobotSendRequest();
@@ -44,19 +42,18 @@ public class MqBrokerDingTalkClientHelper {
                 "> 分组: " + group + "\n\n" +
                 "> 主题: " + topic + "\n\n" +
                 "> 代码: " + code + "\n\n" +
-                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
+                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n"
         );
         request.setMarkdown(markdown);
         try {
-            newDingTalkClient(dingTalk).execute(request);
+            newDingTalkClient(mqBrokerProperties.getDingTalk()).execute(request);
         } catch (ApiException e) {
             LOGGER.error("钉钉推送异常", e);
         }
     }
 
     public void push(String title, String group, String topic, String code, int retry, String ip) {
-        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
-        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
+        if (!mqBrokerProperties.getDingTalk().isEnabled()) {
             return;
         }
         OapiRobotSendRequest request = new OapiRobotSendRequest();
@@ -69,11 +66,11 @@ public class MqBrokerDingTalkClientHelper {
                 "> 代码: " + code + "\n\n" +
                 "> 重试次数: " + retry + "\n\n" +
                 "> 服务器 IP: " + ip + "\n\n" +
-                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
+                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n"
         );
         request.setMarkdown(markdown);
         try {
-            newDingTalkClient(dingTalk).execute(request);
+            newDingTalkClient(mqBrokerProperties.getDingTalk()).execute(request);
         } catch (ApiException e) {
             LOGGER.error("钉钉推送异常", e);
         }

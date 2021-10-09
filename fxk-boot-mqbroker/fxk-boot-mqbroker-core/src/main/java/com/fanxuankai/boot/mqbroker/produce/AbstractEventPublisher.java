@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgSend;
-import com.fanxuankai.boot.mqbroker.enums.Status;
+import com.fanxuankai.boot.mqbroker.enums.SendStatus;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgSendService;
@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -105,12 +106,17 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
             msg.setData(JSONUtil.toJsonStr(data));
         }
         msg.setRetry(0);
-        msg.setStatus(Status.CREATED.getCode());
-        Optional.ofNullable(event.getRetryCount())
-                .ifPresent(msg::setRetryCount);
         Date now = new Date();
         msg.setEffectTime(Optional.ofNullable(event.getEffectTime())
                 .orElse(now));
+        if (mqBrokerProperties.getDelayedSend().isEnabled()
+                && !msg.getEffectTime().before(now)) {
+            msg.setStatus(SendStatus.DELAYED.getCode());
+        } else {
+            msg.setStatus(SendStatus.WAIT.getCode());
+        }
+        Optional.ofNullable(event.getRetryCount())
+                .ifPresent(msg::setRetryCount);
         msg.setCreateDate(now);
         msg.setLastModifiedDate(now);
         return msg;
@@ -119,11 +125,8 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     @SuppressWarnings("unchecked")
     private void save(MsgSend msgSend) {
         try {
-            boolean effective = isEffective(msgSend, new Date());
-            if (effective) {
-                msgSend.setStatus(Status.RUNNING.getCode());
-            }
-            if (msgSendService.save(msgSend) && effective) {
+            if (msgSendService.save(msgSend)
+                    && Objects.equals(msgSend.getStatus(), SendStatus.WAIT.getCode())) {
                 produce(msgSend);
             }
         } catch (Throwable throwable) {
@@ -137,13 +140,10 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
     @SuppressWarnings("unchecked")
     private void save(List<MsgSend> msgSends) {
         try {
-            Date now = new Date();
-            List<MsgSend> effectiveMsgSends = msgSends.stream()
-                    .filter(msgSend -> isEffective(msgSend, now))
-                    .peek(msgSend -> msgSend.setStatus(Status.RUNNING.getCode()))
-                    .collect(Collectors.toList());
             if (msgSendService.saveBatch(msgSends)) {
-                effectiveMsgSends.forEach(this::produce);
+                msgSends.stream()
+                        .filter(msgSend -> Objects.equals(msgSend.getStatus(), SendStatus.WAIT.getCode()))
+                        .forEach(this::produce);
             }
         } catch (Throwable throwable) {
             if (!ExceptionUtil.isCausedBy(throwable, DuplicateKeyException.class,
@@ -155,13 +155,5 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
 
     private void produce(MsgSend msg) {
         msgSendService.produce(msg, true);
-    }
-
-    private boolean isEffective(MsgSend msgSend, Date now) {
-        if (msgSend.getEffectTime() == null) {
-            return true;
-        }
-        return !mqBrokerProperties.getDelayedSend().isEnabled()
-                && !now.before(msgSend.getEffectTime());
     }
 }

@@ -11,7 +11,7 @@ CREATE TABLE `sys_enum_type` (
   `generate_data_only` tinyint(1) DEFAULT NULL COMMENT '只生成数据',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='枚举类';
+) ENGINE = InnoDB AUTO_INCREMENT = 1 COMMENT='枚举类';
 
 CREATE TABLE `sys_enum` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -25,7 +25,7 @@ CREATE TABLE `sys_enum` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_type_name` (`type_id`,`name`) USING BTREE,
   UNIQUE KEY `uk_type_code` (`type_id`,`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='枚举';
+) ENGINE = InnoDB AUTO_INCREMENT = 1 COMMENT = '枚举';
 ```
 - 支持自定义表名  
 在 resources 目录下创建 table-info.json

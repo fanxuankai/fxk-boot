@@ -18,9 +18,7 @@ import com.fanxuankai.commons.util.DateUtils;
 import com.fanxuankai.commons.util.ExcelDownloadUtils;
 </#if>
 import org.springframework.stereotype.Service;
-<#if integrateEasyExcel>
 import org.springframework.web.multipart.MultipartFile;
-</#if>
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

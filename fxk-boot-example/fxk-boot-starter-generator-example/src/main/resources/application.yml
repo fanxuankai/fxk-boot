@@ -8,7 +8,7 @@ fxk:
   # 代码生成配置
   code-generator:
     # 激活
-    enabled: false
+    enabled: true
     # 数据库
     schema: fxk-boot
     # 需要生成的表
@@ -31,3 +31,5 @@ fxk:
     files-to-create:
     # 集成 EasyExcel
     integrate-easy-excel: true
+    inherited-columns: []
+    auto-fill: {}

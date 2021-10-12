@@ -2,13 +2,13 @@ package com.fanxuankai.boot.generator.strategy;
 
 import cn.hutool.core.util.StrUtil;
 import com.fanxuankai.boot.generator.autoconfigure.CodeGeneratorProperties;
-import com.fanxuankai.boot.generator.constants.Constants;
 import com.fanxuankai.boot.generator.model.ColumnInfo;
 import com.fanxuankai.boot.generator.model.GenConfig;
 import com.fanxuankai.boot.generator.strategy.annotation.TemplateFileAnnotation;
 import com.fanxuankai.boot.generator.strategy.enums.TemplateFile;
 import com.fanxuankai.boot.generator.strategy.model.EntityTemplateData;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +54,8 @@ public class EntityTemplateGenerator extends AbstractTemplateGenerator<EntityTem
     @Override
     protected EntityTemplateData getTemplateData(GenConfig genConfig, CodeGeneratorProperties properties) {
         EntityTemplateData data = super.getTemplateData(genConfig, properties);
-        data.setAuto(data.getColumns().stream().anyMatch(o -> Constants.AUTO_INCREMENT.equals(o.getExtra())));
+        data.setHasPrimaryKey(data.getColumns().stream().anyMatch(ColumnInfo::isPrimaryKey));
+        data.setInherit(!CollectionUtils.isEmpty(properties.getInheritedColumns()));
         data.setFill(data.getColumns().stream().anyMatch(o -> StrUtil.isNotBlank(o.getFill())));
         return data;
     }

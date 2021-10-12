@@ -42,14 +42,12 @@ public class UserQueryCriteria {
     private Long modifiedUserIdEq;
     /**
      * 创建时间 EQ
-     * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
     @Query(field = "gmtCreate", type = Query.Type.EQ)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreateEq;
     /**
      * 修改时间 EQ
-     * GET 请求方式, 日期格式需要改为: MM/dd/yyyy ...
      */
     @Query(field = "gmtModified", type = Query.Type.EQ)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

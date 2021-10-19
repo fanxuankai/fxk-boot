@@ -42,4 +42,8 @@ public class MqBrokerDingTalkClientHelper {
                 "> 服务器 IP: " + ip + "\n\n" +
                 "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n");
     }
+
+    public DingTalkClientHelper getDingTalkClientHelper() {
+        return dingTalkClientHelper;
+    }
 }

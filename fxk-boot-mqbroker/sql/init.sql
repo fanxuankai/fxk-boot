@@ -15,7 +15,8 @@ CREATE TABLE `mq_broker_msg_send`
     `last_modified_date` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改日期',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_group_topic_code` (`topic`, `code`, `msg_group`) USING BTREE,
-    KEY `idx_status` (`status`)
+    KEY `idx_status` (`status`),
+    KEY `idx_code` (`code`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1 COMMENT ='发送消息表';
 
@@ -34,6 +35,7 @@ CREATE TABLE `mq_broker_msg_receive`
     `last_modified_date` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改日期',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_group_topic_code` (`topic`, `code`, `msg_group`) USING BTREE,
-    KEY `idx_status` (`status`) USING BTREE
+    KEY `idx_status` (`status`),
+    KEY `idx_code` (`code`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1 COMMENT ='接收消息表';

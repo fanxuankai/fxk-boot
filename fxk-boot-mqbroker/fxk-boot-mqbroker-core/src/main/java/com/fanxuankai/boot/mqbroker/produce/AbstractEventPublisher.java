@@ -1,7 +1,7 @@
 package com.fanxuankai.boot.mqbroker.produce;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
@@ -103,7 +103,7 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         if (data instanceof CharSequence) {
             msg.setData(data.toString());
         } else {
-            msg.setData(JSONUtil.toJsonStr(data));
+            msg.setData(JSON.toJSONString(data));
         }
         msg.setRetry(0);
         Date now = new Date();

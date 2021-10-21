@@ -1,6 +1,6 @@
 package com.fanxuankai.boot.mqbroker.xxl.autoconfigure;
 
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
@@ -30,7 +30,7 @@ public class MqBrokerXxlAutoConfiguration {
                 Optional.ofNullable(event.getRetryCount())
                         .ifPresent(mqMessage::setRetryCount);
                 mqMessage.setEffectTime(event.getEffectTime());
-                mqMessage.setData(JSONUtil.toJsonStr(event));
+                mqMessage.setData(JSON.toJSONString(event));
                 XxlMqProducer.produce(mqMessage);
             }
 

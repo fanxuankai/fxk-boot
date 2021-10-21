@@ -3,7 +3,7 @@ package com.fanxuankai.boot.mqbroker.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.AbstractEventDistributor;
 import com.fanxuankai.boot.mqbroker.consume.EventDistributorFactory;
@@ -57,8 +57,7 @@ public class MsgReceiveConsumer {
         event.setGroup(msg.getMsgGroup());
         event.setName(msg.getTopic());
         event.setKey(msg.getCode());
-        event.setData(JSONUtil.toBean(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata),
-                true));
+        event.setData(JSON.parseObject(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata)));
         AbstractEventDistributor abstractEventDistributor = eventDistributorFactory.get(msg);
         while (true) {
             TransactionStatus transactionStatus = null;

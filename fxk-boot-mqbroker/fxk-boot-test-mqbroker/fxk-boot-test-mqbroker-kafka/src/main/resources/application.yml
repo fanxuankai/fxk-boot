@@ -5,7 +5,7 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   kafka:
-    bootstrap-servers: 192.168.173.9:9092
+    bootstrap-servers: 192.168.13.242:9092,192.168.13.243:9092,192.168.13.244:9092
     # 消费者
     consumer:
       group-id: demo

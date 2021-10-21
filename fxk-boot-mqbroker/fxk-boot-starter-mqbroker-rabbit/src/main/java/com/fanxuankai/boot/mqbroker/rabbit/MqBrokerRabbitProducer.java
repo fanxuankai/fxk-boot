@@ -1,9 +1,9 @@
 package com.fanxuankai.boot.mqbroker.rabbit;
 
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.StrPool;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.produce.AbstractMqProducer;
@@ -65,8 +65,8 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
         });
         this.rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
             String json = new String(message.getBody());
-            Event<String> event = JSONUtil.toBean(json, new TypeReference<Event<String>>() {
-            }, true);
+            Event<String> event = JSON.parseObject(json, new TypeReference<Event<String>>() {
+            });
             String cause = "replyCode: " + replyCode + ", replyText: " + replyText + ", exchange: " + exchange;
             msgSendService.failure(routingKey, event.getKey(), cause);
         });
@@ -120,7 +120,7 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
 
     private Message convertMessage(Object object) {
         return MessageBuilder
-                .withBody(JSONUtil.toJsonStr(object).getBytes())
+                .withBody(JSON.toJSONString(object).getBytes())
                 .setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .build();
     }

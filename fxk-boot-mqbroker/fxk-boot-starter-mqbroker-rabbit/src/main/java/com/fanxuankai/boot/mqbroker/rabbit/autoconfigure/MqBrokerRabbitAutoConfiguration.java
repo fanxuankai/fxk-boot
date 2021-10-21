@@ -1,8 +1,8 @@
 package com.fanxuankai.boot.mqbroker.rabbit.autoconfigure;
 
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.text.StrPool;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.AbstractMqConsumer;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
@@ -52,8 +52,8 @@ public class MqBrokerRabbitAutoConfiguration {
             container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
             container.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
                 String json = new String(message.getBody());
-                Event<String> event = JSONUtil.toBean(json, new TypeReference<Event<String>>() {
-                }, true);
+                Event<String> event = JSON.parseObject(json, new TypeReference<Event<String>>() {
+                });
                 mqConsumer.accept(event);
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             });
@@ -62,8 +62,8 @@ public class MqBrokerRabbitAutoConfiguration {
             container.setAcknowledgeMode(AcknowledgeMode.AUTO);
             container.setMessageListener(message -> {
                 String json = new String(message.getBody());
-                Event<String> event = JSONUtil.toBean(json, new TypeReference<Event<String>>() {
-                }, true);
+                Event<String> event = JSON.parseObject(json, new TypeReference<Event<String>>() {
+                });
                 mqConsumer.accept(event);
             });
         }
@@ -87,5 +87,4 @@ public class MqBrokerRabbitAutoConfiguration {
         return new AbstractMqConsumer<Event<String>>() {
         };
     }
-
 }

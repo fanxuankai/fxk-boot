@@ -168,8 +168,9 @@ public class MsgSendServiceImpl extends ServiceImpl<MsgSendMapper, MsgSend>
             try {
                 mqProducer.produce(msg);
                 success = true;
+                LOGGER.error("消息发送成功, topic: {}, code: {}", msg.getTopic(), msg.getCode());
             } catch (Throwable throwable) {
-                LOGGER.error("消息发送失败, code: " + msg.getCode(), throwable);
+                LOGGER.error("消息发送失败, topic: {}, code: {}", msg.getTopic(), msg.getCode(), throwable);
                 msg.setCause(ExceptionUtil.stacktraceToString(throwable));
                 ThreadUtil.sleep(1, TimeUnit.SECONDS);
             }

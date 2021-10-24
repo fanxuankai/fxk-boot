@@ -56,7 +56,6 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
         if (exists(event)) {
             LOGGER.info(String.format("防重消费, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
                     event.getKey()));
-            getMqBrokerDingTalkClientHelper().push("防重消费", event.getGroup(), event.getName(), event.getKey());
             return;
         }
         MsgReceive msg = new MsgReceive();

@@ -53,7 +53,6 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
         if (exists(event)) {
             LOGGER.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
                     event.getKey()));
-            mqBrokerDingTalkClientHelper.push("防重生产", event.getGroup(), event.getName(), event.getKey());
             return;
         }
         MsgSend msgSend = createMessageSend(event);
@@ -75,7 +74,6 @@ public abstract class AbstractEventPublisher<T> implements EventPublisher<T> {
                         LOGGER.info(String.format("防重生产, group: %s topic: %s code: %s", event.getGroup(),
                                 event.getName(),
                                 event.getKey()));
-                        mqBrokerDingTalkClientHelper.push("防重生产", event.getGroup(), event.getName(), event.getKey());
                         return false;
                     }
                     return true;

@@ -68,6 +68,7 @@ public class MsgReceiveConsumer {
                 msgReceiveService.success(msg);
                 // 手动提交事务
                 dataSourceTransactionManager.commit(transactionStatus);
+                LOGGER.info("消息消费耗时, topic: {}, code: {}", msg.getTopic(), msg.getCode());
                 break;
             } catch (Throwable throwable) {
                 // 手动回滚事务

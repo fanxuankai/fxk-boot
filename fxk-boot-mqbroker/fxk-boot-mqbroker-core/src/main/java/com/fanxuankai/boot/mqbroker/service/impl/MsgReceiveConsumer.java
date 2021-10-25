@@ -64,11 +64,13 @@ public class MsgReceiveConsumer {
             try {
                 // 手动开启事务
                 transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
+                long start = System.currentTimeMillis();
                 abstractEventDistributor.distribute(event);
+                long time = System.currentTimeMillis() - start;
                 msgReceiveService.success(msg);
                 // 手动提交事务
                 dataSourceTransactionManager.commit(transactionStatus);
-                LOGGER.info("消息消费耗时, topic: {}, code: {}", msg.getTopic(), msg.getCode());
+                LOGGER.info("消息消费耗时, topic: {}, code: {}, {}ms", msg.getTopic(), msg.getCode(), time);
                 break;
             } catch (Throwable throwable) {
                 // 手动回滚事务

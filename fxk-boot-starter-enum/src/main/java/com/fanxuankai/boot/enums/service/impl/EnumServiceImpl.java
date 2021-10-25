@@ -161,6 +161,9 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
         }
         List<Long> typeIds = types.stream().map(EnumType::getId).collect(Collectors.toList());
         enumTypeService.removeByIds(typeIds);
-        remove(Wrappers.lambdaQuery(Enum.class).in(Enum::getTypeId, typeIds));
+        removeByIds(list(Wrappers.lambdaQuery(Enum.class).in(Enum::getTypeId, typeIds))
+                .stream()
+                .map(Enum::getId)
+                .collect(Collectors.toList()));
     }
 }

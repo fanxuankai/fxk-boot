@@ -34,7 +34,6 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
     private final String correlationDataRegex;
     private Exchange exchange;
     private Exchange delayedExchange;
-    private boolean enabledDelayedMessage;
 
     public MqBrokerRabbitProducer(MsgSendService msgSendService,
                                   AmqpAdmin amqpAdmin,
@@ -97,7 +96,7 @@ public class MqBrokerRabbitProducer extends AbstractMqProducer {
             Queue queue = new Queue(event.getName());
             amqpAdmin.declareQueue(queue);
             amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(queue.getName()).noargs());
-            if (enabledDelayedMessage) {
+            if (mqBrokerProperties.isEnabledDelayedMessage()) {
                 amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(delayedExchange).with(queue.getName()).noargs());
             }
             queueCache.add(event.getName());

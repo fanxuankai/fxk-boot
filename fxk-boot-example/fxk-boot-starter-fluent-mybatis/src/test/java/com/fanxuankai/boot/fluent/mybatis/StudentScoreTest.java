@@ -5,10 +5,8 @@ import com.fanxuankai.boot.fluent.mybatis.domain.StudentScore;
 import com.fanxuankai.boot.fluent.mybatis.mapper.StudentScoreMapper;
 import com.fanxuankai.boot.fluent.mybatis.wrapper.StudentScoreQuery;
 import com.github.jsonzou.jmockdata.JMockData;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.stream.IntStream;
  * @author fanxuankai
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class StudentScoreTest {
     @Resource
     private StudentScoreMapper mapper;

@@ -22,6 +22,12 @@ public class MqBrokerProperties {
      */
     private long publisherCallbackTimeout = 300_000;
     /**
+     * 是否开启消费补偿。
+     * 开启：消费超时会进行消费补偿，会存在重复消费的问题，需要消费端做幂等处理；
+     * 关闭：消费超时不会进行消费补偿，会存在消息状态一直处于进行中的问题，需要人工参与处理。
+     */
+    private boolean enabledConsumptionCompensation = true;
+    /**
      * 消费超时 ms
      */
     private long consumeTimeout = 300_000;
@@ -35,7 +41,7 @@ public class MqBrokerProperties {
      */
     private Map<String, EventStrategy> eventStrategy = Collections.emptyMap();
     /**
-     * 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+     * 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
      */
     private int msgSize = 100;
     /**
@@ -46,11 +52,16 @@ public class MqBrokerProperties {
      * 钉钉推送参数
      */
     @NestedConfigurationProperty
-    private DingTalk dingTalk;
+    private DingTalk dingTalk = new DingTalk();
     /**
-     * 开启延迟消息
+     * 开启延迟消息(比如: RabbitMQ delayed)
      */
-    private Boolean enabledDelayedMessage = Boolean.FALSE;
+    private boolean enabledDelayedMessage;
+    /**
+     * 延迟发送，到达生效时间才发送
+     */
+    @NestedConfigurationProperty
+    private DelayedSend delayedSend = new DelayedSend();
 
     public int getMaxRetry() {
         return maxRetry;
@@ -66,6 +77,14 @@ public class MqBrokerProperties {
 
     public void setPublisherCallbackTimeout(long publisherCallbackTimeout) {
         this.publisherCallbackTimeout = publisherCallbackTimeout;
+    }
+
+    public boolean isEnabledConsumptionCompensation() {
+        return enabledConsumptionCompensation;
+    }
+
+    public void setEnabledConsumptionCompensation(boolean enabledConsumptionCompensation) {
+        this.enabledConsumptionCompensation = enabledConsumptionCompensation;
     }
 
     public long getConsumeTimeout() {
@@ -116,12 +135,20 @@ public class MqBrokerProperties {
         this.dingTalk = dingTalk;
     }
 
-    public Boolean getEnabledDelayedMessage() {
+    public boolean isEnabledDelayedMessage() {
         return enabledDelayedMessage;
     }
 
-    public void setEnabledDelayedMessage(Boolean enabledDelayedMessage) {
+    public void setEnabledDelayedMessage(boolean enabledDelayedMessage) {
         this.enabledDelayedMessage = enabledDelayedMessage;
+    }
+
+    public DelayedSend getDelayedSend() {
+        return delayedSend;
+    }
+
+    public void setDelayedSend(DelayedSend delayedSend) {
+        this.delayedSend = delayedSend;
     }
 
     /**
@@ -131,7 +158,7 @@ public class MqBrokerProperties {
         /**
          * 是否激活
          */
-        private Boolean enabled;
+        private boolean enabled;
         /**
          * url
          */
@@ -149,11 +176,11 @@ public class MqBrokerProperties {
          */
         private String env;
 
-        public Boolean getEnabled() {
+        public boolean isEnabled() {
             return enabled;
         }
 
-        public void setEnabled(Boolean enabled) {
+        public void setEnabled(boolean enabled) {
             this.enabled = enabled;
         }
 
@@ -187,6 +214,33 @@ public class MqBrokerProperties {
 
         public void setEnv(String env) {
             this.env = env;
+        }
+    }
+
+    public static class DelayedSend {
+        /**
+         * 是否开启
+         */
+        private boolean enabled;
+        /**
+         * 拉取数据的间隔 ms
+         */
+        private long intervalMillis = 5_000;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public long getIntervalMillis() {
+            return intervalMillis;
+        }
+
+        public void setIntervalMillis(long intervalMillis) {
+            this.intervalMillis = intervalMillis;
         }
     }
 }

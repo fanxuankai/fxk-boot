@@ -3,7 +3,7 @@ package com.fanxuankai.boot.mqbroker.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.AbstractEventDistributor;
 import com.fanxuankai.boot.mqbroker.consume.EventDistributorFactory;
@@ -57,19 +57,20 @@ public class MsgReceiveConsumer {
         event.setGroup(msg.getMsgGroup());
         event.setName(msg.getTopic());
         event.setKey(msg.getCode());
-        event.setData(JSONUtil.toBean(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata),
-                true));
-        event.setRetryCount(msg.getRetryCount());
+        event.setData(JSON.parseObject(msg.getData(), eventListenerRegistry.getDataType(listenerMetadata)));
         AbstractEventDistributor abstractEventDistributor = eventDistributorFactory.get(msg);
         while (true) {
             TransactionStatus transactionStatus = null;
             try {
                 // 手动开启事务
                 transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
+                long start = System.currentTimeMillis();
                 abstractEventDistributor.distribute(event);
+                long time = System.currentTimeMillis() - start;
                 msgReceiveService.success(msg);
                 // 手动提交事务
                 dataSourceTransactionManager.commit(transactionStatus);
+                LOGGER.info("消息消费耗时, topic: {}, code: {}, {}ms", msg.getTopic(), msg.getCode(), time);
                 break;
             } catch (Throwable throwable) {
                 // 手动回滚事务

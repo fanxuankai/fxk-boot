@@ -9,7 +9,8 @@
       {
         "code": 10,
         "name": "no",
-        "value": "未删除"
+        "value": "未删除",
+        "sort": 12
       },
       {
         "code": 17,

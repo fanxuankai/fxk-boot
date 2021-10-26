@@ -12,7 +12,7 @@ public enum ${enumVO.enumType.name} implements EnumProtocol {
     /**
      * ${anEnum.value}
      */
-    ${anEnum.name}(${anEnum.code}, "${anEnum.value}"<#if hasDescription>, "${anEnum.description}"</#if>),
+    ${anEnum.name}(${anEnum.code?c}, "${anEnum.value}"<#if hasDescription>, "${anEnum.description}"</#if>),
     </#list>
     ;
     private final Integer code;

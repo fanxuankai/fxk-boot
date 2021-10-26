@@ -42,6 +42,10 @@ public class Enum {
      */
     private String description;
     /**
+     * 排序
+     */
+    private Integer sort;
+    /**
      * 是否禁用
      */
     @JsonIgnore
@@ -87,6 +91,14 @@ public class Enum {
         this.value = value;
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
     public boolean isDisabled() {
         return disabled;
     }
@@ -113,14 +125,15 @@ public class Enum {
         }
         Enum anEnum = (Enum) o;
         return disabled == anEnum.disabled &&
-                name.equals(anEnum.name) &&
-                code.equals(anEnum.code) &&
-                value.equals(anEnum.value) &&
-                Objects.equals(description, anEnum.description);
+                Objects.equals(name, anEnum.name) &&
+                Objects.equals(code, anEnum.code) &&
+                Objects.equals(value, anEnum.value) &&
+                Objects.equals(description, anEnum.description) &&
+                Objects.equals(sort, anEnum.sort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, code, value, description, disabled);
+        return Objects.hash(name, code, value, description, sort, disabled);
     }
 }

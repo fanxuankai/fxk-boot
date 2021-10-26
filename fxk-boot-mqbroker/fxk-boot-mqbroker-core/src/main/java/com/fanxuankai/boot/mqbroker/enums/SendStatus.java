@@ -3,27 +3,31 @@ package com.fanxuankai.boot.mqbroker.enums;
 /**
  * @author fanxuankai
  */
-public enum Status {
+public enum SendStatus {
     /**
-     * 已创建
+     * 延迟发送
      */
-    CREATED(0),
+    DELAYED(-1),
     /**
-     * 运行中
+     * 待发送
      */
-    RUNNING(1),
+    WAIT(0),
     /**
-     * 成功
+     * 正在发送
+     */
+    SENDING(1),
+    /**
+     * 发送成功
      */
     SUCCESS(2),
     /**
-     * 失败
+     * 发送失败
      */
     FAILURE(3),
     ;
     private final int code;
 
-    Status(int code) {
+    SendStatus(int code) {
         this.code = code;
     }
 

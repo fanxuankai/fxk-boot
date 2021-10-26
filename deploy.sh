@@ -2,6 +2,8 @@ cd fxk-boot-dependencies
 mvn clean deploy
 cd ../fxk-boot-parent
 mvn clean deploy
+cd ../fxk-boot-starter-micrometer
+mvn clean deploy
 cd ../fxk-boot-starter-redis
 mvn clean deploy
 cd ../fxk-boot-starter-mybatis-plus

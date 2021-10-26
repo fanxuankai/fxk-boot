@@ -1,5 +1,5 @@
 ## 简介
-增强消息队列可靠性，消息一定发送成功且只发送一次，消息一定接收成功且只消费一次。
+增强消息队列可靠性，消息一定发送成功且只发送一次，消息一定接收成功且只消费一次；支持延迟发送。
 
 ![](http://processon.com/chart_image/5ec55550f346fb6907090118.png)
 
@@ -17,41 +17,47 @@
 ## Getting started
 - 建表
 ```
-CREATE TABLE `mq_broker_msg_send` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `msg_group` varchar(255) DEFAULT NULL COMMENT '分组',
-  `topic` varchar(255) NOT NULL COMMENT '队列名',
-  `code` varchar(255) NOT NULL COMMENT '代码',
-  `data` text NOT NULL COMMENT '内容',
-  `status` int(11) NOT NULL COMMENT '状态 0:已创建 1:运行中 2:成功 3:失败',
-  `host_address` varchar(255) DEFAULT NULL COMMENT '主机地址',
-  `retry` int(11) NOT NULL DEFAULT '0' COMMENT '重试次数',
-  `cause` text DEFAULT NULL COMMENT '失败原因',
-  `retry_count` int(11) DEFAULT NULL COMMENT '消息队列中间件的重试次数',
-  `effect_time` datetime DEFAULT NULL COMMENT '消息队列中间件的生效时间',
-  `create_date` datetime NOT NULL COMMENT '创建日期',
-  `last_modified_date` datetime NOT NULL COMMENT '修改日期',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_topic_code` (`topic`,`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='发送消息表';
+CREATE TABLE `mq_broker_msg_send`
+(
+    `id`                 bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `msg_group`          varchar(255)          DEFAULT NULL COMMENT '分组',
+    `topic`              varchar(255) NOT NULL COMMENT '队列名',
+    `code`               varchar(255) NOT NULL COMMENT '代码',
+    `data`               text         NOT NULL COMMENT '内容',
+    `status`             int(11)      NOT NULL COMMENT '状态 -1:延迟的 0:正在发送 1:发送中 2:发送成功 3:发送失败',
+    `host_address`       varchar(255)          DEFAULT NULL COMMENT '主机地址',
+    `retry`              int(11)      NOT NULL DEFAULT '0' COMMENT '重试次数',
+    `cause`              text COMMENT '失败原因',
+    `retry_count`        int(11)               DEFAULT NULL COMMENT '消息队列中间件的重试次数',
+    `effect_time`        datetime              DEFAULT CURRENT_TIMESTAMP COMMENT '生效时间',
+    `create_date`        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+    `last_modified_date` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改日期',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_group_topic_code` (`topic`, `code`, `msg_group`) USING BTREE,
+    KEY `idx_status` (`status`),
+    KEY `idx_code` (`code`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1 COMMENT ='发送消息表';
 
-CREATE TABLE `mq_broker_msg_receive` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `msg_group` varchar(255) DEFAULT NULL COMMENT '分组',
-  `topic` varchar(255) NOT NULL COMMENT '队列名',
-  `code` varchar(255) NOT NULL COMMENT '代码',
-  `data` text NOT NULL COMMENT '内容',
-  `status` int(11) NOT NULL COMMENT '状态 0:已创建 1:运行中 2:成功 3:失败',
-  `host_address` varchar(255) DEFAULT NULL COMMENT '主机地址',
-  `retry` int(11) NOT NULL DEFAULT '0' COMMENT '重试次数',
-  `cause` text DEFAULT NULL COMMENT '失败原因',
-  `retry_count` int(11) DEFAULT NULL COMMENT '消息队列中间件的重试次数',
-  `effect_time` datetime DEFAULT NULL COMMENT '消息队列中间件的生效时间',
-  `create_date` datetime NOT NULL COMMENT '创建日期',
-  `last_modified_date` datetime NOT NULL COMMENT '修改日期',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_topic_code` (`topic`,`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='接收消息表';
+CREATE TABLE `mq_broker_msg_receive`
+(
+    `id`                 bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `msg_group`          varchar(255)          DEFAULT NULL COMMENT '分组',
+    `topic`              varchar(255) NOT NULL COMMENT '队列名',
+    `code`               varchar(255) NOT NULL COMMENT '代码',
+    `data`               text         NOT NULL COMMENT '内容',
+    `status`             int(11)      NOT NULL COMMENT '状态 0:待消费 1:正在消费 2:发送成功 3:发送失败',
+    `host_address`       varchar(255)          DEFAULT NULL COMMENT '主机地址',
+    `retry`              int(11)      NOT NULL DEFAULT '0' COMMENT '重试次数',
+    `cause`              text COMMENT '失败原因',
+    `create_date`        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+    `last_modified_date` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改日期',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `uk_group_topic_code` (`topic`, `code`, `msg_group`) USING BTREE,
+    KEY `idx_status` (`status`),
+    KEY `idx_code` (`code`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1 COMMENT ='接收消息表';
 ```
 - 支持自定义表名字段名  
 在 resources 目录下创建 table-info.json
@@ -110,6 +116,8 @@ fxk:
     #max-retry: 3
     # 发布回调超时
     #publisher-callback-timeout: 300000
+    # 是否开启消费补偿
+    #enabled-consumption-compensation: false
     # 消费超时
     #consume-timeout: 300000
     # 手动确认
@@ -118,7 +126,7 @@ fxk:
     #event-strategy:
       # key: 消息队列 value: EventStrategy(一次|至少一次|零次或者一次|零次或者多次|多次, 可能会重复消费, 需要做幂等)
       #user: DEFAULT
-    # 补偿时, 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
+    # 拉取消息的数量, 大于 500 时需要设置 mybatis-plus 分页 limit 为-1
     #msg-size: 100
     # 补偿时, 拉取数据的间隔 ms
     #interval-millis: 1000
@@ -131,6 +139,10 @@ fxk:
       #env:
     # 开启延迟消息, 开启时需要把 spring.rabbitmq.template.mandatory 设为 false
     #enabledDelayedMessage: false
+    # 延迟发送，到达生效时间才发送
+    #delayed-send:
+      #enabled: true
+      #interval-millis: 5000
 ```
 - 监听事件
 ```

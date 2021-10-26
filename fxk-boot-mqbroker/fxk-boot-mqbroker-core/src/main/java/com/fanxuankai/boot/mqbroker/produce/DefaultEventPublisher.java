@@ -10,7 +10,6 @@ import java.util.List;
  */
 @Component
 public class DefaultEventPublisher<T> extends AbstractEventPublisher<T> {
-
     @Override
     public void publish(Event<T> event) {
         publish(event, false);
@@ -30,5 +29,4 @@ public class DefaultEventPublisher<T> extends AbstractEventPublisher<T> {
     public void publish(List<Event<T>> events, boolean async) {
         persistence(events, async);
     }
-
 }

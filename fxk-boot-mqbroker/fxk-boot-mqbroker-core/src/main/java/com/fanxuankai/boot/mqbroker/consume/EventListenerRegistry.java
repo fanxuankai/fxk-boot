@@ -52,13 +52,8 @@ public class EventListenerRegistry {
             }
         }
         eventListenerGrouped = beanList.stream()
-                .collect(Collectors.groupingBy(EventListenerBean::getListenerMetadata))
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, o -> o.getValue()
-                        .stream()
-                        .map(EventListenerBean::getEventListener)
-                        .collect(Collectors.toList())));
+                .collect(Collectors.groupingBy(EventListenerBean::getListenerMetadata,
+                        Collectors.mapping(EventListenerBean::getEventListener, Collectors.toList())));
         listenerMetadataSet = eventListenerGrouped.keySet();
         dataType = new HashMap<>(eventListenerGrouped.size());
         for (Map.Entry<ListenerMetadata, List<EventListener<?>>> entry :

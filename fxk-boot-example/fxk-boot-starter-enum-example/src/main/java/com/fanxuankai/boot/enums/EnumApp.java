@@ -29,6 +29,5 @@ public class EnumApp implements ApplicationRunner {
         model.setPackageName("com.fanxuankai.boot.enums.files");
         model.setGenerateDataOnly(false);
         enumGenerator.generate(model);
-        System.exit(0);
     }
 }

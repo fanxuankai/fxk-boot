@@ -1,5 +1,6 @@
 package com.fanxuankai.boot.fluent.mybatis.config;
 
+import cn.org.atool.fluent.mybatis.spring.MapperFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,5 +17,10 @@ public class FluentMybatisConfig {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         return bean;
+    }
+
+    @Bean
+    public MapperFactory mapperFactory() {
+        return new MapperFactory();
     }
 }

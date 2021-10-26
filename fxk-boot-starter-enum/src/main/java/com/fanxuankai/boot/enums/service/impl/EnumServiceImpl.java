@@ -1,6 +1,5 @@
 package com.fanxuankai.boot.enums.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fanxuankai.boot.enums.EnumDTO;
@@ -63,8 +62,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
             return Collections.emptyList();
         }
         Map<Long, EnumType> enumTypeMap = enumTypes.stream().collect(Collectors.toMap(EnumType::getId, o -> o));
-        return list(new QueryWrapper<Enum>()
-                .lambda()
+        return list(Wrappers.lambdaQuery(Enum.class)
                 .eq(Enum::isDisabled, false)
                 .in(Enum::getTypeId, enumTypeMap.keySet()))
                 .stream()
@@ -73,7 +71,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
                 .stream()
                 .map(o -> {
                     EnumType enumType = enumTypeMap.get(o.getKey());
-                    o.getValue().sort(Comparator.comparing(Enum::getId));
+                    o.getValue().sort(Comparator.comparing(Enum::getSort, Comparator.nullsLast(Integer::compareTo)));
                     EnumVO enumVO = new EnumVO();
                     enumVO.setEnumType(enumType);
                     enumVO.setEnumList(o.getValue());
@@ -86,8 +84,7 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
     public void delete(String typeName, Integer code) {
         Optional.ofNullable(enumTypeService.get(typeName))
                 .map(EnumType::getId)
-                .ifPresent(typeId -> remove(new QueryWrapper<Enum>()
-                        .lambda()
+                .ifPresent(typeId -> remove(Wrappers.lambdaQuery(Enum.class)
                         .eq(Enum::getTypeId, typeId)
                         .eq(Enum::getCode, code)));
     }
@@ -146,7 +143,8 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
                 .map(EnumType::getId)
                 .ifPresent(typeId -> {
                     enumTypeService.removeById(typeId);
-                    remove(new QueryWrapper<Enum>().lambda().eq(Enum::getTypeId, typeId));
+                    remove(Wrappers.lambdaQuery(Enum.class)
+                            .eq(Enum::getTypeId, typeId));
                 });
     }
 
@@ -163,6 +161,9 @@ public class EnumServiceImpl extends ServiceImpl<EnumMapper, Enum> implements En
         }
         List<Long> typeIds = types.stream().map(EnumType::getId).collect(Collectors.toList());
         enumTypeService.removeByIds(typeIds);
-        remove(Wrappers.lambdaQuery(Enum.class).in(Enum::getTypeId, typeIds));
+        removeByIds(list(Wrappers.lambdaQuery(Enum.class).in(Enum::getTypeId, typeIds))
+                .stream()
+                .map(Enum::getId)
+                .collect(Collectors.toList()));
     }
 }

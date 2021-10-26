@@ -1,24 +1,39 @@
 package com.fanxuankai.boot.mqbroker.kafka.example;
 
-import cn.hutool.core.thread.ThreadUtil;
 import com.fanxuankai.boot.mqbroker.example.common.UserManager;
 import com.fanxuankai.boot.mqbroker.example.common.domain.User;
 import com.fanxuankai.boot.mqbroker.produce.EventPublisher;
 import org.junit.jupiter.api.Test;
+import com.fanxuankai.commons.util.DateUtils;
+import com.github.jsonzou.jmockdata.JMockData;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
 
 @SpringBootTest
 public class EventPublisherTest {
 
     @Resource
     private EventPublisher<User> eventPublisher;
+    @Resource
+    private KafkaTemplate<String, User> kafkaTemplate;
 
     @Test
     public void publish() {
         eventPublisher.publish(UserManager.mockData());
-        ThreadUtil.sleep(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void delaySend() {
+        eventPublisher.publish(UserManager.mockData(DateUtils.plusSeconds(new Date(), 30)));
+    }
+
+    @Test
+    public void publish1() {
+        kafkaTemplate.send("user1", JMockData.mock(User.class));
     }
 }

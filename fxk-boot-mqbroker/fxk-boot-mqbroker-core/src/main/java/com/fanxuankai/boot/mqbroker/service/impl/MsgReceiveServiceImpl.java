@@ -1,9 +1,7 @@
 package com.fanxuankai.boot.mqbroker.service.impl;
 
 import cn.hutool.core.net.NetUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +9,7 @@ import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
 import com.fanxuankai.boot.mqbroker.consume.EventListenerRegistry;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
-import com.fanxuankai.boot.mqbroker.enums.Status;
+import com.fanxuankai.boot.mqbroker.enums.ReceiveStatus;
 import com.fanxuankai.boot.mqbroker.mapper.MsgReceiveMapper;
 import com.fanxuankai.boot.mqbroker.model.ListenerMetadata;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
@@ -52,9 +50,8 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
             return Collections.emptyList();
         }
         return page(new Page<>(1, mqBrokerProperties.getMsgSize()),
-                new QueryWrapper<MsgReceive>()
-                        .lambda()
-                        .eq(Msg::getStatus, Status.CREATED.getCode())
+                Wrappers.lambdaQuery(MsgReceive.class)
+                        .eq(Msg::getStatus, ReceiveStatus.WAIT.getCode())
                         .in(Msg::getTopic, eventListenerRegistry.getAllListenerMetadata()
                                 .stream()
                                 .map(ListenerMetadata::getTopic)
@@ -67,12 +64,11 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     @Override
     public boolean lock(Long id) {
         MsgReceive entity = new MsgReceive();
-        entity.setStatus(Status.RUNNING.getCode());
+        entity.setStatus(ReceiveStatus.CONSUMING.getCode());
         entity.setLastModifiedDate(new Date());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        return update(entity, new UpdateWrapper<MsgReceive>()
-                .lambda()
-                .eq(Msg::getStatus, Status.CREATED.getCode())
+        return update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
+                .eq(Msg::getStatus, ReceiveStatus.WAIT.getCode())
                 .eq(Msg::getId, id));
     }
 
@@ -84,13 +80,13 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         entity.setCause("消费超时");
         entity.setLastModifiedDate(new Date());
         Supplier<LambdaUpdateWrapper<MsgReceive>> lambdaSupplier = () ->
-                new UpdateWrapper<MsgReceive>().lambda()
-                        .eq(Msg::getStatus, Status.RUNNING.getCode())
+                Wrappers.lambdaUpdate(MsgReceive.class)
+                        .eq(Msg::getStatus, ReceiveStatus.CONSUMING.getCode())
                         .lt(Msg::getLastModifiedDate, timeout);
-        entity.setStatus(Status.CREATED.getCode());
+        entity.setStatus(ReceiveStatus.WAIT.getCode());
         int lastChance = mqBrokerProperties.getMaxRetry();
         update(entity, lambdaSupplier.get().lt(Msg::getRetry, lastChance));
-        entity.setStatus(Status.FAILURE.getCode());
+        entity.setStatus(ReceiveStatus.FAILURE.getCode());
         update(entity, lambdaSupplier.get().ge(Msg::getRetry, lastChance));
     }
 
@@ -98,12 +94,11 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
     public void success(MsgReceive msg) {
         MsgReceive entity = new MsgReceive();
         entity.setLastModifiedDate(new Date());
-        entity.setStatus(Status.SUCCESS.getCode());
+        entity.setStatus(ReceiveStatus.SUCCESS.getCode());
         entity.setHostAddress(NetUtil.getLocalhostStr());
-        update(entity, new UpdateWrapper<MsgReceive>()
-                .lambda()
+        update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
                 .eq(Msg::getId, msg.getId())
-                .eq(Msg::getStatus, Status.RUNNING.getCode()));
+                .eq(Msg::getStatus, ReceiveStatus.CONSUMING.getCode()));
     }
 
     @Override
@@ -115,13 +110,13 @@ public class MsgReceiveServiceImpl extends ServiceImpl<MsgReceiveMapper, MsgRece
         String hostAddress = NetUtil.getLocalhostStr();
         entity.setHostAddress(hostAddress);
         if (msg.getRetry() < mqBrokerProperties.getMaxRetry()) {
-            entity.setStatus(Status.CREATED.getCode());
+            entity.setStatus(ReceiveStatus.WAIT.getCode());
         } else {
-            entity.setStatus(Status.FAILURE.getCode());
+            entity.setStatus(ReceiveStatus.FAILURE.getCode());
         }
-        update(entity, new UpdateWrapper<MsgReceive>().lambda()
+        update(entity, Wrappers.lambdaUpdate(MsgReceive.class)
                 .eq(Msg::getId, msg.getId())
-                .eq(Msg::getStatus, Status.RUNNING.getCode()));
+                .eq(Msg::getStatus, ReceiveStatus.CONSUMING.getCode()));
         mqBrokerDingTalkClientHelper.push("消息消费失败", msg.getMsgGroup(), msg.getTopic(), msg.getCode(), msg.getRetry(),
                 hostAddress);
     }

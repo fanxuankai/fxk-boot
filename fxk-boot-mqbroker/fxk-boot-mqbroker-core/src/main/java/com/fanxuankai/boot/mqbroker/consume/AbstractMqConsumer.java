@@ -5,7 +5,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgReceive;
-import com.fanxuankai.boot.mqbroker.enums.Status;
+import com.fanxuankai.boot.mqbroker.enums.ReceiveStatus;
 import com.fanxuankai.boot.mqbroker.model.Event;
 import com.fanxuankai.boot.mqbroker.service.MqBrokerDingTalkClientHelper;
 import com.fanxuankai.boot.mqbroker.service.MsgReceiveService;
@@ -56,7 +56,6 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
         if (exists(event)) {
             LOGGER.info(String.format("防重消费, group: %s topic: %s code: %s", event.getGroup(), event.getName(),
                     event.getKey()));
-            getMqBrokerDingTalkClientHelper().push("防重消费", event.getGroup(), event.getName(), event.getKey());
             return;
         }
         MsgReceive msg = new MsgReceive();
@@ -64,10 +63,8 @@ public abstract class AbstractMqConsumer<T> implements MqConsumer<T>, Function<T
         msg.setTopic(event.getName());
         msg.setCode(event.getKey());
         msg.setData(event.getData());
-        msg.setStatus(Status.RUNNING.getCode());
+        msg.setStatus(ReceiveStatus.CONSUMING.getCode());
         msg.setRetry(0);
-        msg.setRetryCount(event.getRetryCount());
-        msg.setEffectTime(event.getEffectTime());
         Date now = new Date();
         msg.setCreateDate(now);
         msg.setLastModifiedDate(now);

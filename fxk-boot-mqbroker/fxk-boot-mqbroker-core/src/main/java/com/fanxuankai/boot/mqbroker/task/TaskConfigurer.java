@@ -31,10 +31,17 @@ public class TaskConfigurer implements SchedulingConfigurer {
     @Resource
     private MsgReceiveTask msgReceiveTask;
     @Resource
+    private MsgSendDelayedTask msgSendDelayedTask;
+    @Resource
     private EventListenerRegistry eventListenerRegistry;
 
     @Override
     public void configureTasks(@NonNull ScheduledTaskRegistrar scheduledTaskRegistrar) {
+        if (mqBrokerProperties.getDelayedSend().isEnabled()) {
+            scheduledTaskRegistrar.addTriggerTask(msgSendDelayedTask, triggerContext ->
+                    new PeriodicTrigger(mqBrokerProperties.getDelayedSend().getIntervalMillis(), TimeUnit.MILLISECONDS)
+                            .nextExecutionTime(triggerContext));
+        }
         scheduledTaskRegistrar.addTriggerTask(msgSendTask, triggerContext ->
                 new PeriodicTrigger(mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
                         .nextExecutionTime(triggerContext));
@@ -45,10 +52,11 @@ public class TaskConfigurer implements SchedulingConfigurer {
             scheduledTaskRegistrar.addTriggerTask(msgReceiveTask, triggerContext ->
                     new PeriodicTrigger(mqBrokerProperties.getIntervalMillis(), TimeUnit.MILLISECONDS)
                             .nextExecutionTime(triggerContext));
-            scheduledTaskRegistrar.addTriggerTask(() -> msgReceiveService.consumeTimeout(),
-                    triggerContext -> new PeriodicTrigger(mqBrokerProperties.getConsumeTimeout(),
-                            TimeUnit.MILLISECONDS).nextExecutionTime(triggerContext));
+            if (mqBrokerProperties.isEnabledConsumptionCompensation()) {
+                scheduledTaskRegistrar.addTriggerTask(() -> msgReceiveService.consumeTimeout(),
+                        triggerContext -> new PeriodicTrigger(mqBrokerProperties.getConsumeTimeout(),
+                                TimeUnit.MILLISECONDS).nextExecutionTime(triggerContext));
+            }
         }
     }
-
 }

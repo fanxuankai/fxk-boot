@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.boot.mqbroker.domain.Msg;
 import com.fanxuankai.boot.mqbroker.domain.MsgSend;
-import com.fanxuankai.boot.mqbroker.enums.Status;
+import com.fanxuankai.boot.mqbroker.enums.SendStatus;
 
 import java.util.List;
 
@@ -13,13 +13,19 @@ import java.util.List;
  * @author fanxuankai
  */
 public interface MsgSendService extends IService<MsgSend> {
-
     /**
-     * 获取消息
+     * 拉取消息
      *
      * @return list
      */
     List<MsgSend> pullData();
+
+    /**
+     * 拉取延迟发送的消息
+     *
+     * @return list
+     */
+    List<MsgSend> pullDelayedData();
 
     /**
      * 锁定消息
@@ -91,7 +97,7 @@ public interface MsgSendService extends IService<MsgSend> {
         }
         MsgSend entity = new MsgSend();
         entity.setRetry(0);
-        entity.setStatus(Status.CREATED.getCode());
+        entity.setStatus(SendStatus.WAIT.getCode());
         update(entity, Wrappers.lambdaUpdate(MsgSend.class)
                 .in(Msg::getId, ids)
         );

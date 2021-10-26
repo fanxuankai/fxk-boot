@@ -23,12 +23,11 @@ public class MsgReceiveTask implements Runnable {
             if (records.isEmpty()) {
                 return;
             }
-            for (MsgReceive msg : records) {
-                if (!msgReceiveService.lock(msg.getId())) {
-                    continue;
+            records.forEach(msg -> {
+                if (msgReceiveService.lock(msg.getId())) {
+                    msgReceiveService.consume(msg, true, false);
                 }
-                msgReceiveService.consume(msg, true, false);
-            }
+            });
         }
     }
 }

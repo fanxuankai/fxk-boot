@@ -1,103 +1,49 @@
 package com.fanxuankai.boot.mqbroker.service;
 
-import cn.hutool.core.codec.Base64;
-import com.dingtalk.api.DefaultDingTalkClient;
-import com.dingtalk.api.DingTalkClient;
-import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.fanxuankai.boot.mqbroker.autoconfigure.MqBrokerProperties;
-import com.taobao.api.ApiException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fanxuankai.commons.util.DingTalkClientHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import javax.annotation.Resource;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 /**
  * @author fanxuankai
  */
 @Service
 public class MqBrokerDingTalkClientHelper {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MqBrokerDingTalkClientHelper.class);
+    private final MqBrokerProperties mqBrokerProperties;
+    private final DingTalkClientHelper dingTalkClientHelper;
 
-    @Resource
-    private MqBrokerProperties mqBrokerProperties;
+    public MqBrokerDingTalkClientHelper(MqBrokerProperties mqBrokerProperties) {
+        this.mqBrokerProperties = mqBrokerProperties;
+        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
+        this.dingTalkClientHelper = DingTalkClientHelper.newInstance(dingTalk.getUrl(), dingTalk.getAccessToken(),
+                dingTalk.getSecret());
+    }
 
     public void push(String title, String group, String topic, String code) {
-        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
-        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
+        if (!mqBrokerProperties.getDingTalk().isEnabled()) {
             return;
         }
-        OapiRobotSendRequest request = new OapiRobotSendRequest();
-        request.setMsgtype("markdown");
-        OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
-        markdown.setTitle(title);
-        markdown.setText("#### " + title + "\n" +
+        dingTalkClientHelper.sendRobotMarkdown(title, "#### " + title + "\n" +
                 "> 分组: " + group + "\n\n" +
                 "> 主题: " + topic + "\n\n" +
                 "> 代码: " + code + "\n\n" +
-                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
-        );
-        request.setMarkdown(markdown);
-        try {
-            newDingTalkClient(dingTalk).execute(request);
-        } catch (ApiException e) {
-            LOGGER.error("钉钉推送异常", e);
-        }
+                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n");
     }
 
     public void push(String title, String group, String topic, String code, int retry, String ip) {
-        MqBrokerProperties.DingTalk dingTalk = mqBrokerProperties.getDingTalk();
-        if (dingTalk == null || !Objects.equals(dingTalk.getEnabled(), Boolean.TRUE)) {
+        if (!mqBrokerProperties.getDingTalk().isEnabled()) {
             return;
         }
-        OapiRobotSendRequest request = new OapiRobotSendRequest();
-        request.setMsgtype("markdown");
-        OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
-        markdown.setTitle(title);
-        markdown.setText("#### " + title + "\n" +
+        dingTalkClientHelper.sendRobotMarkdown(title, "#### " + title + "\n" +
                 "> 分组: " + group + "\n\n" +
                 "> 主题: " + topic + "\n\n" +
                 "> 代码: " + code + "\n\n" +
                 "> 重试次数: " + retry + "\n\n" +
                 "> 服务器 IP: " + ip + "\n\n" +
-                "> 服务器环境: " + dingTalk.getEnv() + "\n\n"
-        );
-        request.setMarkdown(markdown);
-        try {
-            newDingTalkClient(dingTalk).execute(request);
-        } catch (ApiException e) {
-            LOGGER.error("钉钉推送异常", e);
-        }
+                "> 服务器环境: " + mqBrokerProperties.getDingTalk().getEnv() + "\n\n");
     }
 
-    private DingTalkClient newDingTalkClient(MqBrokerProperties.DingTalk dingTalk) {
-        String serviceUrl = dingTalk.getUrl();
-        serviceUrl += "?access_token=" + dingTalk.getAccessToken();
-        if (StringUtils.hasText(dingTalk.getSecret())) {
-            try {
-                Long timestamp = System.currentTimeMillis();
-                String secret = dingTalk.getSecret();
-                String stringToSign = timestamp + "\n" + secret;
-                Mac mac = Mac.getInstance("HmacSHA256");
-                mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-                byte[] signData = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-                String sign = URLEncoder.encode(Base64.encode(signData), "UTF-8");
-                serviceUrl += "&timestamp=" + timestamp;
-                serviceUrl += "&sign=" + sign;
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {
-                LOGGER.error("钉钉客户端初始化异常", e);
-            }
-        }
-        return new DefaultDingTalkClient(serviceUrl);
+    public DingTalkClientHelper getDingTalkClientHelper() {
+        return dingTalkClientHelper;
     }
-
 }
